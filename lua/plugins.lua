@@ -38,7 +38,7 @@ packer.startup(function(use)
 	-- Adds extra functionality over rust analyzer
 	use({
 		"simrat39/rust-tools.nvim",
-		requires = { { "nvim-lua/plenary.nvim", opt = ture }, { "mfussenegger/nvim-dap", opt = true } },
+		requires = { { "nvim-lua/plenary.nvim", opt = true }, { "mfussenegger/nvim-dap", opt = true } },
 	})
 	-- UI enhanced
 	local lspsaga_config = require("lsp.lspsaga")
@@ -85,4 +85,5 @@ packer.startup(function(use)
 	-- mini.nvim
 	use("echasnovski/mini.cursorword")
 	use("echasnovski/mini.pairs")
+	use({ "echasnovski/mini.ai", branch = "stable" })
 end)

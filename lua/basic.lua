@@ -59,9 +59,3 @@ vim.o.updatetime = 600
 -- 设置 timeoutlen 为等待键盘快捷键连击时间200毫秒，可根据需要设置
 -- 遇到问题详见：https://github.com/nshen/learn-neovim-lua/issues/1
 vim.o.timeoutlen = 900
--- 补全增强
--- vim.o.wildmenu = true
--- lualine + nvim-navic
--- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
---  OR
-vim.o.winbar = "%{%v:lua.require'nvim-navic'.get_location()%}"

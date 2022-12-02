@@ -12,7 +12,7 @@ map("i", "<C-k>", "<C-o>d$", opt)
 
 -- save and quit
 map("n", "<C-s>", ":w<CR>", opt)
-map("i", "<C-s>", "<C-o>:w<CR>", opt)
+map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":q<CR>", opt)
 
 -- close current window
@@ -151,10 +151,59 @@ pluginKeys.cmp_mapping = function(cmp)
 end
 
 pluginKeys.rust_tools_mapping = function(client, bufnr)
-	pluginKeys.on_attach(client, bufnr)
+	if client.server_capabilities.documentSymbolProvider then
+		require("nvim-navic").attach(client, bufnr)
+	end
+	-- We use lspsaga to interact with lsp
+	-- pluginKeys.on_attach(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	local rt = require("rust-tools")
-	vim.keymap.set("n", "<C-k>", rt.hover_actions.hover_actions, bufopts)
+	vim.keymap.set("n", "<C-k>", ":RustHoverAction<CR>", { buffer = bufnr })
+	vim.keymap.set("n", "<Space>r", rt.runnables.runnables, { buffer = bufnr })
+	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", { buffer = bufnr })
+	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", { buffer = bufnr })
+	vim.keymap.set("n", "<Space>em", ":RustExpandMacro<CR>", { buffer = bufnr })
+	vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", { buffer = bufnr })
+end
+
+pluginKeys.lspsaga_mapping = function()
+	local keymap = vim.keymap.set
+	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
+	-- Peek Definition
+	-- you can edit the definition file in this flaotwindow
+	-- also support open/vsplit/etc operation check definition_action_keys
+	-- support tagstack C-t jump back
+	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", bufopts)
+	-- Hover Doc
+	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", bufopts)
+	-- Code action
+	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
+
+	-- Rename
+	keymap("n", "<Leader>r", "<cmd>Lspsaga rename<CR>", bufopts)
+
+	-- Diagnsotic jump can use `<c-o>` to jump back
+	keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
+	keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
+	-- Only jump to error
+	keymap("n", "[E", function()
+		require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+	end, bufopts)
+	keymap("n", "]E", function()
+		require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+	end, bufopts)
+
+	-- Float terminal
+	-- keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", bufopts)
+	-- if you want pass somc cli command into terminal you can do like this
+	-- open lazygit in lspsaga float terminal
+	keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm gitui<CR>", bufopts)
+	-- close floaterm
+	keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], bufopts)
+
+	-- Outline
+	keymap("n", "<Leader>o", "<cmd>LSoutlineToggle<CR>", bufopts)
 end
 
 return pluginKeys

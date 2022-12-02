@@ -45,8 +45,10 @@ function config.lspsaga()
 	local colors = get_palette()
 
 	require("lspsaga").init_lsp_saga({
+		border_style = "rounded",
+		saga_winblend = 0,
 		diagnostic_header = {
-			icons.diagnostics.Error_alt,
+			icons.diagnostics.Error,
 			icons.diagnostics.Warning_alt,
 			icons.diagnostics.Information_alt,
 			icons.diagnostics.Hint_alt,
@@ -87,38 +89,71 @@ function config.lspsaga()
 		},
 		symbol_in_winbar = {
 			enable = true,
-			in_custom = false,
+			in_custom = true,
 			separator = " " .. icons.ui.Separator,
-			show_file = false,
+			show_file = true,
 			-- define how to customize filename, eg: %:., %
 			-- if not set, use default value `%:t`
 			-- more information see `vim.fn.expand` or `expand`
 			-- ## only valid after set `show_file = true`
-			file_formatter = "",
-			click_support = function(node, clicks, button, modifiers)
-				-- To see all avaiable details: vim.pretty_print(node)
-				local st = node.range.start
-				local en = node.range["end"]
-				if button == "l" then
-					if clicks == 2 then
-					-- double left click to do nothing
-					else -- jump to node's starting line+char
-						vim.fn.cursor(st.line + 1, st.character + 1)
-					end
-				elseif button == "r" then
-					if modifiers == "s" then
-						print("lspsaga") -- shift right click to print "lspsaga"
-					end -- jump to node's ending line+char
-					vim.fn.cursor(en.line + 1, en.character + 1)
-				elseif button == "m" then
-					-- middle click to visual select node
-					vim.fn.cursor(st.line + 1, st.character + 1)
-					vim.api.nvim_command([[normal v]])
-					vim.fn.cursor(en.line + 1, en.character + 1)
-				end
-			end,
+			-- file_formatter = "",
+			-- click_support = function(node, clicks, button, modifiers)
+			-- 	-- To see all avaiable details: vim.pretty_print(node)
+			-- 	local st = node.range.start
+			-- 	local en = node.range["end"]
+			-- 	if button == "l" then
+			-- 		if clicks == 2 then
+			-- 			-- double left click to do nothing
+			-- 		else -- jump to node's starting line+char
+			-- 			vim.fn.cursor(st.line + 1, st.character + 1)
+			-- 		end
+			-- 	elseif button == "r" then
+			-- 		if modifiers == "s" then
+			-- 			print("lspsaga") -- shift right click to print "lspsaga"
+			-- 		end -- jump to node's ending line+char
+			-- 		vim.fn.cursor(en.line + 1, en.character + 1)
+			-- 	elseif button == "m" then
+			-- 		-- middle click to visual select node
+			-- 		vim.fn.cursor(st.line + 1, st.character + 1)
+			-- 		vim.api.nvim_command([[normal v]])
+			-- 		vim.fn.cursor(en.line + 1, en.character + 1)
+			-- 	end
+			-- end,
+		},
+		-- show outline
+		show_outline = {
+			win_position = "right",
+			--set special filetype win that outline window split.like NvimTree neotree
+			-- defx, db_ui
+			win_with = "",
+			win_width = 60,
+			auto_enter = true,
+			auto_preview = true,
+			virt_text = "┃",
+			jump_key = "o",
+			-- auto refresh when change buffer
+			auto_refresh = true,
+		},
+		finder_action_keys = {
+			open = { "o", "<CR>" },
+			vsplit = "s",
+			split = "i",
+			tabe = "t",
+			quit = { "q", "<ESC>" },
+		},
+		code_action_keys = {
+			quit = "q",
+			exec = "<CR>",
+		},
+		definition_action_keys = {
+			edit = "<C-c>o",
+			vsplit = "<C-c>v",
+			split = "<C-c>i",
+			tabe = "<C-c>t",
+			quit = "q",
 		},
 	})
+	require("keybindings").lspsaga_mapping()
 end
 
 return config

@@ -62,6 +62,7 @@ local opts = {
 		},
 
 		-- options same as lsp hover / vim.lsp.util.open_floating_preview()
+		-- hover_with_actions = true,
 		hover_actions = {
 
 			-- the border that is used for the hover window
@@ -85,7 +86,7 @@ local opts = {
 
 			-- whether the hover action window gets automatically focused
 			-- default: false
-			auto_focus = false,
+			auto_focus = true,
 		},
 
 		-- settings for showing the crate graph based on graphviz and the dot

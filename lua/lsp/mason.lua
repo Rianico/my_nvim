@@ -1,4 +1,3 @@
-local vim = vim
 vim.api.nvim_command([[packadd lsp_signature.nvim]])
 vim.api.nvim_command([[packadd lspsaga.nvim]])
 vim.api.nvim_command([[packadd cmp-nvim-lsp]])
@@ -50,18 +49,22 @@ local capabilities = vim.lsp.protocol.make_client_capabilities()
 capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 for _, server in pairs(lsp_servers) do
-	nvim_lsp[server].setup({
-		capabilities = capabilities,
-		on_attach = on_attach,
-	})
-end
-
-local on_attach = require("keybindings").on_attach
-local on_attach_navic = function(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
-		navic.attach(client, bufnr)
+	if server == "sumneko_lua" then
+		nvim_lsp.sumneko_lua.setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+			settings = {
+				Lua = {
+					diagnostics = { globals = { "vim" } },
+				},
+			},
+		})
+	else
+		nvim_lsp[server].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
 	end
-	on_attach(client, bufnr)
 end
 
 require("lsp.formatting").configure_format_on_save()
