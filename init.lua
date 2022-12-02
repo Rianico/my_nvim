@@ -17,12 +17,18 @@ require("plugins")
 require("theme")
 
 -- for lsp
-require("plugin-config.mason")
-require("plugin-config.null-ls")
-require("plugin-config.nvim-treesitter")
+require("lsp.mason")
+require("lsp.rust-tools")
+require("lsp.null-ls")
+require("lsp.nvim-treesitter")
+require("lsp.formatting")
+require("lsp.luasnip")
+require("lsp.fidget")
+require("lsp.cmp")
+require("lsp.lspsaga")
+require("lsp.lsp-signature")
 
 -- for status/winbar
-require("plugin-config.nvim-navic")
 require("plugin-config.lua-line")
 
 -- other
@@ -36,6 +42,8 @@ require("plugin-config.mini")
 
 -- the first run will install packer and our plugins
 if packer_bootstrap then
-	require("packer").sync()
+	local packer = require("packer")
+	packer.init({ git = { default_url_format = "git@github.com:%s" } })
+	packer.sync()
 	return
 end

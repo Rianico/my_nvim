@@ -1,3 +1,30 @@
+local vim = vim
+-- clipboard
+local global = require("global")
+local clipboard_config = function()
+	if global.is_mac then
+		vim.g.clipboard = {
+			name = "macOS-clipboard",
+			copy = { ["+"] = "pbcopy", ["*"] = "pbcopy" },
+			paste = { ["+"] = "pbpaste", ["*"] = "pbpaste" },
+			cache_enabled = 0,
+		}
+	elseif global.is_wsl then
+		vim.g.clipboard = {
+			name = "win32yank-wsl",
+			copy = {
+				["+"] = "win32yank.exe -i --crlf",
+				["*"] = "win32yank.exe -i --crlf",
+			},
+			paste = {
+				["+"] = "win32yank.exe -o --lf",
+				["*"] = "win32yank.exe -o --lf",
+			},
+			cache_enabled = 0,
+		}
+	end
+end
+clipboard_config()
 -- utf8
 vim.g.encoding = "UTF-8"
 vim.o.fileencoding = "utf-8"
@@ -33,13 +60,7 @@ vim.o.updatetime = 600
 -- 遇到问题详见：https://github.com/nshen/learn-neovim-lua/issues/1
 vim.o.timeoutlen = 900
 -- 补全增强
-vim.o.wildmenu = true
--- fzf
-vim.g.fzf_action = {
-	["ctrl-t"] = "tab split",
-	["ctrl-s"] = "split",
-	["ctrl-v"] = "vsplit",
-}
+-- vim.o.wildmenu = true
 -- lualine + nvim-navic
 -- vim.o.statusline = "%{%v:lua.require'nvim-navic'.get_location()%}"
 --  OR

@@ -1,34 +1,49 @@
-return require("packer").startup(function(use)
+local packer = require("packer")
+packer.init({ git = { default_url_format = "git@github.com:%s" } })
+packer.startup(function(use)
 	-- Packer can manage itself
 	use("wbthomason/packer.nvim")
-
 	-- lsp
 	use({
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
 	})
-
+	-- Visualize lsp progress
+	use("j-hui/fidget.nvim")
 	-- Autocompletion framework
-	use("hrsh7th/nvim-cmp")
 	use({
-		-- cmp LSP completion
-		"hrsh7th/cmp-nvim-lsp",
-		-- cmp Snippet completion
-		"hrsh7th/cmp-vsnip",
-		-- cmp Path completion
-		"hrsh7th/cmp-path",
-		"hrsh7th/cmp-buffer",
-		after = { "hrsh7th/nvim-cmp" },
-		requires = { "hrsh7th/nvim-cmp" },
+		"hrsh7th/nvim-cmp",
+		requires = {
+			-- LSP 美化
+			{ "onsails/lspkind.nvim" },
+			-- sort completion
+			{ "lukas-reineke/cmp-under-comparator" },
+			{ "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
+			{ "hrsh7th/cmp-nvim-lsp", after = "cmp_luasnip" },
+			{ "hrsh7th/cmp-nvim-lua", after = "cmp-nvim-lsp" },
+			{ "andersevenrud/cmp-tmux", after = "cmp-nvim-lua" },
+			{ "hrsh7th/cmp-path", after = "cmp-tmux" },
+			{ "f3fora/cmp-spell", after = "cmp-path" },
+			{ "hrsh7th/cmp-buffer", after = "cmp-spell" },
+			{ "kdheepak/cmp-latex-symbols", after = "cmp-buffer" },
+			{ "hrsh7th/cmp-vsnip", after = "vim-vsnip" },
+			{ "hrsh7th/cmp-cmdline" },
+		},
 	})
 	-- See hrsh7th other plugins for more great completion sources!
 	-- Snippet engine
 	use("hrsh7th/vim-vsnip")
-	-- lsp美化
-	use("onsails/lspkind-nvim")
+	use({ "L3MON4D3/LuaSnip", requires = { "rafamadriz/friendly-snippets" } })
 	-- Adds extra functionality over rust analyzer
-	use("simrat39/rust-tools.nvim")
+	use({
+		"simrat39/rust-tools.nvim",
+		requires = { { "nvim-lua/plenary.nvim", opt = ture }, { "mfussenegger/nvim-dap", opt = true } },
+	})
+	-- UI enhanced
+	local lspsaga_config = require("lsp.lspsaga")
+	use({ "glepnir/lspsaga.nvim", branch = "main", config = lspsaga_config.lspsaga() })
+	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 
 	-- grammer highlight
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
@@ -42,7 +57,6 @@ return require("packer").startup(function(use)
 	})
 	-- about pair
 	use("tpope/vim-surround")
-	use("tpope/vim-unimpaired")
 	-- theme
 	use("junegunn/seoul256.vim")
 	-- fzf
