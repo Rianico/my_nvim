@@ -356,8 +356,8 @@ end
 function config.notify()
 	local notify = require("notify")
 	local icons = {
-		diagnostics = require("modules.ui.icons").get("diagnostics"),
-		ui = require("modules.ui.icons").get("ui"),
+		diagnostics = require("ui.icons").get("diagnostics"),
+		ui = require("ui.icons").get("ui"),
 	}
 
 	notify.setup({
@@ -392,8 +392,8 @@ end
 
 function config.lualine()
 	local icons = {
-		diagnostics = require("modules.ui.icons").get("diagnostics", true),
-		misc = require("modules.ui.icons").get("misc", true),
+		diagnostics = require("ui.icons").get("diagnostics", true),
+		misc = require("ui.icons").get("misc", true),
 	}
 
 	local function escape_status()
@@ -512,10 +512,10 @@ end
 
 function config.nvim_tree()
 	local icons = {
-		diagnostics = require("modules.ui.icons").get("diagnostics"),
-		documents = require("modules.ui.icons").get("documents"),
-		git = require("modules.ui.icons").get("git"),
-		ui = require("modules.ui.icons").get("ui"),
+		diagnostics = require("ui.icons").get("diagnostics"),
+		documents = require("ui.icons").get("documents"),
+		git = require("ui.icons").get("git"),
+		ui = require("ui.icons").get("ui"),
 	}
 
 	require("nvim-tree").setup({
@@ -695,7 +695,7 @@ function config.nvim_tree()
 end
 
 function config.nvim_bufferline()
-	local icons = { ui = require("modules.ui.icons").get("ui") }
+	local icons = { ui = require("ui.icons").get("ui") }
 
 	local opts = {
 		options = {

@@ -159,7 +159,7 @@ pluginKeys.rust_tools_mapping = function(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	local rt = require("rust-tools")
 	vim.keymap.set("n", "<C-k>", ":RustHoverAction<CR>", { buffer = bufnr })
-	vim.keymap.set("n", "<Space>r", rt.runnables.runnables, { buffer = bufnr })
+	vim.keymap.set("n", "<Leader>r", rt.runnables.runnables, { buffer = bufnr })
 	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", { buffer = bufnr })
 	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", { buffer = bufnr })
 	vim.keymap.set("n", "<Space>em", ":RustExpandMacro<CR>", { buffer = bufnr })
@@ -181,7 +181,7 @@ pluginKeys.lspsaga_mapping = function()
 	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
 
 	-- Rename
-	keymap("n", "<Leader>r", "<cmd>Lspsaga rename<CR>", bufopts)
+	keymap("n", "<Space>r", "<cmd>Lspsaga rename<CR>", bufopts)
 
 	-- Diagnsotic jump can use `<c-o>` to jump back
 	keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)

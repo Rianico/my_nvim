@@ -23,11 +23,10 @@ local lsp_servers = {
 	-- "rust_analyzer",
 }
 
-require("lspconfig.ui.windows").default_options.border = "single"
+require("lspconfig.ui.windows").default_options.border = "rounded"
 
 mason.setup({
 	ui = {
-		border = "single",
 		icons = {
 			package_installed = "✓",
 			package_pending = "➜",

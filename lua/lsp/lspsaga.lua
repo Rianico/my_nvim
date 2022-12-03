@@ -23,24 +23,100 @@ function config.lspsaga()
 	end
 
 	local function get_palette()
-		if vim.g.colors_name == "catppuccin" then
-			-- If the colorscheme is catppuccin then use the palette.
-			return require("catppuccin.palettes").get_palette()
-		else
-			-- Default behavior: return lspsaga's default palette.
-			local palette = require("lspsaga.lspkind").colors
-			palette.peach = palette.orange
-			palette.flamingo = palette.orange
-			palette.rosewater = palette.yellow
-			palette.mauve = palette.violet
-			palette.sapphire = palette.blue
-			palette.maroon = palette.orange
+		-- Default behavior: return lspsaga's default palette.
+		local palette = require("lspsaga.lspkind").colors
+		palette.peach = palette.orange
+		palette.flamingo = palette.orange
+		palette.rosewater = palette.yellow
+		palette.mauve = palette.violet
+		palette.sapphire = palette.blue
+		palette.maroon = palette.orange
 
-			return palette
+		return palette
+	end
+
+	local function set_highlight()
+		local highlights = {
+			-- code action
+			LspSagaCodeActionTitle = { fg = "#da8548", bold = true },
+			LspSagaCodeActionBorder = { fg = "#CBA6F7" },
+			LspSagaCodeActionTrunCateLine = { link = "LspSagaCodeActionBorder" },
+			LspSagaCodeActionContent = { fg = "#98be65", bold = true },
+			-- finder
+			LspSagaLspFinderBorder = { fg = "#51afef" },
+			LspSagaAutoPreview = { fg = "#51afef" },
+			LspSagaFinderSelection = { fg = "#89d957", bold = true },
+			TargetFileName = { fg = "#d1d4cf" },
+			FinderParam = { fg = "#CBA6F7", bg = "#392a52", bold = true },
+			FinderVirtText = { fg = "#c95942" },
+			DefinitionsIcon = { fg = "#e3e346" },
+			Definitions = { fg = "#CBA6F7", bold = true },
+			DefinitionCount = { link = "Title" },
+			ReferencesIcon = { fg = "#e3e346" },
+			References = { fg = "#CBA6F7", bold = true },
+			ReferencesCount = { link = "Title" },
+			ImplementsIcon = { fg = "#e3e346" },
+			Implements = { fg = "#CBA6F7", bold = true },
+			ImplementsCount = { link = "Title" },
+			--finder spinner
+			FinderSpinnerBorder = { fg = "#51afef" },
+			FinderSpinnerTitle = { fg = "#b33076", bold = true },
+			FinderSpinner = { fg = "#b33076", bold = true },
+			FinderPreviewSearch = { link = "Search" },
+			-- definition
+			DefinitionBorder = { fg = "#b3deef" },
+			DefinitionArrow = { fg = "#ad475f" },
+			DefinitionSearch = { link = "Search" },
+			DefinitionFile = { bg = "#151838" },
+			-- hover
+			LspSagaHoverBorder = { fg = "#f7bb3b" },
+			LspSagaHoverTrunCateLine = { link = "LspSagaHoverBorder" },
+			-- rename
+			LspSagaRenameBorder = { fg = "#3bb6c4" },
+			LspSagaRenameMatch = { link = "Search" },
+			-- diagnostic
+			LspSagaDiagnosticSource = { link = "Comment" },
+			LspSagaDiagnosticError = { link = "DiagnosticError" },
+			LspSagaDiagnosticWarn = { link = "DiagnosticWarn" },
+			LspSagaDiagnosticInfo = { link = "DiagnosticInfo" },
+			LspSagaDiagnosticHint = { link = "DiagnosticHint" },
+			LspSagaErrorTrunCateLine = { link = "DiagnosticError" },
+			LspSagaWarnTrunCateLine = { link = "DiagnosticWarn" },
+			LspSagaInfoTrunCateLine = { link = "DiagnosticInfo" },
+			LspSagaHintTrunCateLine = { link = "DiagnosticHint" },
+			LspSagaDiagnosticBorder = { fg = "#CBA6F7" },
+			LspSagaDiagnosticHeader = { fg = "#afd700" },
+			DiagnosticQuickFix = { fg = "#4dd158", bold = true },
+			DiagnosticMap = { fg = "#cf80ce" },
+			DiagnosticLineCol = { fg = "#73797e" },
+			LspSagaDiagnosticTruncateLine = { link = "LspSagaDiagnosticBorder" },
+			ColInLineDiagnostic = { link = "Comment" },
+			-- signture help
+			LspSagaSignatureHelpBorder = { fg = "#98be65" },
+			LspSagaShTrunCateLine = { link = "LspSagaSignatureHelpBorder" },
+			-- lightbulb
+			LspSagaLightBulb = { link = "DiagnosticSignHint" },
+			-- shadow
+			SagaShadow = { fg = "black" },
+			-- float
+			LspSagaBorderTitle = { link = "String" },
+			-- Outline
+			LSOutlinePreviewBorder = { fg = "#52ad70" },
+			OutlineIndentEvn = { fg = "#c955ae" },
+			OutlineIndentOdd = { fg = "#b8733e" },
+			OutlineFoldPrefix = { fg = "#bf4537" },
+			OutlineDetail = { fg = "#73797e" },
+			-- all floatwindow of lspsaga
+			LspFloatWinNormal = { link = "Normal" },
+		}
+
+		for group, conf in pairs(highlights) do
+			vim.api.nvim_set_hl(0, group, vim.tbl_extend("keep", conf, { default = true }))
 		end
 	end
 
 	set_sidebar_icons()
+	set_highlight()
 
 	local colors = get_palette()
 
@@ -88,7 +164,7 @@ function config.lspsaga()
 			StaticMethod = { icons.kind.StaticMethod, colors.peach },
 		},
 		symbol_in_winbar = {
-			enable = true,
+			enable = false,
 			in_custom = true,
 			separator = " " .. icons.ui.Separator,
 			show_file = true,
@@ -96,29 +172,29 @@ function config.lspsaga()
 			-- if not set, use default value `%:t`
 			-- more information see `vim.fn.expand` or `expand`
 			-- ## only valid after set `show_file = true`
-			-- file_formatter = "",
-			-- click_support = function(node, clicks, button, modifiers)
-			-- 	-- To see all avaiable details: vim.pretty_print(node)
-			-- 	local st = node.range.start
-			-- 	local en = node.range["end"]
-			-- 	if button == "l" then
-			-- 		if clicks == 2 then
-			-- 			-- double left click to do nothing
-			-- 		else -- jump to node's starting line+char
-			-- 			vim.fn.cursor(st.line + 1, st.character + 1)
-			-- 		end
-			-- 	elseif button == "r" then
-			-- 		if modifiers == "s" then
-			-- 			print("lspsaga") -- shift right click to print "lspsaga"
-			-- 		end -- jump to node's ending line+char
-			-- 		vim.fn.cursor(en.line + 1, en.character + 1)
-			-- 	elseif button == "m" then
-			-- 		-- middle click to visual select node
-			-- 		vim.fn.cursor(st.line + 1, st.character + 1)
-			-- 		vim.api.nvim_command([[normal v]])
-			-- 		vim.fn.cursor(en.line + 1, en.character + 1)
-			-- 	end
-			-- end,
+			file_formatter = "",
+			click_support = function(node, clicks, button, modifiers)
+				-- To see all avaiable details: vim.pretty_print(node)
+				local st = node.range.start
+				local en = node.range["end"]
+				if button == "l" then
+					if clicks == 2 then
+						-- double left click to do nothing
+					else -- jump to node's starting line+char
+						vim.fn.cursor(st.line + 1, st.character + 1)
+					end
+				elseif button == "r" then
+					if modifiers == "s" then
+						print("lspsaga") -- shift right click to print "lspsaga"
+					end -- jump to node's ending line+char
+					vim.fn.cursor(en.line + 1, en.character + 1)
+				elseif button == "m" then
+					-- middle click to visual select node
+					vim.fn.cursor(st.line + 1, st.character + 1)
+					vim.api.nvim_command([[normal v]])
+					vim.fn.cursor(en.line + 1, en.character + 1)
+				end
+			end,
 		},
 		-- show outline
 		show_outline = {
@@ -136,20 +212,20 @@ function config.lspsaga()
 		},
 		finder_action_keys = {
 			open = { "o", "<CR>" },
-			vsplit = "s",
-			split = "i",
+			vsplit = "v",
+			split = "s",
 			tabe = "t",
-			quit = { "q", "<ESC>" },
+			quit = { "q" },
 		},
 		code_action_keys = {
 			quit = "q",
 			exec = "<CR>",
 		},
 		definition_action_keys = {
-			edit = "<C-c>o",
-			vsplit = "<C-c>v",
-			split = "<C-c>i",
-			tabe = "<C-c>t",
+			edit = "<Esc>o",
+			vsplit = "<Esc>v",
+			split = "<Esc>i",
+			tabe = "<Esc>t",
 			quit = "q",
 		},
 	})

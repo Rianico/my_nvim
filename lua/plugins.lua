@@ -38,7 +38,7 @@ packer.startup(function(use)
 	-- Adds extra functionality over rust analyzer
 	use({
 		"simrat39/rust-tools.nvim",
-		requires = { { "nvim-lua/plenary.nvim", opt = true }, { "mfussenegger/nvim-dap", opt = true } },
+		requires = { { "nvim-lua/plenary.nvim", opt = false }, { "mfussenegger/nvim-dap", opt = true } },
 	})
 	-- UI enhanced
 	local lspsaga_config = require("lsp.lspsaga")
@@ -59,6 +59,7 @@ packer.startup(function(use)
 	use("tpope/vim-surround")
 	-- theme
 	use("junegunn/seoul256.vim")
+	use("sainnhe/gruvbox-material")
 	-- fzf
 	use("junegunn/fzf")
 	use("junegunn/fzf.vim")
