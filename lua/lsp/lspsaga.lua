@@ -43,7 +43,7 @@ function config.lspsaga()
 		border_style = "rounded",
 		saga_winblend = 0,
 		diagnostic_header = {
-			icons.diagnostics.Error,
+			icons.diagnostics.Error_alt,
 			icons.diagnostics.Warning_alt,
 			icons.diagnostics.Information_alt,
 			icons.diagnostics.Hint_alt,

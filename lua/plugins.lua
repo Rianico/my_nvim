@@ -46,6 +46,9 @@ packer.startup(function(use)
 	use({ "glepnir/lspsaga.nvim", branch = "main", config = lspsaga_config.lspsaga() })
 	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 
+	-- trouble
+	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
+
 	-- grammer highlight
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use("p00f/nvim-ts-rainbow")

@@ -27,6 +27,7 @@ require("lsp.fidget")
 require("lsp.cmp")
 require("lsp.lspsaga")
 require("lsp.lsp-signature")
+require("lsp.trouble")
 
 -- for status/winbar
 require("plugin-config.lua-line")
