@@ -9,6 +9,9 @@ packer.startup(function(use)
 		"williamboman/mason-lspconfig.nvim",
 		"neovim/nvim-lspconfig",
 	})
+    -- lsp enhanced
+	use({ "glepnir/lspsaga.nvim", branch = "main"})
+	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 	-- Visualize lsp progress
 	use("j-hui/fidget.nvim")
 	-- Autocompletion framework
@@ -40,10 +43,6 @@ packer.startup(function(use)
 		"simrat39/rust-tools.nvim",
 		requires = { { "nvim-lua/plenary.nvim", opt = false }, { "mfussenegger/nvim-dap", opt = true } },
 	})
-	-- UI enhanced
-	local lspsaga_config = require("lsp.lspsaga")
-	use({ "glepnir/lspsaga.nvim", branch = "main", config = lspsaga_config.lspsaga() })
-	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 
 	-- grammer highlight
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
