@@ -32,6 +32,7 @@ packer.startup(function(use)
 			{ "kdheepak/cmp-latex-symbols", after = "cmp-buffer" },
 			{ "hrsh7th/cmp-vsnip", after = "vim-vsnip" },
 			{ "hrsh7th/cmp-cmdline" },
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 		},
 	})
 	-- See hrsh7th other plugins for more great completion sources!
@@ -43,6 +44,9 @@ packer.startup(function(use)
 		"simrat39/rust-tools.nvim",
 		requires = { { "nvim-lua/plenary.nvim", opt = false }, { "mfussenegger/nvim-dap", opt = true } },
 	})
+
+	-- trouble
+	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
 
 	-- grammer highlight
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })

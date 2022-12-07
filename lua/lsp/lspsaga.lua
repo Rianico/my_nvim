@@ -28,100 +28,25 @@ local function get_palette()
     palette.mauve = palette.violet
     palette.sapphire = palette.blue
     palette.maroon = palette.orange
-
     return palette
 end
 
-local function set_highlight()
-    local highlights = {
-        -- code action
-        LspSagaCodeActionTitle = { fg = "#da8548", bold = true },
-        LspSagaCodeActionBorder = { fg = "#CBA6F7" },
-        LspSagaCodeActionTrunCateLine = { link = "LspSagaCodeActionBorder" },
-        LspSagaCodeActionContent = { fg = "#98be65", bold = true },
-        -- finder
-        LspSagaLspFinderBorder = { fg = "#51afef" },
-        LspSagaAutoPreview = { fg = "#51afef" },
-        LspSagaFinderSelection = { fg = "#89d957", bold = true },
-        TargetFileName = { fg = "#d1d4cf" },
-        FinderParam = { fg = "#CBA6F7", bg = "#392a52", bold = true },
-        FinderVirtText = { fg = "#c95942" },
-        DefinitionsIcon = { fg = "#e3e346" },
-        Definitions = { fg = "#CBA6F7", bold = true },
-        DefinitionCount = { link = "Title" },
-        ReferencesIcon = { fg = "#e3e346" },
-        References = { fg = "#CBA6F7", bold = true },
-        ReferencesCount = { link = "Title" },
-        ImplementsIcon = { fg = "#e3e346" },
-        Implements = { fg = "#CBA6F7", bold = true },
-        ImplementsCount = { link = "Title" },
-        --finder spinner
-        FinderSpinnerBorder = { fg = "#51afef" },
-        FinderSpinnerTitle = { fg = "#b33076", bold = true },
-        FinderSpinner = { fg = "#b33076", bold = true },
-        FinderPreviewSearch = { link = "Search" },
-        -- definition
-        DefinitionBorder = { fg = "#b3deef" },
-        DefinitionArrow = { fg = "#ad475f" },
-        DefinitionSearch = { link = "Search" },
-        DefinitionFile = { bg = "#151838" },
-        -- hover
-        LspSagaHoverBorder = { fg = "#f7bb3b" },
-        LspSagaHoverTrunCateLine = { link = "LspSagaHoverBorder" },
-        -- rename
-        LspSagaRenameBorder = { fg = "#3bb6c4" },
-        LspSagaRenameMatch = { link = "Search" },
-        -- diagnostic
-        LspSagaDiagnosticSource = { link = "Comment" },
-        LspSagaDiagnosticError = { link = "DiagnosticError" },
-        LspSagaDiagnosticWarn = { link = "DiagnosticWarn" },
-        LspSagaDiagnosticInfo = { link = "DiagnosticInfo" },
-        LspSagaDiagnosticHint = { link = "DiagnosticHint" },
-        LspSagaErrorTrunCateLine = { link = "DiagnosticError" },
-        LspSagaWarnTrunCateLine = { link = "DiagnosticWarn" },
-        LspSagaInfoTrunCateLine = { link = "DiagnosticInfo" },
-        LspSagaHintTrunCateLine = { link = "DiagnosticHint" },
-        LspSagaDiagnosticBorder = { fg = "#CBA6F7" },
-        LspSagaDiagnosticHeader = { fg = "#afd700" },
-        DiagnosticQuickFix = { fg = "#4dd158", bold = true },
-        DiagnosticMap = { fg = "#cf80ce" },
-        DiagnosticLineCol = { fg = "#73797e" },
-        LspSagaDiagnosticTruncateLine = { link = "LspSagaDiagnosticBorder" },
-        ColInLineDiagnostic = { link = "Comment" },
-        -- signture help
-        LspSagaSignatureHelpBorder = { fg = "#98be65" },
-        LspSagaShTrunCateLine = { link = "LspSagaSignatureHelpBorder" },
-        -- lightbulb
-        LspSagaLightBulb = { link = "DiagnosticSignHint" },
-        -- shadow
-        SagaShadow = { fg = "black" },
-        -- float
-        LspSagaBorderTitle = { link = "String" },
-        -- Outline
-        LSOutlinePreviewBorder = { fg = "#52ad70" },
-        OutlineIndentEvn = { fg = "#c955ae" },
-        OutlineIndentOdd = { fg = "#b8733e" },
-        OutlineFoldPrefix = { fg = "#bf4537" },
-        OutlineDetail = { fg = "#73797e" },
-        -- all floatwindow of lspsaga
-        LspFloatWinNormal = { link = "Normal" },
-    }
-
-    for group, conf in pairs(highlights) do
-        vim.api.nvim_set_hl(0, group, vim.tbl_extend("keep", conf, { default = true }))
-    end
-end
-
 set_sidebar_icons()
-set_highlight()
 
 local colors = get_palette()
 
 require("lspsaga").init_lsp_saga({
     border_style = "rounded",
     saga_winblend = 0,
+    -- preview lines above of lsp_finder
+    preview_lines_above = 8,
+    -- preview lines of lsp_finder and definition preview
+    max_preview_lines = 20,
+    -- use emoji lightbulb in default
+    code_action_icon = "🦀️",
+    finder_request_timeout = 3000,
     diagnostic_header = {
-        icons.diagnostics.Error,
+        icons.diagnostics.Error_alt,
         icons.diagnostics.Warning_alt,
         icons.diagnostics.Information_alt,
         icons.diagnostics.Hint_alt,
@@ -219,7 +144,7 @@ require("lspsaga").init_lsp_saga({
         exec = "<CR>",
     },
     definition_action_keys = {
-        edit = "<Esc>o",
+        edit = "<Esc>e",
         vsplit = "<Esc>v",
         split = "<Esc>i",
         tabe = "<Esc>t",

@@ -29,8 +29,8 @@ clipboard_config()
 vim.g.encoding = "UTF-8"
 vim.o.fileencoding = "utf-8"
 -- jk移动时光标下上方保留8行
-vim.o.scrolloff = 8
-vim.o.sidescrolloff = 8
+vim.o.scrolloff = 999
+vim.o.sidescrolloff = 999
 -- line number
 vim.wo.number = true
 -- highlight the current line
