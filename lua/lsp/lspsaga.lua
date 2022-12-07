@@ -42,6 +42,13 @@ function config.lspsaga()
 	require("lspsaga").init_lsp_saga({
 		border_style = "rounded",
 		saga_winblend = 0,
+		-- preview lines above of lsp_finder
+		preview_lines_above = 8,
+		-- preview lines of lsp_finder and definition preview
+		max_preview_lines = 20,
+		-- use emoji lightbulb in default
+		code_action_icon = "🦀️",
+		finder_request_timeout = 3000,
 		diagnostic_header = {
 			icons.diagnostics.Error_alt,
 			icons.diagnostics.Warning_alt,

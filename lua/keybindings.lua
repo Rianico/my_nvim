@@ -52,8 +52,9 @@ vim.g.fzf_action = {
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
-vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
-vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+-- Finished by lspsaga
+-- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+-- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
 local pluginKeys = {}
@@ -83,24 +84,22 @@ pluginKeys.on_attach = function(client, bufnr)
 	if client.server_capabilities.documentSymbolProvider then
 		require("nvim-navic").attach(client, bufnr)
 	end
-	-- Enable completion triggered by <c-x><c-o>
-	-- vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
-	-- Mappings.
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	-- finished by lspsaga
+	-- vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, bufopts)
+	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	-- vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
+	-- vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
+	-- vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
+	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, bufopts)
-	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts) -- finished by lspsaga
-	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-	-- vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts) -- finished by lspsaga
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
-	-- vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts) -- finished by lspsaga
-	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("n", "<space>f", function()
 		vim.lsp.buf.format({ async = true })
 	end, bufopts)
@@ -110,6 +109,7 @@ local feedkey = function(key, mode)
 	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
+-- For cmp
 pluginKeys.cmp_mapping = function(cmp)
 	local has_words_before = function()
 		local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
@@ -151,14 +151,14 @@ pluginKeys.cmp_mapping = function(cmp)
 	return M
 end
 
+-- For rust-tools
 pluginKeys.rust_tools_mapping = function(client, bufnr)
 	if client.server_capabilities.documentSymbolProvider then
 		require("nvim-navic").attach(client, bufnr)
 	end
-	-- We use lspsaga to interact with lsp
 	pluginKeys.on_attach(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	vim.keymap.set("n", "<C-k>", ":RustHoverAction<CR>", bufopts)
+	vim.keymap.set("n", "<Space>d", ":RustHoverAction<CR>", bufopts)
 	vim.keymap.set("n", "<Leader>r", require("rust-tools").runnables.runnables, bufopts)
 	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", bufopts)
 	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", bufopts)
@@ -166,33 +166,32 @@ pluginKeys.rust_tools_mapping = function(client, bufnr)
 	vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", bufopts)
 end
 
+-- For lspsaga
 pluginKeys.lspsaga_mapping = function()
 	local keymap = vim.keymap.set
 	local bufopts = { noremap = true, silent = true }
 
-	keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
+	keymap("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
 	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", bufopts)
 	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", bufopts)
-
+	-- Code action
 	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
 
 	-- Rename
 	keymap("n", "<Space>r", "<cmd>Lspsaga rename<CR>", bufopts)
 
 	-- Diagnsotic jump can use `<c-o>` to jump back
-	keymap("n", "[e", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
-	keymap("n", "]e", "<cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
+	keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
+	keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
 	-- Only jump to error
-	keymap("n", "[E", function()
+	keymap("n", "[D", function()
 		require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
 	end, bufopts)
-	keymap("n", "]E", function()
+	keymap("n", "]D", function()
 		require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
 	end, bufopts)
 
-	-- Float terminal
-	-- if you want pass somc cli command into terminal you can do like this
-	-- open lazygit in lspsaga float terminal
+	-- pass somc cli command into a floating terminal and execute it.
 	keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm gitui<CR>", bufopts)
 	-- close floaterm
 	keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], bufopts)
@@ -201,6 +200,7 @@ pluginKeys.lspsaga_mapping = function()
 	keymap("n", "<Leader>o", "<cmd>LSoutlineToggle<CR>", bufopts)
 end
 
+-- For trouble
 pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble list
 	-- map to {} to remove a mapping, for example:
 	-- close = {},
@@ -216,8 +216,8 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 	toggle_preview = "P", -- toggle auto_preview
 	hover = "K", -- opens a small popup with the full multiline message
 	preview = "p", -- preview the diagnostic location
-	close_folds = { "zM" }, -- close all folds
-	open_folds = { "zm" }, -- open all folds
+	close_folds = { "Z" }, -- close all folds
+	open_folds = { "z" }, -- open all folds
 	toggle_fold = { "zA", "za" }, -- toggle fold of current file
 	previous = "k", -- previous item
 	next = "j", -- next item
@@ -225,11 +225,11 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 
 pluginKeys.trouble_mapping = function()
 	-- Lua
-	vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>tw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>td", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
 	vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
 end
 
