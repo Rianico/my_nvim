@@ -178,7 +178,7 @@ local opts = {
 		on_attach = require("keybindings").rust_tools_mapping,
 		-- standalone file support
 		-- setting it to false may improve startup time
-		standalone = false,
+		standalone = true,
 	}, -- rust-analyzer options
 	settings = {
 		["rust-analyzer"] = {

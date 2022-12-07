@@ -6,11 +6,6 @@ local icons = {
 }
 -- vim.api.nvim_command([[packadd cmp-tabnine]])
 
-local has_words_before = function()
-	local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
-	return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-end
-
 local border = function(hl)
 	return {
 		{ "┌", hl },
@@ -56,20 +51,20 @@ cmp.setup({
 			border = border("CmpDocBorder"),
 		},
 	},
-	sorting = {
-		priority_weight = 2,
-		comparators = {
-			-- require("cmp_tabnine.compare"),
-			compare.offset,
-			compare.exact,
-			compare.score,
-			require("cmp-under-comparator").under,
-			compare.kind,
-			compare.sort_text,
-			compare.length,
-			compare.order,
-		},
-	},
+	-- sorting = {
+	-- 	priority_weight = 2,
+	-- 	comparators = {
+	-- 		-- require("cmp_tabnine.compare"),
+	-- 		compare.offset,
+	-- 		compare.exact,
+	-- 		compare.score,
+	-- 		require("cmp-under-comparator").under,
+	-- 		compare.kind,
+	-- 		compare.sort_text,
+	-- 		compare.length,
+	-- 		compare.order,
+	-- 	},
+	-- },
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
 		format = function(entry, vim_item)
@@ -91,8 +86,9 @@ cmp.setup({
 	-- You should specify your *installed* sources.
 	sources = {
 		{ name = "nvim_lsp" },
-		{ name = "nvim_lua" },
+		{ name = "nvim_lsp_signature_help" },
 		{ name = "vsnip" },
+		{ name = "nvim_lua" },
 		-- { name = "luasnip" },
 		{ name = "path" },
 		{ name = "spell" },

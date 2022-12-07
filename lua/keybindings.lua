@@ -11,9 +11,9 @@ map("i", "<C-e>", "<C-o><S-a>", opt)
 map("i", "<C-k>", "<C-o>d$", opt)
 
 -- save and quit
-map("n", "<C-s>", ":w<CR>", opt)
-map("i", "<C-s>", "<Esc>:w<CR>", opt)
-map("n", "<C-q>", ":q<CR>", opt)
+map("n", "<C-s>", ":update<CR>", opt)
+map("i", "<C-s>", "<Esc>:update<CR>", opt)
+map("n", "<C-q>", ":confirm q<CR>", opt)
 
 -- close current window
 map("n", "<leader>x", "<C-w>c", opt)
@@ -28,8 +28,6 @@ map("n", "<leader>5", "5gt<ct>", opt)
 map("n", "<leader>6", "6gt<ct>", opt)
 map("n", "<leader>7", "7gt<ct>", opt)
 map("n", "<leader>8", "8gt<ct>", opt)
--- map("n", "<leader>t", "v:count ? 'gt' : 'gt'", opt_expr)
--- map("n", "<leader>T", "v:count ? 'gT' : 'gT'", opt_expr)
 
 -- hop.nvim
 map("n", "<leader>w", ":HopWord<CR>", opt)
@@ -91,18 +89,17 @@ pluginKeys.on_attach = function(client, bufnr)
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-	vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, bufopts)
-	vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
+	vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, bufopts)
+	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts) -- finished by lspsaga
 	vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-	vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	-- vim.keymap.set("n", "<C-k>", vim.lsp.buf.signature_help, bufopts)
+	-- vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts) -- finished by lspsaga
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wl", function()
 		print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
 	end, bufopts)
-	vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
+	-- vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts) -- finished by lspsaga
 	vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	vim.keymap.set("n", "<space>f", function()
 		vim.lsp.buf.format({ async = true })
@@ -114,6 +111,10 @@ local feedkey = function(key, mode)
 end
 
 pluginKeys.cmp_mapping = function(cmp)
+	local has_words_before = function()
+		local line, col = table.unpack(vim.api.nvim_win_get_cursor(0))
+		return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
+	end
 	local M = {}
 	M = {
 		["<CR>"] = cmp.mapping.confirm({ select = true }),
@@ -155,29 +156,24 @@ pluginKeys.rust_tools_mapping = function(client, bufnr)
 		require("nvim-navic").attach(client, bufnr)
 	end
 	-- We use lspsaga to interact with lsp
-	-- pluginKeys.on_attach(client, bufnr)
+	pluginKeys.on_attach(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
-	local rt = require("rust-tools")
-	vim.keymap.set("n", "<C-k>", ":RustHoverAction<CR>", { buffer = bufnr })
-	vim.keymap.set("n", "<Leader>r", rt.runnables.runnables, { buffer = bufnr })
-	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", { buffer = bufnr })
-	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", { buffer = bufnr })
-	vim.keymap.set("n", "<Space>em", ":RustExpandMacro<CR>", { buffer = bufnr })
-	vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", { buffer = bufnr })
+	vim.keymap.set("n", "<C-k>", ":RustHoverAction<CR>", bufopts)
+	vim.keymap.set("n", "<Leader>r", require("rust-tools").runnables.runnables, bufopts)
+	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", bufopts)
+	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", bufopts)
+	vim.keymap.set("n", "<Space>em", ":RustExpandMacro<CR>", bufopts)
+	vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", bufopts)
 end
 
 pluginKeys.lspsaga_mapping = function()
 	local keymap = vim.keymap.set
-	local bufopts = { noremap = true, silent = true, buffer = bufnr }
+	local bufopts = { noremap = true, silent = true }
+
 	keymap("n", "gh", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
-	-- Peek Definition
-	-- you can edit the definition file in this flaotwindow
-	-- also support open/vsplit/etc operation check definition_action_keys
-	-- support tagstack C-t jump back
 	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", bufopts)
-	-- Hover Doc
 	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", bufopts)
-	-- Code action
+
 	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
 
 	-- Rename
@@ -195,7 +191,6 @@ pluginKeys.lspsaga_mapping = function()
 	end, bufopts)
 
 	-- Float terminal
-	-- keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm<CR>", bufopts)
 	-- if you want pass somc cli command into terminal you can do like this
 	-- open lazygit in lspsaga float terminal
 	keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm gitui<CR>", bufopts)

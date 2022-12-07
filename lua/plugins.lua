@@ -29,6 +29,7 @@ packer.startup(function(use)
 			{ "kdheepak/cmp-latex-symbols", after = "cmp-buffer" },
 			{ "hrsh7th/cmp-vsnip", after = "vim-vsnip" },
 			{ "hrsh7th/cmp-cmdline" },
+			{ "hrsh7th/cmp-nvim-lsp-signature-help" },
 		},
 	})
 	-- See hrsh7th other plugins for more great completion sources!
