@@ -187,9 +187,11 @@ require("nvim-treesitter.configs").setup({
 		"java",
 		"toml",
 		"json",
+		"yaml",
+		"make",
+		"sql",
 		"html",
 		"bash",
-		"markdown",
 	},
 	-- 启用代码高亮功能
 	highlight = {

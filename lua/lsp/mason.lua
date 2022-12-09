@@ -18,7 +18,6 @@ local lsp_servers = {
 	"sqlls",
 	"taplo",
 	"yamlls",
-	"tsserver",
 	-- Set by rust-tools
 	-- "rust_analyzer",
 }

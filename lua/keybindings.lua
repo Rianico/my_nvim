@@ -16,7 +16,7 @@ map("i", "<C-s>", "<Esc>:update<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 
 -- close current window
-map("n", "<leader>x", "<C-w>c", opt)
+map("n", "<leader>q", "<C-w>c", opt)
 -- tab switch
 map("n", "<leader>t", "gt", opt)
 map("n", "<leader>T", "gT", opt)
@@ -225,11 +225,11 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 
 pluginKeys.trouble_mapping = function()
 	-- Lua
-	vim.keymap.set("n", "<leader>tt", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>tw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>td", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>tl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>tq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
 	vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
 end
 

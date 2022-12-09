@@ -11,8 +11,17 @@ local ensure_packer = function()
 end
 local packer_bootstrap = ensure_packer()
 
-require("basic")
 require("plugins")
+
+-- the first run will install packer and our plugins
+if packer_bootstrap then
+	local packer = require("packer")
+	packer.init({ git = { default_url_format = "git@github.com:%s" } })
+	packer.sync()
+	return
+end
+
+require("basic")
 require("keybindings")
 require("theme")
 
@@ -40,11 +49,3 @@ require("plugin-config.vista")
 
 -- mini.vim
 require("plugin-config.mini")
-
--- the first run will install packer and our plugins
-if packer_bootstrap then
-	local packer = require("packer")
-	packer.init({ git = { default_url_format = "git@github.com:%s" } })
-	packer.sync()
-	return
-end
