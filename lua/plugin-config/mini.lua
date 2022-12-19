@@ -21,8 +21,10 @@ require("mini.pairs").setup({
 		["}"] = { action = "close", pair = "{}", neigh_pattern = "[^\\]." },
 
 		['"'] = { action = "closeopen", pair = '""', neigh_pattern = "[^\\].", register = { cr = false } },
-		-- ["'"] = { action = "closeopen", pair = "''", neigh_pattern = "[^%a\\].", register = { cr = false } },
+		["<"] = { action = "closeopen", pair = "<>", neigh_pattern = "[^ \\].", register = { cr = false } },
 		["`"] = { action = "closeopen", pair = "``", neigh_pattern = "[^\\].", register = { cr = false } },
+		-- for rust's lifetime
+		["'"] = { action = "close", pair = "''", neigh_pattern = "[^<\\].", register = { cr = false } },
 	},
 })
 

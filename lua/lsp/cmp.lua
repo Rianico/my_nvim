@@ -51,20 +51,20 @@ cmp.setup({
 			border = border("CmpDocBorder"),
 		},
 	},
-	-- sorting = {
-	-- 	priority_weight = 2,
-	-- 	comparators = {
-	-- 		-- require("cmp_tabnine.compare"),
-	-- 		compare.offset,
-	-- 		compare.exact,
-	-- 		compare.score,
-	-- 		require("cmp-under-comparator").under,
-	-- 		compare.kind,
-	-- 		compare.sort_text,
-	-- 		compare.length,
-	-- 		compare.order,
-	-- 	},
-	-- },
+	sorting = {
+		priority_weight = 2,
+		comparators = {
+			-- require("cmp_tabnine.compare"),
+			compare.offset,
+			compare.exact,
+			compare.score,
+			require("cmp-under-comparator").under,
+			compare.kind,
+			compare.sort_text,
+			compare.length,
+			compare.order,
+		},
+	},
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
 		format = function(entry, vim_item)
@@ -73,10 +73,6 @@ cmp.setup({
 				maxwidth = 50,
 				symbol_map = vim.tbl_deep_extend("force", icons.kind, icons.type, icons.cmp),
 			})(entry, vim_item)
-			-- local strings = vim.split(kind.kind, "%s", { trimempty = true })
-			-- kind.kind = " " .. strings[1] .. " "
-			-- kind.menu = "    (" .. strings[2] .. ")"
-			-- return kind
 			vim_item.menu = "[" .. string.upper(entry.source.name) .. "]"
 			return vim_item
 		end,
@@ -91,7 +87,7 @@ cmp.setup({
 		{ name = "nvim_lua" },
 		-- { name = "luasnip" },
 		{ name = "path" },
-		{ name = "spell" },
+		-- { name = "spell" },
 		-- { name = "orgmode" },
 		{ name = "buffer" },
 		-- { name = "latex_symbols" },

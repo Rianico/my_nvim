@@ -93,7 +93,7 @@ local opts = {
 			auto_focus = true,
 		},
 
-		-- settings for showing the crate graph based on graphviz and the dot
+		-- settings for showing the create graph based on graphviz and the dot
 		-- command
 		crate_graph = {
 			-- Backend used for displaying the graph
@@ -188,6 +188,7 @@ local opts = {
 			},
 			cargo = {
 				buildScripts = {
+					allFeatures = true,
 					enable = true,
 				},
 			},
