@@ -20,8 +20,8 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "diff", "diagnostics" },
-		lualine_c = {},
+		lualine_b = { "os.date('%H:%M')", "diff", "diagnostics" },
+		lualine_c = { { "filename", file_status = true, path = 1 } },
 		lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_y = { "progress" },
 		lualine_z = { "location" },
@@ -38,7 +38,7 @@ require("lualine").setup({
 	winbar = {
 		lualine_a = { "branch" },
 		lualine_b = { { navic.get_location, cond = navic.is_available } },
-		lualine_c = { "filename" },
+		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},
@@ -46,7 +46,7 @@ require("lualine").setup({
 	inactive_winbar = {
 		lualine_a = { "branch" },
 		lualine_b = { { navic.get_location, cond = navic.is_available } },
-		lualine_c = { "filename" },
+		lualine_c = {},
 		lualine_x = {},
 		lualine_y = {},
 		lualine_z = {},

@@ -91,4 +91,6 @@ packer.startup(function(use)
 	use({ "echasnovski/mini.ai", branch = "stable" })
 	-- repeat
 	use("tpope/vim-repeat")
+	-- startup
+	use("dstein64/vim-startuptime")
 end)
