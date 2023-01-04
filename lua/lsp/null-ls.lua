@@ -32,8 +32,6 @@ null_ls.setup({
 		}),
 		--  asm
 		formatting.asmfmt,
-		-- "c", "cpp", "cs", "java", "cuda"
-		formatting.clang_format,
 		-- cmake
 		formatting.cmake_format,
 		-- "bash", "csh", "ksh", "sh", "zsh"

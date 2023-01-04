@@ -49,3 +49,31 @@ require("plugin-config.vista")
 
 -- mini.vim
 require("plugin-config.mini")
+
+if vim.g.neovide then
+	vim.g.neovide_scale_factor = 1.35
+
+	vim.g.neovide_floating_blur_amount_x = 2.0
+	vim.g.neovide_floating_blur_amount_y = 2.0
+
+	vim.g.neovide_scroll_animation_length = 0.6
+	vim.g.neovide_hide_mouse_when_typing = true
+	vim.g.neovide_remember_window_size = true
+
+	-- for mac
+	local global = require("global")
+	if global.is_mac then
+		vim.g.neovide_input_use_logo = true
+		vim.g.neovide_input_macos_alt_is_meta = true
+	end
+
+	vim.g.neovide_cursor_antialiasing = true
+	vim.g.neovide_cursor_vfx_mode = "torpedo"
+	vim.g.neovide_cursor_trail_length = 0.5
+	vim.g.neovide_cursor_vfx_opacity = 200.0
+	vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
+	vim.g.neovide_cursor_vfx_particle_density = 7.0
+	vim.g.neovide_cursor_vfx_particle_speed = 10.0
+	vim.g.neovide_cursor_vfx_particle_phase = 1.5
+	vim.g.neovide_cursor_vfx_particle_curl = 1.0
+end
