@@ -51,12 +51,12 @@ require("plugin-config.vista")
 require("plugin-config.mini")
 
 if vim.g.neovide then
-	vim.g.neovide_scale_factor = 1.35
+	vim.g.neovide_scale_factor = 1.3
 
 	vim.g.neovide_floating_blur_amount_x = 2.0
 	vim.g.neovide_floating_blur_amount_y = 2.0
 
-	vim.g.neovide_scroll_animation_length = 0.6
+	vim.g.neovide_scroll_animation_length = 0.9
 	vim.g.neovide_hide_mouse_when_typing = true
 	vim.g.neovide_remember_window_size = true
 
@@ -76,4 +76,9 @@ if vim.g.neovide then
 	vim.g.neovide_cursor_vfx_particle_speed = 10.0
 	vim.g.neovide_cursor_vfx_particle_phase = 1.5
 	vim.g.neovide_cursor_vfx_particle_curl = 1.0
+
+	-- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
+	vim.g.neovide_transparency = 0.9
+	vim.g.transparency = 0.8
+	-- vim.g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
 end
