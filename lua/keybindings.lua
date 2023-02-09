@@ -9,6 +9,8 @@ map("n", "<C-e>", "$", opt)
 map("i", "<C-a>", "<C-o><S-i>", opt)
 map("i", "<C-e>", "<C-o><S-a>", opt)
 map("i", "<C-k>", "<C-o>d$", opt)
+-- delete character afterward
+map("i", "<C-d>", "<C-o>s", opt)
 
 -- save and quit
 map("n", "<C-s>", ":update<CR>", opt)
@@ -118,7 +120,7 @@ pluginKeys.cmp_mapping = function(cmp)
 	local M = {}
 	M = {
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
-		["<C-d>"] = cmp.mapping.scroll_docs(-4),
+		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.close(),
 		["<Tab>"] = cmp.mapping(function(fallback)
