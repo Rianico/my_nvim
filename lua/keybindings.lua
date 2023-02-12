@@ -1,5 +1,5 @@
-vim.g.mapleader = "\\"
-vim.g.maplocalleader = "\\"
+vim.g.mapleader = "`"
+vim.g.maplocalleader = "`"
 local map = vim.api.nvim_set_keymap
 local opt = { noremap = true, silent = true }
 
@@ -37,7 +37,7 @@ map("n", "<leader>l", ":HopLineStart<CR>", opt)
 map("n", "<leader>p", ":HopPattern<CR>", opt)
 
 -- vista.vim
-map("n", "<leader>\\", ":Vista!!<CR>", { noremap = true })
+map("n", "<leader><leader>", ":Vista!!<CR>", { noremap = true })
 
 -- fzf.vim
 map("n", "<C-p>", ":Files<CR>", opt)
