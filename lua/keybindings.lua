@@ -185,10 +185,10 @@ pluginKeys.lspsaga_mapping = function()
 	keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
 	-- Only jump to error
 	keymap("n", "[D", function()
-		require("lspsaga.diagnostic").goto_prev({ severity = vim.diagnostic.severity.ERROR })
+		require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 	end, bufopts)
 	keymap("n", "]D", function()
-		require("lspsaga.diagnostic").goto_next({ severity = vim.diagnostic.severity.ERROR })
+		require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 	end, bufopts)
 
 	-- pass somc cli command into a floating terminal and execute it.

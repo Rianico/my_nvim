@@ -60,12 +60,8 @@ require("lualine").setup({
 		lualine_a = {
 			{
 				"tabs",
+				max_length = vim.o.columns / 3,
 				mode = 2,
-				-- tabs_color = {
-				-- 	-- Same values as the general color option can be used here.
-				-- 	active = "lualine_{section}_normal", -- Color for active tab.
-				-- 	inactive = "lualine_{section}_inactive", -- Color for inactive tab.
-				-- },
 			},
 		},
 	},

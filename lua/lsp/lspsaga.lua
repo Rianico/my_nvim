@@ -49,7 +49,7 @@ require("lspsaga").setup({
 		-- Currently, only the round theme exists
 		theme = "round",
 		-- This option only works in Neovim 0.9
-		title = true,
+		title = false,
 		-- Border type can be single, double, rounded, solid, shadow.
 		border = "rounded",
 		winblend = 0,
@@ -110,28 +110,6 @@ require("lspsaga").setup({
 		-- more information see `vim.fn.expand` or `expand`
 		-- ## only valid after set `show_file = true`
 		file_formatter = "",
-		click_support = function(node, clicks, button, modifiers)
-			-- To see all avaiable details: vim.pretty_print(node)
-			local st = node.range.start
-			local en = node.range["end"]
-			if button == "l" then
-				if clicks == 2 then
-					-- double left click to do nothing
-				else -- jump to node's starting line+char
-					vim.fn.cursor(st.line + 1, st.character + 1)
-				end
-			elseif button == "r" then
-				if modifiers == "s" then
-					print("lspsaga") -- shift right click to print "lspsaga"
-				end -- jump to node's ending line+char
-				vim.fn.cursor(en.line + 1, en.character + 1)
-			elseif button == "m" then
-				-- middle click to visual select node
-				vim.fn.cursor(st.line + 1, st.character + 1)
-				vim.api.nvim_command([[normal v]])
-				vim.fn.cursor(en.line + 1, en.character + 1)
-			end
-		end,
 	},
 	-- show outline
 	outline = {
@@ -205,10 +183,11 @@ require("lspsaga").setup({
 		border_follow = false,
 		keys = {
 			exec_action = "<CR>",
-			quit = { "q", "<ESC>" },
+			quit = "q",
 			-- 跳转到 code action
 			go_action = "g",
 		},
 	},
 })
+
 require("keybindings").lspsaga_mapping()

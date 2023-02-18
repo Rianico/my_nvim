@@ -10,7 +10,15 @@ packer.startup(function(use)
 		"neovim/nvim-lspconfig",
 	})
 	-- lsp enhanced
-	use({ "glepnir/lspsaga.nvim", branch = "main" })
+	use({
+		"glepnir/lspsaga.nvim",
+		branch = "main",
+		requires = {
+			{ "nvim-tree/nvim-web-devicons" },
+			--Please make sure you install markdown and markdown_inline parser
+			{ "nvim-treesitter/nvim-treesitter" },
+		},
+	})
 	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 	-- Visualize lsp progress
 	use("j-hui/fidget.nvim")
