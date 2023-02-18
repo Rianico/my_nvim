@@ -21,7 +21,7 @@ end
 
 local function get_palette()
 	-- Default behavior: return lspsaga's default palette.
-	local palette = require("lspsaga.lspkind").colors
+	local palette = require("lspsaga.highlight").get_colors()
 	palette.peach = palette.orange
 	palette.flamingo = palette.orange
 	palette.rosewater = palette.yellow
@@ -35,58 +35,73 @@ set_sidebar_icons()
 
 local colors = get_palette()
 
-require("lspsaga").init_lsp_saga({
-	border_style = "rounded",
-	saga_winblend = 0,
+require("lspsaga").setup({
 	-- preview lines above of lsp_finder
-	preview_lines_above = 8,
+	preview = {
+		lines_above = 8,
+		lines_below = 10,
+	},
 	-- preview lines of lsp_finder and definition preview
 	max_preview_lines = 20,
 	-- use emoji lightbulb in default
-	code_action_icon = "🦀️",
 	finder_request_timeout = 6000,
-	diagnostic_header = {
-		icons.diagnostics.Error_alt,
-		icons.diagnostics.Warning_alt,
-		icons.diagnostics.Information_alt,
-		icons.diagnostics.Hint_alt,
-	},
-	custom_kind = {
-		-- Kind
-		Class = { icons.kind.Class, colors.yellow },
-		Constant = { icons.kind.Constant, colors.peach },
-		Constructor = { icons.kind.Constructor, colors.sapphire },
-		Enum = { icons.kind.Enum, colors.yellow },
-		EnumMember = { icons.kind.EnumMember, colors.teal },
-		Event = { icons.kind.Event, colors.yellow },
-		Field = { icons.kind.Field, colors.teal },
-		File = { icons.kind.File, colors.rosewater },
-		Function = { icons.kind.Function, colors.blue },
-		Interface = { icons.kind.Interface, colors.yellow },
-		Key = { icons.kind.Keyword, colors.red },
-		Method = { icons.kind.Method, colors.blue },
-		Module = { icons.kind.Module, colors.blue },
-		Namespace = { icons.kind.Namespace, colors.blue },
-		Number = { icons.kind.Number, colors.peach },
-		Operator = { icons.kind.Operator, colors.sky },
-		Package = { icons.kind.Package, colors.blue },
-		Property = { icons.kind.Property, colors.teal },
-		Struct = { icons.kind.Struct, colors.yellow },
-		TypeParameter = { icons.kind.TypeParameter, colors.maroon },
-		Variable = { icons.kind.Variable, colors.peach },
-		-- Type
-		Array = { icons.type.Array, colors.peach },
-		Boolean = { icons.type.Boolean, colors.peach },
-		Null = { icons.type.Null, colors.yellow },
-		Object = { icons.type.Object, colors.yellow },
-		String = { icons.type.String, colors.green },
-		-- ccls-specific iconss.
-		TypeAlias = { icons.kind.TypeAlias, colors.green },
-		Parameter = { icons.kind.Parameter, colors.blue },
-		StaticMethod = { icons.kind.StaticMethod, colors.peach },
+	ui = {
+		-- Currently, only the round theme exists
+		theme = "round",
+		-- This option only works in Neovim 0.9
+		title = true,
+		-- Border type can be single, double, rounded, solid, shadow.
+		border = "rounded",
+		winblend = 0,
+		expand = "",
+		collapse = "",
+		preview = " ",
+		code_action = "🦀️",
+		diagnostic = "🐞",
+		incoming = " ",
+		outgoing = " ",
+		hover = " ",
+		kind = {
+			-- Kind
+			Class = { icons.kind.Class, colors.yellow },
+			Constant = { icons.kind.Constant, colors.peach },
+			Constructor = { icons.kind.Constructor, colors.sapphire },
+			Enum = { icons.kind.Enum, colors.yellow },
+			EnumMember = { icons.kind.EnumMember, colors.teal },
+			Event = { icons.kind.Event, colors.yellow },
+			Field = { icons.kind.Field, colors.teal },
+			File = { icons.kind.File, colors.rosewater },
+			Function = { icons.kind.Function, colors.blue },
+			Interface = { icons.kind.Interface, colors.yellow },
+			Key = { icons.kind.Keyword, colors.red },
+			Method = { icons.kind.Method, colors.blue },
+			Module = { icons.kind.Module, colors.blue },
+			Namespace = { icons.kind.Namespace, colors.blue },
+			Number = { icons.kind.Number, colors.peach },
+			Operator = { icons.kind.Operator, colors.sky },
+			Package = { icons.kind.Package, colors.blue },
+			Property = { icons.kind.Property, colors.teal },
+			Struct = { icons.kind.Struct, colors.yellow },
+			TypeParameter = { icons.kind.TypeParameter, colors.maroon },
+			Variable = { icons.kind.Variable, colors.peach },
+			-- Type
+			Array = { icons.type.Array, colors.peach },
+			Boolean = { icons.type.Boolean, colors.peach },
+			Null = { icons.type.Null, colors.yellow },
+			Object = { icons.type.Object, colors.yellow },
+			String = { icons.type.String, colors.green },
+			-- ccls-specific iconss.
+			TypeAlias = { icons.kind.TypeAlias, colors.green },
+			Parameter = { icons.kind.Parameter, colors.blue },
+			StaticMethod = { icons.kind.StaticMethod, colors.peach },
+		},
 	},
 	symbol_in_winbar = {
-		enable = false,
+		enable = true,
+		hide_keyword = true,
+		folder_level = 2,
+		respect_root = false,
+		color_mode = true,
 		in_custom = true,
 		separator = " " .. icons.ui.Separator,
 		show_file = true,
@@ -119,36 +134,81 @@ require("lspsaga").init_lsp_saga({
 		end,
 	},
 	-- show outline
-	show_outline = {
+	outline = {
 		win_position = "right",
-		--set special filetype win that outline window split.like NvimTree neotree
-		-- defx, db_ui
 		win_with = "",
-		win_width = 60,
-		auto_enter = true,
+		win_width = 50,
+		show_detail = true,
 		auto_preview = true,
-		virt_text = "┃",
-		jump_key = "o",
-		-- auto refresh when change buffer
 		auto_refresh = true,
+		auto_close = true,
+		custom_sort = nil,
+		keys = {
+			jump = "<CR>",
+			expand_collapse = "u",
+			quit = "q",
+		},
 	},
-	finder_action_keys = {
-		open = { "o", "<CR>" },
+	finder = {
+		jump_to = "p",
+		edit = { "o", "<CR>" },
 		vsplit = "v",
 		split = "s",
 		tabe = "t",
-		quit = { "q" },
+		tabnew = "T",
+		quit = { "q", "<ESC>" },
 	},
-	code_action_keys = {
-		quit = "q",
-		exec = "<CR>",
+	code_action = {
+		num_shortcut = true,
+		show_server_name = false,
+		extend_gitsigns = true,
+		keys = {
+			-- string | table type
+			quit = { "q", "<ESC>" },
+			exec = "<CR>",
+		},
 	},
-	definition_action_keys = {
+	definition = {
 		edit = "<Leader>e",
 		vsplit = "<Leader>v",
 		split = "<Leader>s",
 		tabe = "<Leader>t",
-		quit = "q",
+		quit = { "q", "<ESC>" },
+	},
+	callhierarchy = {
+		show_detail = false,
+		keys = {
+			edit = "e",
+			vsplit = "v",
+			split = "s",
+			tabe = "t",
+			jump = "<Tab>",
+			quit = { "q", "<ESC>" },
+			expand_collapse = "u",
+		},
+	},
+	diagnostic = {
+		show_code_action = true,
+		show_source = true,
+		jump_num_shortcut = true,
+		--1 is max
+		max_width = 0.9,
+		custom_fix = "<🦀️Fix>",
+		custom_msg = "<🐞Diagnostic>",
+		text_hl_follow = false,
+		-- DiagnostcText = {
+		-- 	icons.diagnostics.Error,
+		-- 	icons.diagnostics.Warning,
+		-- 	icons.diagnostics.Information,
+		-- 	icons.diagnostics.Hint,
+		-- },
+		border_follow = false,
+		keys = {
+			exec_action = "<CR>",
+			quit = { "q", "<ESC>" },
+			-- 跳转到 code action
+			go_action = "g",
+		},
 	},
 })
 require("keybindings").lspsaga_mapping()

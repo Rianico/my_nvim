@@ -159,7 +159,7 @@ pluginKeys.rust_tools_mapping = function(client, bufnr)
 	pluginKeys.on_attach(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "<Space>d", ":RustHoverAction<CR>", bufopts)
-	vim.keymap.set("n", "<Leader>r", require("rust-tools").runnables.runnables, bufopts)
+	vim.keymap.set("n", "<Space>r", require("rust-tools").runnables.runnables, bufopts)
 	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", bufopts)
 	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", bufopts)
 	vim.keymap.set("n", "<Space>em", ":RustExpandMacro<CR>", bufopts)
@@ -173,12 +173,12 @@ pluginKeys.lspsaga_mapping = function()
 
 	keymap("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
 	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", bufopts)
-	keymap("n", "K", "<cmd>Lspsaga hover_doc<CR>", bufopts)
+	keymap("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", bufopts)
 	-- Code action
 	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
 
 	-- Rename
-	keymap("n", "<Space>r", "<cmd>Lspsaga rename<CR>", bufopts)
+	keymap("n", "<leader>r", "<cmd>Lspsaga rename ++project<CR>", bufopts)
 
 	-- Diagnsotic jump can use `<c-o>` to jump back
 	keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
@@ -192,18 +192,22 @@ pluginKeys.lspsaga_mapping = function()
 	end, bufopts)
 
 	-- pass somc cli command into a floating terminal and execute it.
-	keymap("n", "<A-d>", "<cmd>Lspsaga open_floaterm gitui<CR>", bufopts)
+	keymap("n", "<A-d>", "<cmd>Lspsaga term_toggle gitui<CR>", bufopts)
 	-- close floaterm
-	keymap("t", "<A-d>", [[<C-\><C-n><cmd>Lspsaga close_floaterm<CR>]], bufopts)
+	keymap("t", "<A-d>", "<cmd>Lspsaga term_toggle<CR>", bufopts)
 
 	-- Outline
-	keymap("n", "<Leader>o", "<cmd>LSoutlineToggle<CR>", bufopts)
+	keymap("n", "<Leader>o", "<cmd>Lspsaga outline<CR>", bufopts)
+
+	-- Call hierarchy
+	keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+	keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 end
 
 -- For trouble
 pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble list
 	-- map to {} to remove a mapping, for example:
-	-- close = {},
+	-- close = {}
 	close = "q", -- close the list
 	cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
 	refresh = "r", -- manually refresh

@@ -1,10 +1,19 @@
+local icons = {
+	diagnostics = require("ui.icons").get("diagnostics", true),
+	kind = require("ui.icons").get("kind", true),
+	type = require("ui.icons").get("type", true),
+	ui = require("ui.icons").get("ui", true),
+}
+
 local navic = require("nvim-navic")
+vim.wo.winbar = require("lspsaga.symbolwinbar"):get_winbar()
+
 require("lualine").setup({
 	options = {
 		icons_enabled = true,
 		theme = "auto",
-		component_separators = { left = "", right = "" },
-		section_separators = { left = "", right = "" },
+		component_separators = { left = icons.ui.Separator, right = "" },
+		section_separators = { left = icons.ui.Separator, right = "" },
 		disabled_filetypes = {
 			statusline = {},
 			winbar = {},
@@ -20,7 +29,20 @@ require("lualine").setup({
 	},
 	sections = {
 		lualine_a = { "mode" },
-		lualine_b = { "os.date('%H:%M')", "diff", "diagnostics" },
+		lualine_b = {
+			"os.date('%H:%M')",
+			"branch",
+			"diff",
+			{
+				"diagnostics",
+				symbols = {
+					error = icons.diagnostics.Error_alt,
+					warn = icons.diagnostics.Warning,
+					info = icons.diagnostics.Information,
+					hint = icons.diagnostics.Hint_alt,
+				},
+			},
+		},
 		lualine_c = { { "filename", file_status = true, path = 1 } },
 		lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_y = { "progress" },
@@ -34,22 +56,27 @@ require("lualine").setup({
 		lualine_y = {},
 		lualine_z = {},
 	},
-	tabline = {},
-	winbar = {
-		lualine_a = { "branch" },
-		lualine_b = { { navic.get_location, cond = navic.is_available } },
-		lualine_c = {},
-		lualine_x = {},
-		lualine_y = {},
-		lualine_z = {},
+	tabline = {
+		lualine_a = {
+			{
+				"tabs",
+				mode = 2,
+				-- tabs_color = {
+				-- 	-- Same values as the general color option can be used here.
+				-- 	active = "lualine_{section}_normal", -- Color for active tab.
+				-- 	inactive = "lualine_{section}_inactive", -- Color for inactive tab.
+				-- },
+			},
+		},
 	},
-	inactive_winbar = {
-		lualine_a = { "branch" },
-		lualine_b = { { navic.get_location, cond = navic.is_available } },
-		lualine_c = {},
-		lualine_x = {},
-		lualine_y = {},
-		lualine_z = {},
+	winbar = {},
+	inactive_winbar = {},
+	extensions = {
+		"quickfix",
+		"nvim-tree",
+		"nvim-dap-ui",
+		"toggleterm",
+		"fugitive",
+		"symbols-outline",
 	},
-	extensions = {},
 })
