@@ -41,6 +41,7 @@ vim.o.scrolloff = 999
 vim.o.sidescrolloff = 999
 -- line number
 vim.wo.number = true
+vim.wo.relativenumber = true
 -- highlight the current line
 vim.wo.cursorline = true
 -- 缩进2个空格等于一个Tab

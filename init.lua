@@ -40,9 +40,10 @@ require("lsp.trouble")
 
 -- for status/winbar
 require("plugin-config.lua-line")
+require("plugin-config.bufferline")
 
 -- other
-require("plugin-config.hop")
+require("plugin-config.leap")
 require("plugin-config.nvim-tree")
 require("plugin-config.comment")
 require("plugin-config.vista")

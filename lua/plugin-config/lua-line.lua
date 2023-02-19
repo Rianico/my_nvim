@@ -5,9 +5,6 @@ local icons = {
 	ui = require("ui.icons").get("ui", true),
 }
 
-local navic = require("nvim-navic")
-vim.wo.winbar = require("lspsaga.symbolwinbar"):get_winbar()
-
 require("lualine").setup({
 	options = {
 		icons_enabled = true,
@@ -45,8 +42,8 @@ require("lualine").setup({
 		},
 		lualine_c = { { "filename", file_status = true, path = 1 } },
 		lualine_x = { "encoding", "fileformat", "filetype" },
-		lualine_y = { "progress" },
-		lualine_z = { "location" },
+		lualine_y = { "location" },
+		lualine_z = { "progress" },
 	},
 	inactive_sections = {
 		lualine_a = {},
@@ -57,13 +54,13 @@ require("lualine").setup({
 		lualine_z = {},
 	},
 	tabline = {
-		lualine_a = {
-			{
-				"tabs",
-				max_length = vim.o.columns / 3,
-				mode = 2,
-			},
-		},
+		-- lualine_a = {
+		-- 	{
+		-- 		"tabs",
+		-- 		max_length = vim.o.columns / 3,
+		-- 		mode = 2,
+		-- 	},
+		-- },
 	},
 	winbar = {},
 	inactive_winbar = {},
@@ -71,8 +68,6 @@ require("lualine").setup({
 		"quickfix",
 		"nvim-tree",
 		"nvim-dap-ui",
-		"toggleterm",
-		"fugitive",
 		"symbols-outline",
 	},
 })

@@ -1,5 +1,5 @@
-vim.g.mapleader = "`"
-vim.g.maplocalleader = "`"
+vim.g.mapleader = ","
+vim.g.maplocalleader = ","
 local map = vim.api.nvim_set_keymap
 local opt = { noremap = true, silent = true }
 
@@ -13,28 +13,12 @@ map("i", "<C-k>", "<C-o>d$", opt)
 map("i", "<C-d>", "<C-o>s", opt)
 
 -- save and quit
-map("n", "<C-s>", ":update<CR>", opt)
-map("i", "<C-s>", "<Esc>:update<CR>", opt)
+map("n", "<C-s>", ":w<CR>", opt)
+map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 
 -- close current window
 map("n", "<leader>q", "<C-w>c", opt)
--- tab switch
-map("n", "<leader>t", "gt", opt)
-map("n", "<leader>T", "gT", opt)
-map("n", "<leader>1", "1gt<ct>", opt)
-map("n", "<leader>2", "2gt<ct>", opt)
-map("n", "<leader>3", "3gt<ct>", opt)
-map("n", "<leader>4", "4gt<ct>", opt)
-map("n", "<leader>5", "5gt<ct>", opt)
-map("n", "<leader>6", "6gt<ct>", opt)
-map("n", "<leader>7", "7gt<ct>", opt)
-map("n", "<leader>8", "8gt<ct>", opt)
-
--- hop.nvim
-map("n", "<leader>w", ":HopWord<CR>", opt)
-map("n", "<leader>l", ":HopLineStart<CR>", opt)
-map("n", "<leader>p", ":HopPattern<CR>", opt)
 
 -- vista.vim
 map("n", "<leader><leader>", ":Vista!!<CR>", { noremap = true })
@@ -51,15 +35,11 @@ vim.g.fzf_action = {
 }
 
 -- Mappings.
--- See `:help vim.diagnostic.*` for documentation on any of the below functions
 local opts = { noremap = true, silent = true }
 vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
--- Finished by lspsaga
--- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
--- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
-vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 
 local pluginKeys = {}
+
 -- NvimTree
 map("n", "<leader>e", ":NvimTreeFindFile<CR>", opt)
 -- disable netrw at the very start of your init.lua (strongly advised)
@@ -70,7 +50,7 @@ pluginKeys.nvimTreeList = {
 	{ key = { "<CR>", "o", "<2-LeftMouse>" }, action = "tabnew" },
 	{ key = "e", action = "edit" },
 	-- 分屏打开文件
-	{ key = "s", action = "vsplit" },
+	{ key = "v", action = "vsplit" },
 	-- 文件操作
 	{ key = "a", action = "create" },
 	{ key = "d", action = "remove" },
@@ -82,20 +62,16 @@ pluginKeys.nvimTreeList = {
 }
 
 pluginKeys.on_attach = function(client, bufnr)
-	-- Enable nvim-navic
-	if client.server_capabilities.documentSymbolProvider then
-		require("nvim-navic").attach(client, bufnr)
-	end
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	-- finished by lspsaga
 	-- vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, bufopts)
 	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
 	-- vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	-- vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, bufopts)
+	-- vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
 	-- vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-	vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
+	-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
 	vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
 	vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
 	vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
@@ -153,9 +129,6 @@ end
 
 -- For rust-tools
 pluginKeys.rust_tools_mapping = function(client, bufnr)
-	if client.server_capabilities.documentSymbolProvider then
-		require("nvim-navic").attach(client, bufnr)
-	end
 	pluginKeys.on_attach(client, bufnr)
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
 	vim.keymap.set("n", "<Space>d", ":RustHoverAction<CR>", bufopts)
@@ -167,13 +140,23 @@ pluginKeys.rust_tools_mapping = function(client, bufnr)
 end
 
 -- For lspsaga
+-- Finished by lspsaga
+-- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+-- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+-- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 pluginKeys.lspsaga_mapping = function()
 	local keymap = vim.keymap.set
 	local bufopts = { noremap = true, silent = true }
 
 	keymap("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
 	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", bufopts)
+	keymap("n", "gD", "<cmd>Lspsaga goto_definition<CR>", bufopts)
 	keymap("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", bufopts)
+	-- Outline
+	keymap("n", "<Leader>o", "<cmd>Lspsaga outline<CR>", bufopts)
+	-- Call hierarchy
+	keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
+	keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 	-- Code action
 	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
 
@@ -195,14 +178,43 @@ pluginKeys.lspsaga_mapping = function()
 	keymap("n", "<A-d>", "<cmd>Lspsaga term_toggle gitui<CR>", bufopts)
 	-- close floaterm
 	keymap("t", "<A-d>", "<cmd>Lspsaga term_toggle<CR>", bufopts)
-
-	-- Outline
-	keymap("n", "<Leader>o", "<cmd>Lspsaga outline<CR>", bufopts)
-
-	-- Call hierarchy
-	keymap("n", "<Leader>ci", "<cmd>Lspsaga incoming_calls<CR>")
-	keymap("n", "<Leader>co", "<cmd>Lspsaga outgoing_calls<CR>")
 end
+pluginKeys.lspsaga_finder_keys = {
+	jump_to = "p",
+	edit = { "o", "<CR>" },
+	vsplit = "v",
+	split = "s",
+	tabe = "t",
+	tabnew = "T",
+	quit = { "q", "<ESC>" },
+}
+pluginKeys.lspsaga_code_action_keys = {
+	-- string | table type
+	quit = { "q", "<ESC>" },
+	exec = "<CR>",
+}
+pluginKeys.lspsaga_definition_keys = {
+	edit = "<Leader>e",
+	vsplit = "<Leader>v",
+	split = "<Leader>s",
+	tabe = "<Leader>t",
+	quit = "q",
+}
+pluginKeys.lspsaga_callhierarchy_keys = {
+	edit = "e",
+	vsplit = "v",
+	split = "s",
+	tabe = "t",
+	jump = "<Tab>",
+	quit = "q",
+	expand_collapse = "u",
+}
+pluginKeys.lspsaga_diagnostic_keys = {
+	exec_action = "<CR>",
+	quit = "q",
+	-- 跳转到 code action
+	go_action = "g",
+}
 
 -- For trouble
 pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble list
@@ -226,7 +238,6 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 	previous = "k", -- previous item
 	next = "j", -- next item
 }
-
 pluginKeys.trouble_mapping = function()
 	-- Lua
 	vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })

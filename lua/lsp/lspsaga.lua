@@ -5,6 +5,8 @@ local icons = {
 	ui = require("ui.icons").get("ui", true),
 }
 
+local keybindings = require("keybindings")
+
 local function set_sidebar_icons()
 	-- Set icons for sidebar.
 	local diagnostic_icons = {
@@ -49,7 +51,7 @@ require("lspsaga").setup({
 		-- Currently, only the round theme exists
 		theme = "round",
 		-- This option only works in Neovim 0.9
-		title = false,
+		title = true,
 		-- Border type can be single, double, rounded, solid, shadow.
 		border = "rounded",
 		winblend = 0,
@@ -127,43 +129,17 @@ require("lspsaga").setup({
 			quit = "q",
 		},
 	},
-	finder = {
-		jump_to = "p",
-		edit = { "o", "<CR>" },
-		vsplit = "v",
-		split = "s",
-		tabe = "t",
-		tabnew = "T",
-		quit = { "q", "<ESC>" },
-	},
+	finder = keybindings.lspsaga_finder_keys,
 	code_action = {
 		num_shortcut = true,
 		show_server_name = false,
 		extend_gitsigns = true,
-		keys = {
-			-- string | table type
-			quit = { "q", "<ESC>" },
-			exec = "<CR>",
-		},
+		keys = keybindings.code_action_keys,
 	},
-	definition = {
-		edit = "<Leader>e",
-		vsplit = "<Leader>v",
-		split = "<Leader>s",
-		tabe = "<Leader>t",
-		quit = { "q", "<ESC>" },
-	},
+	definition = keybindings.lspsaga_definition_keys,
 	callhierarchy = {
 		show_detail = false,
-		keys = {
-			edit = "e",
-			vsplit = "v",
-			split = "s",
-			tabe = "t",
-			jump = "<Tab>",
-			quit = { "q", "<ESC>" },
-			expand_collapse = "u",
-		},
+		keys = keybindings.lspsaga_callhierarchy_keys,
 	},
 	diagnostic = {
 		show_code_action = true,
@@ -181,12 +157,7 @@ require("lspsaga").setup({
 		-- 	icons.diagnostics.Hint,
 		-- },
 		border_follow = false,
-		keys = {
-			exec_action = "<CR>",
-			quit = "q",
-			-- 跳转到 code action
-			go_action = "g",
-		},
+		keys = keybindings.lspsaga_diagnostic_keys,
 	},
 })
 

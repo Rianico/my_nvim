@@ -82,14 +82,12 @@ packer.startup(function(use)
 		"nvim-lualine/lualine.nvim",
 		requires = { "kyazdani42/nvim-web-devicons", opt = true },
 	})
+	-- bufferline
+	use({ "akinsho/bufferline.nvim", tag = "v3.*", requires = "nvim-tree/nvim-web-devicons" })
+	-- Leap
 	use({
-		"SmiteshP/nvim-navic",
-		requires = "neovim/nvim-lspconfig",
-	})
-	-- hop
-	use({
-		"phaazon/hop.nvim",
-		branch = "v2", -- optional but strongly recommended
+		"ggandor/flit.nvim",
+		requires = "ggandor/leap.nvim",
 	})
 	-- vista
 	use("liuchengxu/vista.vim")
