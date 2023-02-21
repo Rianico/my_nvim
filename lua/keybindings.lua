@@ -1,7 +1,12 @@
 vim.g.mapleader = ","
 vim.g.maplocalleader = ","
+
 local map = vim.api.nvim_set_keymap
 local opt = { noremap = true, silent = true }
+
+local feedkey = function(key, mode)
+	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
+end
 
 -- emacs style shorten
 map("n", "<C-a>", "^", opt)
@@ -11,43 +16,64 @@ map("i", "<C-e>", "<C-o><S-a>", opt)
 map("i", "<C-k>", "<C-o>d$", opt)
 -- delete character afterward
 map("i", "<C-d>", "<C-o>s", opt)
-
 -- save and quit
 map("n", "<C-s>", ":w<CR>", opt)
 map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
-
 -- close current window
 map("n", "<leader>q", "<C-w>c", opt)
 
 -- vista.vim
 map("n", "<leader><leader>", ":Vista!!<CR>", { noremap = true })
 
--- fzf.vim
-map("n", "<C-p>", ":Files<CR>", opt)
-map("n", "<leader>f", ":Lines<CR>", opt)
-map("n", "<leader>F", ":Rg<CR>", opt)
-map("n", "<leader>b", ":Buffers<CR>", opt)
-vim.g.fzf_action = {
-	["enter"] = "tab drop",
-	["ctrl-s"] = "split",
-	["ctrl-v"] = "vsplit",
+-- bufferline
+-- map("n", "<leader>p", "<cmd>BufferLinePick<CR>", opt)
+-- map("n", "<leader>P", "<cmd>BufferLinePickClose<CR>", opt)
+map("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
+map("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
+map("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
+map("n", "<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>", opt)
+map("n", "<leader>5", "<Cmd>BufferLineGoToBuffer 5<CR>", opt)
+map("n", "<leader>6", "<Cmd>BufferLineGoToBuffer 6<CR>", opt)
+map("n", "<leader>7", "<Cmd>BufferLineGoToBuffer 7<CR>", opt)
+map("n", "<leader>8", "<Cmd>BufferLineGoToBuffer 8<CR>", opt)
+map("n", "[b", "<Cmd>BufferLineCyclePrev<CR>", opt)
+map("n", "]b", "<Cmd>BufferLineCycleNext<CR>", opt)
+
+-- show normal("), insert mode(<C-r>)
+local wk = require("which-key")
+local wk_opts = {
+	mode = "n", -- NORMAL mode
+	-- prefix: use "<leader>f" for example for mapping everything related to finding files
+	-- the prefix is prepended to every mapping part of `mappings`
+	prefix = "",
+	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+	silent = true, -- use `silent` when creating keymaps
+	noremap = true, -- use `noremap` when creating keymaps
+	nowait = false, -- use `nowait` when creating keymaps
 }
 
--- Mappings.
-local opts = { noremap = true, silent = true }
-vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opts)
+map("n", "<C-S-O>", "<cmd>Telescope find_files<cr>", opt)
+wk.register({
+	-- telescope
+	["<leader>f"] = {
+		name = "Files",
+		b = { "<Cmd>Telescope buffers<cr>", "Buffers" },
+		F = { "<Cmd>Telescope live_grep<cr>", "Live Grep" },
+		f = { "<Cmd>Telescope current_buffer_fuzzy_find<cr>", "Current Buffer" },
+		c = { "<Cmd>Telescope commands<cr>", "Commands" },
+		e = { "<Cmd>Telescope file_browser<cr>", "Browser" },
+		E = { "<Cmd>NvimTreeToggle<cr>", "Explorer" },
+		m = { "<Cmd>lua require('telescope.builtin').find_files()", "Marks" },
+	},
+}, wk_opts)
 
 local pluginKeys = {}
-
--- NvimTree
+-- For NvimTree
 map("n", "<leader>e", ":NvimTreeFindFile<CR>", opt)
--- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
 pluginKeys.nvimTreeList = {
 	-- 打开文件或件夹
-	{ key = { "<CR>", "o", "<2-LeftMouse>" }, action = "tabnew" },
+	{ key = { "<CR>", "o" }, action = "tabnew" },
 	{ key = "e", action = "edit" },
 	-- 分屏打开文件
 	{ key = "v", action = "vsplit" },
@@ -61,6 +87,8 @@ pluginKeys.nvimTreeList = {
 	{ key = "o", action = "system_open" },
 }
 
+-- For vim.lsp
+---@diagnostic disable-next-line: unused-local
 pluginKeys.on_attach = function(client, bufnr)
 	-- See `:help vim.lsp.*` for documentation on any of the below functions
 	local bufopts = { noremap = true, silent = true, buffer = bufnr }
@@ -81,10 +109,6 @@ pluginKeys.on_attach = function(client, bufnr)
 	vim.keymap.set("n", "<space>f", function()
 		vim.lsp.buf.format({ async = true })
 	end, bufopts)
-end
-
-local feedkey = function(key, mode)
-	vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
 end
 
 -- For cmp
@@ -141,6 +165,7 @@ end
 
 -- For lspsaga
 -- Finished by lspsaga
+-- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opt)
 -- vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
 -- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 -- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)

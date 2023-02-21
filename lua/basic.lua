@@ -65,6 +65,10 @@ vim.o.autoread = true
 vim.bo.autoread = true
 -- smaller updatetime
 vim.o.updatetime = 600
--- 设置 timeoutlen 为等待键盘快捷键连击时间200毫秒，可根据需要设置
+-- 设置 timeoutlen 为等待键盘快捷键连击时间200 毫秒，可根据需要设置
 -- 遇到问题详见：https://github.com/nshen/learn-neovim-lua/issues/1
-vim.o.timeoutlen = 900
+vim.o.timeout = true
+vim.o.timeoutlen = 200
+-- disable netrw at the very start of your init.lua (strongly advised)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1

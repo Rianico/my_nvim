@@ -70,9 +70,6 @@ packer.startup(function(use)
 	use("tpope/vim-surround")
 	-- theme
 	use("sainnhe/gruvbox-material")
-	-- fzf
-	use("junegunn/fzf")
-	use("junegunn/fzf.vim")
 	-- comment
 	use("numToStr/Comment.nvim")
 	-- code formatting
@@ -99,4 +96,28 @@ packer.startup(function(use)
 	use("tpope/vim-repeat")
 	-- startup
 	use("dstein64/vim-startuptime")
+	-- which key, hint the next shortcut key
+	use({
+		"folke/which-key.nvim",
+		config = function()
+			require("which-key").setup({
+				window = {
+					border = "single", -- none, single, double, shadow
+					position = "bottom", -- bottom, top
+				},
+			})
+		end,
+	})
+	use({
+		"nvim-telescope/telescope.nvim",
+		tag = "0.1.1",
+		requires = {
+			"nvim-lua/popup.nvim",
+			"nvim-lua/plenary.nvim",
+			{ "nvim-telescope/telescope-fzf-native.nvim", run = "make" },
+			-- "nvim-telescope/telescope-project.nvim",
+			"cljoly/telescope-repo.nvim",
+			"nvim-telescope/telescope-file-browser.nvim",
+		},
+	})
 end)

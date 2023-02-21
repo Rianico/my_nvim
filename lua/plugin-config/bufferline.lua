@@ -7,7 +7,7 @@ local icons = {
 }
 require("bufferline").setup({
 	options = {
-		mode = "buffers", -- set to "tabs" to only show tabpages instead
+		mode = "tabs", -- set to "tabs" to only show tabpages instead
 		numbers = "both", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
 		close_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
 		right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
@@ -155,18 +155,3 @@ require("bufferline").setup({
 		},
 	},
 })
-
-local opts = { noremap = true, silent = true }
-local keymap = vim.api.nvim_set_keymap
-keymap("n", "<leader>p", "<cmd>BufferLinePick<CR>", opts)
-keymap("n", "<leader>P", "<cmd>BufferLinePickClose<CR>", opts)
-keymap("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", opts)
-keymap("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", opts)
-keymap("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", opts)
-keymap("n", "<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>", opts)
-keymap("n", "<leader>5", "<Cmd>BufferLineGoToBuffer 5<CR>", opts)
-keymap("n", "<leader>6", "<Cmd>BufferLineGoToBuffer 6<CR>", opts)
-keymap("n", "<leader>7", "<Cmd>BufferLineGoToBuffer 7<CR>", opts)
-keymap("n", "<leader>8", "<Cmd>BufferLineGoToBuffer 8<CR>", opts)
-keymap("n", "[b", "<Cmd>BufferLineCyclePrev<CR>", opts)
-keymap("n", "]b", "<Cmd>BufferLineCycleNext<CR>", opts)

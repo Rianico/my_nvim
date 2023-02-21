@@ -1,3 +1,4 @@
+---@diagnostic disable: duplicate-index
 local icons = {
 	diagnostics = require("ui.icons").get("diagnostics"),
 	documents = require("ui.icons").get("documents"),
@@ -7,6 +8,7 @@ local icons = {
 require("nvim-treesitter.configs").setup({
 	create_in_closed_folder = false,
 	respect_buf_cwd = false,
+	update_cwd = true,
 	auto_reload_on_write = true,
 	disable_netrw = false,
 	hijack_cursor = true,
@@ -19,7 +21,7 @@ require("nvim-treesitter.configs").setup({
 	sort_by = "name",
 	sync_root_with_cwd = true,
 	view = {
-		adaptive_size = false,
+		adaptive_size = true,
 		centralize_selection = false,
 		width = 30,
 		side = "left",
@@ -103,13 +105,14 @@ require("nvim-treesitter.configs").setup({
 	},
 	update_focused_file = {
 		enable = true,
+		update_cwd = true,
 		update_root = false,
 		ignore_list = {},
 	},
 	ignore_ft_on_setup = {},
 	filters = {
 		dotfiles = false,
-		custom = { ".DS_Store" },
+		custom = { ".DS_Store", ".git" },
 		exclude = {},
 	},
 	actions = {
