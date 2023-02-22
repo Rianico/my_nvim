@@ -1,3 +1,4 @@
+require("impatient")
 vim.opt.termguicolors = true
 vim.opt.mousemoveevent = true
 local icons = {
@@ -8,7 +9,7 @@ local icons = {
 require("bufferline").setup({
 	options = {
 		mode = "tabs", -- set to "tabs" to only show tabpages instead
-		numbers = "both", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
+		numbers = "ordinal", -- "none" | "ordinal" | "buffer_id" | "both" | function({ ordinal, id, lower, raise }): string,
 		close_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
 		right_mouse_command = "bdelete! %d", -- can be a string | function, see "Mouse actions"
 		left_mouse_command = "buffer %d", -- can be a string | function, see "Mouse actions"

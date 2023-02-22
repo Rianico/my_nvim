@@ -353,43 +353,6 @@ function config.catppuccin()
 	})
 end
 
-function config.notify()
-	local notify = require("notify")
-	local icons = {
-		diagnostics = require("ui.icons").get("diagnostics"),
-		ui = require("ui.icons").get("ui"),
-	}
-
-	notify.setup({
-		---@usage Animation style one of { "fade", "slide", "fade_in_slide_out", "static" }
-		stages = "slide",
-		---@usage Function called when a new window is opened, use for changing win settings/config
-		on_open = nil,
-		---@usage Function called when a window is closed
-		on_close = nil,
-		---@usage timeout for notifications in ms, default 5000
-		timeout = 2000,
-		-- Render function for notifications. See notify-render()
-		render = "default",
-		---@usage highlight behind the window for stages that change opacity
-		background_colour = "Normal",
-		---@usage minimum width for notification windows
-		minimum_width = 50,
-		---@usage notifications with level lower than this would be ignored. [ERROR > WARN > INFO > DEBUG > TRACE]
-		level = "TRACE",
-		---@usage Icons for the different levels
-		icons = {
-			ERROR = icons.diagnostics.Error,
-			WARN = icons.diagnostics.Warning,
-			INFO = icons.diagnostics.Information,
-			DEBUG = icons.ui.Bug,
-			TRACE = icons.ui.Pencil,
-		},
-	})
-
-	vim.notify = notify
-end
-
 function config.lualine()
 	local icons = {
 		diagnostics = require("ui.icons").get("diagnostics", true),
@@ -737,30 +700,6 @@ function config.nvim_bufferline()
 		highlights = {},
 	}
 
-	if vim.g.colors_name == "catppuccin" then
-		local cp = require("catppuccin.palettes").get_palette() -- Get the palette.
-		cp.none = "NONE" -- Special setting for complete transparent fg/bg.
-
-		local catppuccin_hl_overwrite = {
-			highlights = require("catppuccin.groups.integrations.bufferline").get({
-				styles = { "italic", "bold" },
-				custom = {
-					mocha = {
-						-- Hint
-						hint = { fg = cp.rosewater },
-						hint_visible = { fg = cp.rosewater },
-						hint_selected = { fg = cp.rosewater },
-						hint_diagnostic = { fg = cp.rosewater },
-						hint_diagnostic_visible = { fg = cp.rosewater },
-						hint_diagnostic_selected = { fg = cp.rosewater },
-					},
-				},
-			}),
-		}
-
-		opts = vim.tbl_deep_extend("force", opts, catppuccin_hl_overwrite)
-	end
-
 	require("bufferline").setup(opts)
 end
 
@@ -885,12 +824,6 @@ end
 
 function config.scrollview()
 	require("scrollview").setup({})
-end
-
-function config.fidget()
-	require("fidget").setup({
-		window = { blend = 0 },
-	})
 end
 
 return config

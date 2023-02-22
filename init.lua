@@ -56,6 +56,7 @@ require("plugin-config.mini")
 require("plugin-config/marks")
 -- neoclip
 require("plugin-config/neoclip")
+
 -- fuzzy finder, also can integration with many plugins amazingly!
 require("plugin-config.telescope")
 
