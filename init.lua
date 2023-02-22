@@ -42,14 +42,22 @@ require("lsp.trouble")
 require("plugin-config.lua-line")
 require("plugin-config.bufferline")
 
--- other
+-- motion
 require("plugin-config.leap")
+-- file browser
 require("plugin-config.nvim-tree")
+-- comment
 require("plugin-config.comment")
+-- symbol viewer
 require("plugin-config.vista")
-
--- mini.vim
+-- mini.vim: cursor_word, pairs, ai
 require("plugin-config.mini")
+-- marks
+require("plugin-config/marks")
+-- neoclip
+require("plugin-config/neoclip")
+-- fuzzy finder, also can integration with many plugins amazingly!
+require("plugin-config.telescope")
 
 if vim.g.neovide then
 	vim.g.neovide_scale_factor = 1.3

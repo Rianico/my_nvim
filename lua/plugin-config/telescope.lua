@@ -19,20 +19,24 @@ local nvb_actions = transform_mod({
 })
 
 telescope.setup({
-	defaults = {
-		layout_strategy = "vertical",
-		layout_config = { height = 0.95 },
-	},
+	defaults = {},
 	pickers = {
 		find_files = {
-			-- theme = "dropdown",
+			theme = "ivy",
+			results_title = false,
+			sorting_strategy = "ascending",
+
+			layout_strategy = "bottom_pane",
+			layout_config = {
+				height = 20,
+			},
+
 			mappings = {
 				n = {
 					["y"] = nvb_actions.file_path,
 				},
 				i = {
 					["<C-y>"] = nvb_actions.file_path,
-					["<C-s>"] = actions.file_split,
 				},
 			},
 		},
@@ -53,3 +57,5 @@ telescope.setup({
 telescope.load_extension("fzf")
 telescope.load_extension("repo")
 telescope.load_extension("file_browser")
+telescope.load_extension("harpoon")
+telescope.load_extension("neoclip")

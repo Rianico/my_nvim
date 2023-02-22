@@ -29,18 +29,17 @@ map("n", "<leader><leader>", ":Vista!!<CR>", { noremap = true })
 -- bufferline
 -- map("n", "<leader>p", "<cmd>BufferLinePick<CR>", opt)
 -- map("n", "<leader>P", "<cmd>BufferLinePickClose<CR>", opt)
-map("n", "<leader>1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
-map("n", "<leader>2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
-map("n", "<leader>3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
-map("n", "<leader>4", "<Cmd>BufferLineGoToBuffer 4<CR>", opt)
-map("n", "<leader>5", "<Cmd>BufferLineGoToBuffer 5<CR>", opt)
-map("n", "<leader>6", "<Cmd>BufferLineGoToBuffer 6<CR>", opt)
-map("n", "<leader>7", "<Cmd>BufferLineGoToBuffer 7<CR>", opt)
-map("n", "<leader>8", "<Cmd>BufferLineGoToBuffer 8<CR>", opt)
-map("n", "[b", "<Cmd>BufferLineCyclePrev<CR>", opt)
-map("n", "]b", "<Cmd>BufferLineCycleNext<CR>", opt)
+map("n", ".1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
+map("n", ".2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
+map("n", ".3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
+map("n", ".4", "<Cmd>BufferLineGoToBuffer 4<CR>", opt)
+map("n", ".5", "<Cmd>BufferLineGoToBuffer 5<CR>", opt)
+map("n", ".6", "<Cmd>BufferLineGoToBuffer 6<CR>", opt)
+map("n", ".7", "<Cmd>BufferLineGoToBuffer 7<CR>", opt)
+map("n", ".8", "<Cmd>BufferLineGoToBuffer 8<CR>", opt)
+map("n", "[t", "<Cmd>BufferLineCyclePrev<CR>", opt)
+map("n", "]t", "<Cmd>BufferLineCycleNext<CR>", opt)
 
--- show normal("), insert mode(<C-r>)
 local wk = require("which-key")
 local wk_opts = {
 	mode = "n", -- NORMAL mode
@@ -53,24 +52,61 @@ local wk_opts = {
 	nowait = false, -- use `nowait` when creating keymaps
 }
 
+-- telescope
 map("n", "<C-S-O>", "<cmd>Telescope find_files<cr>", opt)
+map("n", "<leader>b", "<Cmd>Telescope buffers<cr>", opt)
 wk.register({
+	-- registers
+	-- list registers:
+	--   normal mode: "
+	--   insert mode: <C-/>
+	["<leader>r"] = {
+		name = "Registers",
+		r = { "<Cmd>Telescope neoclip<cr>", "Neoclip" },
+		t = { "<Cmd>Telescope registers<cr>", "Telescope Registers" },
+	},
+
+	-- file explorer
+	["<leader>e"] = {
+		name = "File Explorer",
+		e = { "<Cmd>Telescope file_browser<cr>", "File Browser" },
+		E = { "<Cmd>NvimTreeToggle<cr>", "File Explorer" },
+	},
+
 	-- telescope
 	["<leader>f"] = {
-		name = "Files",
-		b = { "<Cmd>Telescope buffers<cr>", "Buffers" },
-		F = { "<Cmd>Telescope live_grep<cr>", "Live Grep" },
+		name = "Find",
 		f = { "<Cmd>Telescope current_buffer_fuzzy_find<cr>", "Current Buffer" },
+		F = { "<Cmd>Telescope live_grep<cr>", "Live Grep" },
 		c = { "<Cmd>Telescope commands<cr>", "Commands" },
-		e = { "<Cmd>Telescope file_browser<cr>", "Browser" },
-		E = { "<Cmd>NvimTreeToggle<cr>", "Explorer" },
-		m = { "<Cmd>lua require('telescope.builtin').find_files()", "Marks" },
+	},
+
+	-- harpoon
+	["<leader>h"] = {
+		name = "Harpoon",
+		h = { "<Cmd>lua require('harpoon.mark').add_file()<cr>", "Add File To Quick Menu" },
+		t = { "<Cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Toogle Quick Menu" },
+		T = { "<Cmd>Telescope harpoon marks<cr>", "Telescope Quick Menu" },
+	},
+
+	-- marks
+	["<leader>m"] = {
+		name = "Marks",
+		-- list marks: ' in normal mode
+		d = { "<Plug>(Marks-delete)", "Delete Input Marks" },
+		l = { "<Plug>(Marks-deleteline)", "Delete Line Marks" },
+		a = { "<Plug>(Marks-deletebuf)", "Delete Buffer Marks" },
+		A = { "<Cmd>delmarks a-zA-Z0-9<cr>", "Delete All Marks" },
+		t = { "<Cmd>Telescope marks<cr>", "Telescope Marks" },
+	},
+	["m"] = {
+		name = "Marks",
+		m = { "<Plug>(Marks-setnext)", "Marks SetNext" },
 	},
 }, wk_opts)
 
 local pluginKeys = {}
 -- For NvimTree
-map("n", "<leader>e", ":NvimTreeFindFile<CR>", opt)
 pluginKeys.nvimTreeList = {
 	-- 打开文件或件夹
 	{ key = { "<CR>", "o" }, action = "tabnew" },
@@ -186,7 +222,7 @@ pluginKeys.lspsaga_mapping = function()
 	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
 
 	-- Rename
-	keymap("n", "<leader>r", "<cmd>Lspsaga rename ++project<CR>", bufopts)
+	keymap("n", "<space>R", "<cmd>Lspsaga rename<CR>", bufopts)
 
 	-- Diagnsotic jump can use `<c-o>` to jump back
 	keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)

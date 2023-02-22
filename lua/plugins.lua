@@ -108,6 +108,9 @@ packer.startup(function(use)
 			})
 		end,
 	})
+	-- marks
+	use("chentoast/marks.nvim")
+	-- telescope
 	use({
 		"nvim-telescope/telescope.nvim",
 		tag = "0.1.1",
@@ -118,6 +121,8 @@ packer.startup(function(use)
 			-- "nvim-telescope/telescope-project.nvim",
 			"cljoly/telescope-repo.nvim",
 			"nvim-telescope/telescope-file-browser.nvim",
+			"ThePrimeagen/harpoon",
+			"AckslD/nvim-neoclip.lua",
 		},
 	})
 end)
