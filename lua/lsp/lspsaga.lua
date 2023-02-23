@@ -1,7 +1,5 @@
 local icons = {
 	diagnostics = require("ui.icons").get("diagnostics", true),
-	kind = require("ui.icons").get("kind", true),
-	type = require("ui.icons").get("type", true),
 	ui = require("ui.icons").get("ui", true),
 }
 
