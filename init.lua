@@ -43,7 +43,7 @@ require("plugin-config.bufferline")
 
 -- motion
 require("plugin-config.leap")
--- file browser
+-- file exploer
 require("plugin-config.nvim-tree")
 -- comment
 require("plugin-config.comment")
@@ -53,10 +53,10 @@ require("plugin-config.vista")
 require("plugin-config.mini")
 -- marks
 require("plugin-config/marks")
--- neoclip
+-- neoclip, manage your registers
 require("plugin-config/neoclip")
 
--- fuzzy finder, also can integration with many plugins amazingly!
+-- fuzzy finder, can also integration with many plugins amazingly!
 require("plugin-config.telescope")
 
 if vim.g.neovide then
@@ -90,4 +90,9 @@ if vim.g.neovide then
 	vim.g.neovide_transparency = 0.9
 	vim.g.transparency = 0.8
 	-- vim.g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
+end
+
+-- for ripgrep
+if vim.fn.executable("rg") == 1 then
+	vim.o.grepprg = "rg --vimgrep"
 end

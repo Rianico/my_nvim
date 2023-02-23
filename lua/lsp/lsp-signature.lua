@@ -1,10 +1,11 @@
 require("lsp_signature").setup({
 	bind = true, -- This is mandatory, otherwise border config won't get registered.
-	floating_window = false,
 	handler_opts = {
 		border = "rounded",
 	},
-	floating_window_off_x = 1, -- adjust float windows x position.
-	floating_window_off_y = 0, -- adjust float windows y position. e.g -2 move window up 2 lines; 2 move down 2 lines
+	max_height = 32,
+	transparency = 32,
+	floating_window_above_cur_line = false,
 	hint_prefix = "🦀 ",
+	move_cursor_key = "<C-k>",
 })

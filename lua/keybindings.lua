@@ -13,7 +13,6 @@ map("n", "<C-a>", "^", opt)
 map("n", "<C-e>", "$", opt)
 map("i", "<C-a>", "<C-o><S-i>", opt)
 map("i", "<C-e>", "<C-o><S-a>", opt)
-map("i", "<C-k>", "<C-o>d$", opt)
 -- delete character afterward
 map("i", "<C-d>", "<C-o>s", opt)
 -- save and quit
@@ -27,8 +26,8 @@ map("n", "<leader>q", "<C-w>c", opt)
 map("n", "<leader><leader>", ":Vista!!<CR>", { noremap = true })
 
 -- bufferline
--- map("n", "<leader>p", "<cmd>BufferLinePick<CR>", opt)
--- map("n", "<leader>P", "<cmd>BufferLinePickClose<CR>", opt)
+-- map("n", "<leader>p", "<Cmd>BufferLinePick<CR>", opt)
+-- map("n", "<leader>P", "<Cmd>BufferLinePickClose<CR>", opt)
 map("n", ".1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
 map("n", ".2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
 map("n", ".3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
@@ -59,11 +58,11 @@ local wk_opts = {
 }
 
 -- telescope
-map("n", "<C-p>", "<cmd>Telescope find_files<cr>", opt)
+map("n", "<C-p>", "<Cmd>Telescope find_files<CR>", opt)
 
-map("n", "<C-S-p>", "<Cmd>Telescope commands<cr>", opt)
+map("n", "<C-S-p>", "<Cmd>Telescope commands<CR>", opt)
 -- :buffers
-map("n", "<leader>b", "<Cmd>Telescope buffers<cr>", opt)
+map("n", "<leader>b", "<Cmd>Telescope buffers<CR>", opt)
 
 wk.register({
 	-- registers
@@ -72,25 +71,25 @@ wk.register({
 	--   insert mode: <C-/>
 	["<leader>r"] = {
 		name = "Registers",
-		r = { "<Cmd>Telescope neoclip<cr>", "Neoclip" },
-		t = { "<Cmd>Telescope registers<cr>", "Telescope Registers" },
+		r = { "<Cmd>Telescope neoclip<CR>", "Neoclip" },
+		t = { "<Cmd>Telescope registers<CR>", "Telescope Registers" },
 	},
 
 	-- telescope
 	["<leader>f"] = {
 		name = "Files",
-		f = { "<Cmd>Telescope current_buffer_fuzzy_find<cr>", "Grep Current Buffer" },
-		g = { "<Cmd>Telescope live_grep<cr>", "Grep All Files" },
-		e = { "<Cmd>Telescope file_browser<cr>", "File Browser" },
-		E = { "<Cmd>NvimTreeToggle<cr>", "File Explorer" },
+		f = { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Grep Current Buffer" },
+		g = { "<Cmd>Telescope live_grep<CR>", "Grep All Files" },
+		e = { "<Cmd>Telescope file_browser<CR>", "File Browser" },
+		E = { "<Cmd>NvimTreeToggle<CR>", "File Explorer" },
 	},
 
 	-- harpoon
 	["<leader>h"] = {
 		name = "Harpoon",
-		h = { "<Cmd>lua require('harpoon.mark').add_file()<cr>", "Add File To Quick Menu" },
-		t = { "<Cmd>lua require('harpoon.ui').toggle_quick_menu()<cr>", "Toogle Quick Menu" },
-		T = { "<Cmd>Telescope harpoon marks<cr>", "Telescope Quick Menu" },
+		h = { "<Cmd>lua require('harpoon.mark').add_file()<CR>", "Add File To Quick Menu" },
+		t = { "<Cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", "Toogle Quick Menu" },
+		T = { "<Cmd>Telescope harpoon marks<CR>", "Telescope Quick Menu" },
 	},
 
 	-- marks
@@ -100,8 +99,8 @@ wk.register({
 		d = { "<Plug>(Marks-delete)", "Delete Input Marks" },
 		l = { "<Plug>(Marks-deleteline)", "Delete Line Marks" },
 		a = { "<Plug>(Marks-deletebuf)", "Delete Buffer Marks" },
-		A = { "<Cmd>delmarks a-zA-Z0-9<cr>", "Delete All Marks" },
-		t = { "<Cmd>Telescope marks<cr>", "Telescope Marks" },
+		A = { "<Cmd>delmarks a-zA-Z0-9<CR>", "Delete All Marks" },
+		t = { "<Cmd>Telescope marks<CR>", "Telescope Marks" },
 	},
 	["m"] = {
 		name = "Marks",
@@ -213,24 +212,24 @@ pluginKeys.lspsaga_mapping = function()
 	local keymap = vim.keymap.set
 	local bufopts = { noremap = true, silent = true }
 
-	keymap("n", "gr", "<cmd>Lspsaga lsp_finder<CR>", bufopts)
-	keymap("n", "gd", "<cmd>Lspsaga peek_definition<CR>", bufopts)
-	keymap("n", "gD", "<cmd>Lspsaga goto_definition<CR>", bufopts)
-	keymap("n", "K", "<cmd>Lspsaga hover_doc ++keep<CR>", bufopts)
+	keymap("n", "gr", "<Cmd>Lspsaga lsp_finder<CR>", bufopts)
+	keymap("n", "gd", "<Cmd>Lspsaga peek_definition<CR>", bufopts)
+	keymap("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", bufopts)
+	keymap("n", "K", "<Cmd>Lspsaga hover_doc ++keep<CR>", bufopts)
 	-- Outline
-	keymap("n", "<Leader>ll", "<cmd>Lspsaga outline<CR>", bufopts)
+	keymap("n", "<Leader>ll", "<Cmd>Lspsaga outline<CR>", bufopts)
 	-- Call hierarchy
-	keymap("n", "<Leader>li", "<cmd>Lspsaga incoming_calls<CR>")
-	keymap("n", "<Leader>lo", "<cmd>Lspsaga outgoing_calls<CR>")
+	keymap("n", "<Leader>li", "<Cmd>Lspsaga incoming_calls<CR>")
+	keymap("n", "<Leader>lo", "<Cmd>Lspsaga outgoing_calls<CR>")
 	-- Code action
-	keymap({ "n", "v" }, "<Space>ca", "<cmd>Lspsaga code_action<CR>", bufopts)
+	keymap({ "n", "v" }, "<Space>ca", "<Cmd>Lspsaga code_action<CR>", bufopts)
 
 	-- Rename
-	keymap("n", "<space>R", "<cmd>Lspsaga rename<CR>", bufopts)
+	keymap("n", "<space>R", "<Cmd>Lspsaga rename<CR>", bufopts)
 
 	-- Diagnsotic jump can use `<c-o>` to jump back
-	keymap("n", "[d", "<cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
-	keymap("n", "]d", "<cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
+	keymap("n", "[d", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
+	keymap("n", "]d", "<Cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
 	-- Only jump to error
 	keymap("n", "[D", function()
 		require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
@@ -240,9 +239,9 @@ pluginKeys.lspsaga_mapping = function()
 	end, bufopts)
 
 	-- pass somc cli command into a floating terminal and execute it.
-	keymap("n", "<A-d>", "<cmd>Lspsaga term_toggle gitui<CR>", bufopts)
+	keymap("n", "<A-d>", "<Cmd>Lspsaga term_toggle gitui<CR>", bufopts)
 	-- close floaterm
-	keymap("t", "<A-d>", "<cmd>Lspsaga term_toggle<CR>", bufopts)
+	keymap("t", "<A-d>", "<Cmd>Lspsaga term_toggle<CR>", bufopts)
 end
 pluginKeys.lspsaga_finder_keys = {
 	jump_to = "p",
@@ -288,7 +287,7 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 	close = "q", -- close the list
 	cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
 	refresh = "r", -- manually refresh
-	jump = { "<cr>", "<tab>" }, -- jump to the diagnostic or open / close folds
+	jump = { "<CR>", "<tab>" }, -- jump to the diagnostic or open / close folds
 	open_split = { "<c-s>" }, -- open buffer in new split
 	open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
 	open_tab = { "<c-t>" }, -- open buffer in new tab
@@ -305,12 +304,12 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 }
 pluginKeys.trouble_mapping = function()
 	-- Lua
-	vim.keymap.set("n", "<leader>xx", "<cmd>TroubleToggle<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xw", "<cmd>TroubleToggle workspace_diagnostics<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xd", "<cmd>TroubleToggle document_diagnostics<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xl", "<cmd>TroubleToggle loclist<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "<leader>xq", "<cmd>TroubleToggle quickfix<cr>", { silent = true, noremap = true })
-	vim.keymap.set("n", "gR", "<cmd>TroubleToggle lsp_references<cr>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xx", "<Cmd>TroubleToggle<CR>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xl", "<Cmd>TroubleToggle loclist<CR>", { silent = true, noremap = true })
+	vim.keymap.set("n", "<leader>xq", "<Cmd>TroubleToggle quickfix<CR>", { silent = true, noremap = true })
+	vim.keymap.set("n", "gR", "<Cmd>TroubleToggle lsp_references<CR>", { silent = true, noremap = true })
 end
 
 return pluginKeys
