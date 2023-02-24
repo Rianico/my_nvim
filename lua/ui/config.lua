@@ -28,7 +28,7 @@ function config.alpha()
 	dashboard.section.header.opts.hl = "Type"
 
 	local function button(sc, txt, leader_txt, keybind, keybind_opts)
-		local sc_after = sc:gsub("%s", ""):gsub(leader_txt, "<leader>")
+		local sc_after = sc:gsub("%s", ""):gsub(leader_txt, "<Leader>")
 
 		local opts = {
 			position = "center",
@@ -749,14 +749,14 @@ function config.gitsigns()
 				expr = true,
 				"&diff ? '[g' : '<Cmd>lua require\"gitsigns\".prev_hunk()<CR>'",
 			},
-			["n <leader>hs"] = '<Cmd>lua require"gitsigns".stage_hunk()<CR>',
-			["v <leader>hs"] = '<Cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-			["n <leader>hu"] = '<Cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
-			["n <leader>hr"] = '<Cmd>lua require"gitsigns".reset_hunk()<CR>',
-			["v <leader>hr"] = '<Cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
-			["n <leader>hR"] = '<Cmd>lua require"gitsigns".reset_buffer()<CR>',
-			["n <leader>hp"] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
-			["n <leader>hb"] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
+			["n <Leader>hs"] = '<Cmd>lua require"gitsigns".stage_hunk()<CR>',
+			["v <Leader>hs"] = '<Cmd>lua require"gitsigns".stage_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+			["n <Leader>hu"] = '<Cmd>lua require"gitsigns".undo_stage_hunk()<CR>',
+			["n <Leader>hr"] = '<Cmd>lua require"gitsigns".reset_hunk()<CR>',
+			["v <Leader>hr"] = '<Cmd>lua require"gitsigns".reset_hunk({vim.fn.line("."), vim.fn.line("v")})<CR>',
+			["n <Leader>hR"] = '<Cmd>lua require"gitsigns".reset_buffer()<CR>',
+			["n <Leader>hp"] = '<Cmd>lua require"gitsigns".preview_hunk()<CR>',
+			["n <Leader>hb"] = '<Cmd>lua require"gitsigns".blame_line({full=true})<CR>',
 			-- Text objects
 			["o ih"] = ':<C-U>lua require"gitsigns".text_object()<CR>',
 			["x ih"] = ':<C-U>lua require"gitsigns".text_object()<CR>',

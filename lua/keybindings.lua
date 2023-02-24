@@ -20,14 +20,14 @@ map("n", "<C-s>", ":w<CR>", opt)
 map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 -- close current window
-map("n", "<leader>q", "<C-w>c", opt)
+map("n", "<Leader>q", "<C-w>c", opt)
 
 -- vista.vim
-map("n", "<leader><leader>", ":Vista!!<CR>", { noremap = true })
+map("n", "<Leader><Leader>", ":Vista!!<CR>", { noremap = true })
 
 -- bufferline
--- map("n", "<leader>p", "<Cmd>BufferLinePick<CR>", opt)
--- map("n", "<leader>P", "<Cmd>BufferLinePickClose<CR>", opt)
+-- map("n", "<Leader>p", "<Cmd>BufferLinePick<CR>", opt)
+-- map("n", "<Leader>P", "<Cmd>BufferLinePickClose<CR>", opt)
 map("n", ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
 map("n", ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
 map("n", ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
@@ -67,7 +67,7 @@ wk.setup({
 })
 local wk_opts = {
 	mode = "n", -- NORMAL mode
-	-- prefix: use "<leader>f" for example for mapping everything related to finding files
+	-- prefix: use "<Leader>f" for example for mapping everything related to finding files
 	-- the prefix is prepended to every mapping part of `mappings`
 	prefix = "",
 	buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
@@ -81,21 +81,21 @@ map("n", "<C-p>", "<Cmd>Telescope find_files<CR>", opt)
 
 map("n", "<C-S-p>", "<Cmd>Telescope commands<CR>", opt)
 -- :buffers
-map("n", "<leader>b", "<Cmd>Telescope buffers<CR>", opt)
+map("n", "<Leader>b", "<Cmd>Telescope buffers<CR>", opt)
 
 wk.register({
 	-- registers
 	-- list registers:
 	--   normal mode: "
 	--   insert mode: <C-/>
-	["<leader>r"] = {
+	["<Leader>r"] = {
 		name = "Registers",
 		r = { "<Cmd>Telescope neoclip<CR>", "Neoclip" },
 		t = { "<Cmd>Telescope registers<CR>", "Telescope Registers" },
 	},
 
 	-- telescope
-	["<leader>f"] = {
+	["<Leader>f"] = {
 		name = "Files",
 		f = { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Grep Current Buffer" },
 		g = { "<Cmd>Telescope live_grep<CR>", "Grep All Files" },
@@ -104,7 +104,7 @@ wk.register({
 	},
 
 	-- harpoon
-	["<leader>h"] = {
+	["<Leader>h"] = {
 		name = "Harpoon",
 		h = { "<Cmd>lua require('harpoon.mark').add_file()<CR>", "Add File To Quick Menu" },
 		t = { "<Cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", "Toogle Quick Menu" },
@@ -112,7 +112,7 @@ wk.register({
 	},
 
 	-- marks
-	["<leader>m"] = {
+	["<Leader>m"] = {
 		name = "Marks",
 		-- list marks: ' in normal mode
 		d = { "<Plug>(Marks-delete)", "Delete Input Marks" },
@@ -127,7 +127,7 @@ wk.register({
 	},
 
 	-- gitsigns
-	["<leader>g"] = {
+	["<Leader>g"] = {
 		name = "Gits",
 		s = { "<Cmd>Gitsigns stage_hunk<CR>", "Stage Hunk" },
 		r = { "<Cmd>Gitsigns reset_hunk<CR>", "Reset Hunk" },
@@ -196,7 +196,7 @@ pluginKeys.on_attach = function(client, bufnr)
 	-- vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, bufopts)
 	-- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
 	-- vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-	-- vim.keymap.set("n", "<leader>r", vim.lsp.buf.rename, bufopts)
+	-- vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, bufopts)
 	-- vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
 	-- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
 	-- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
@@ -364,11 +364,11 @@ pluginKeys.trouble_action_keys = { -- key mappings for actions in the trouble li
 }
 pluginKeys.trouble_mapping = function()
 	-- Lua
-	map("n", "<leader>xx", "<Cmd>TroubleToggle<CR>", { silent = true, noremap = true })
-	map("n", "<leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", { silent = true, noremap = true })
-	map("n", "<leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>", { silent = true, noremap = true })
-	map("n", "<leader>xl", "<Cmd>TroubleToggle loclist<CR>", { silent = true, noremap = true })
-	map("n", "<leader>xq", "<Cmd>TroubleToggle quickfix<CR>", { silent = true, noremap = true })
+	map("n", "<Leader>xx", "<Cmd>TroubleToggle<CR>", { silent = true, noremap = true })
+	map("n", "<Leader>xw", "<Cmd>TroubleToggle workspace_diagnostics<CR>", { silent = true, noremap = true })
+	map("n", "<Leader>xd", "<Cmd>TroubleToggle document_diagnostics<CR>", { silent = true, noremap = true })
+	map("n", "<Leader>xl", "<Cmd>TroubleToggle loclist<CR>", { silent = true, noremap = true })
+	map("n", "<Leader>xq", "<Cmd>TroubleToggle quickfix<CR>", { silent = true, noremap = true })
 	map("n", "gR", "<Cmd>TroubleToggle lsp_references<CR>", { silent = true, noremap = true })
 end
 

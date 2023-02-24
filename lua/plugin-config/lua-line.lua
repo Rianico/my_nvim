@@ -25,7 +25,6 @@ require("lualine").setup({
 	sections = {
 		lualine_a = { "mode" },
 		lualine_b = {
-			"os.date('%H:%M')",
 			"branch",
 			"diff",
 			{
@@ -41,7 +40,7 @@ require("lualine").setup({
 		lualine_c = { { "filename", file_status = true, path = 1 } },
 		lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_y = { "location" },
-		lualine_z = { "progress" },
+		lualine_z = { "progress", "os.date('%H:%M')" },
 	},
 	inactive_sections = {
 		lualine_a = {},

@@ -9,3 +9,5 @@ require("gitsigns").setup({
 		col = 1,
 	},
 })
+
+require("hlslens").setup()
