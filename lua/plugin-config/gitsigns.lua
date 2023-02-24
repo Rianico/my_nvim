@@ -1,5 +1,3 @@
-require("hlslens").setup()
-
 require("gitsigns").setup({
 	signcolumn = false,
 	preview_config = {
