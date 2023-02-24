@@ -104,6 +104,8 @@ packer.startup(function(use)
 	use("chentoast/marks.nvim")
 	-- git
 	use({ "lewis6991/gitsigns.nvim", tag = "release" })
+    -- search
+    use {'kevinhwang91/nvim-hlslens'}
 	-- telescope
 	use({
 		"nvim-telescope/telescope.nvim",
