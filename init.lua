@@ -43,7 +43,8 @@ require("plugin-config.bufferline")
 
 -- git
 require("plugin-config.gitsigns")
-
+-- terminal
+require("plugin-config.toggleterm")
 -- motion
 require("plugin-config.leap")
 -- file exploer

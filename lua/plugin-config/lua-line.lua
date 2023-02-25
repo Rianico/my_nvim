@@ -37,7 +37,10 @@ require("lualine").setup({
 				},
 			},
 		},
-		lualine_c = { { "filename", file_status = true, path = 1 } },
+		lualine_c = {
+			{ "filename", file_status = true, path = 1 },
+			{ '%{&ft == "toggleterm" ? "terminal (".b:toggle_number.")" : ""}' },
+		},
 		lualine_x = { "encoding", "fileformat", "filetype" },
 		lualine_y = { "location" },
 		lualine_z = { "progress", "os.date('%H:%M')" },

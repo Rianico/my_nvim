@@ -22,6 +22,13 @@ map("n", "<C-q>", ":confirm q<CR>", opt)
 -- close current window
 map("n", "<Leader>q", "<C-w>c", opt)
 
+-- window
+map("t", "<esc>", [[<C-n>]], opt)
+map({ "t", "n" }, "<C-h>", [[<Cmd>wincmd h<CR>]], opt)
+map({ "t", "n" }, "<C-j>", [[<Cmd>wincmd j<CR>]], opt)
+map({ "t", "n" }, "<C-k>", [[<Cmd>wincmd k<CR>]], opt)
+map({ "t", "n" }, "<C-l>", [[<Cmd>wincmd l<CR>]], opt)
+
 -- vista.vim
 map("n", "<Leader><Leader>", ":Vista!!<CR>", { noremap = true })
 
@@ -39,24 +46,7 @@ map("n", ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", opt)
 map("n", "[t", "<Cmd>BufferLineCyclePrev<CR>", opt)
 map("n", "]t", "<Cmd>BufferLineCycleNext<CR>", opt)
 
--- hlslens
-vim.api.nvim_set_keymap(
-	"n",
-	"n",
-	[[<Cmd>execute('normal! ' . v:count1 . 'n')<CR><Cmd>lua require('hlslens').start()<CR>]],
-	opt
-)
-vim.api.nvim_set_keymap(
-	"n",
-	"N",
-	[[<Cmd>execute('normal! ' . v:count1 . 'N')<CR><Cmd>lua require('hlslens').start()<CR>]],
-	opt
-)
-vim.api.nvim_set_keymap("n", "*", [[*<Cmd>lua require('hlslens').start()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "#", [[#<Cmd>lua require('hlslens').start()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "g*", [[g*<Cmd>lua require('hlslens').start()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "g#", [[g#<Cmd>lua require('hlslens').start()<CR>]], opt)
-vim.api.nvim_set_keymap("n", "<Leader>n", "<Cmd>noh<CR>", opt)
+map("n", "<C-n>", "<Cmd>noh<CR>", opt)
 
 local wk = require("which-key")
 wk.setup({
@@ -143,8 +133,21 @@ wk.register({
 		l = { "<Cmd>Gitsigns toggle_current_line_blame<CR>", "Line Blame" },
 		p = { "<Cmd>Gitsigns preview_hunk<CR>", "Preview Hunk" },
 
-		c = { "<Cmd>Gitsigns Gitsigns toggle_signs<CR>", "Sign Column" },
+		c = { "<Cmd>Gitsigns toggle_signs<CR>", "Sign Column" },
 		h = { "<Cmd>Gitsigns toggle_linehl<CR>", "Toggle Linehl" },
+
+		t = {
+			"<Cmd>lua require('toggleterm.terminal').Terminal:new({ cmd = 'gitui', hidden = true, count = 9, direction = 'tab' }):toggle()<CR>",
+			"Gitui",
+		},
+	},
+
+	-- toggleterm
+	["<Leader>t"] = {
+		name = "ToggleTerm",
+		-- <C-\> ToggleTerm
+		h = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Toggle HTerminal" },
+		v = { "<Cmd>ToggleTerm direction=vertical<CR>", "Toggle VTerminal" },
 	},
 }, wk_opts)
 
