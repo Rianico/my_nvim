@@ -19,11 +19,12 @@ map("i", "<C-d>", "<C-o>s", opt)
 map("n", "<C-s>", ":w<CR>", opt)
 map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
--- close current window
-map("n", "<Leader>q", "<C-w>c", opt)
+
+--terminal
+map("t", "<esc>", [[<C-n>]], opt)
 
 -- window
-map("t", "<esc>", [[<C-n>]], opt)
+map("n", "<Leader>q", "<C-w>c", opt)
 map({ "t", "n" }, "<C-h>", [[<Cmd>wincmd h<CR>]], opt)
 map({ "t", "n" }, "<C-j>", [[<Cmd>wincmd j<CR>]], opt)
 map({ "t", "n" }, "<C-k>", [[<Cmd>wincmd k<CR>]], opt)
@@ -33,8 +34,6 @@ map({ "t", "n" }, "<C-l>", [[<Cmd>wincmd l<CR>]], opt)
 map("n", "<Leader><Leader>", ":Vista!!<CR>", { noremap = true })
 
 -- bufferline
--- map("n", "<Leader>p", "<Cmd>BufferLinePick<CR>", opt)
--- map("n", "<Leader>P", "<Cmd>BufferLinePickClose<CR>", opt)
 map("n", ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
 map("n", ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
 map("n", ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
@@ -46,6 +45,7 @@ map("n", ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", opt)
 map("n", "[t", "<Cmd>BufferLineCyclePrev<CR>", opt)
 map("n", "]t", "<Cmd>BufferLineCycleNext<CR>", opt)
 
+-- local search
 map("n", "<C-n>", "<Cmd>noh<CR>", opt)
 
 local wk = require("which-key")
@@ -68,8 +68,8 @@ local wk_opts = {
 
 -- telescope
 map("n", "<C-p>", "<Cmd>Telescope find_files<CR>", opt)
-
 map("n", "<C-S-p>", "<Cmd>Telescope commands<CR>", opt)
+
 -- :buffers
 map("n", "<Leader>b", "<Cmd>Telescope buffers<CR>", opt)
 
@@ -77,7 +77,7 @@ wk.register({
 	-- registers
 	-- list registers:
 	--   normal mode: "
-	--   insert mode: <C-/>
+	--   insert mode: <C-r>
 	["<Leader>r"] = {
 		name = "Registers",
 		r = { "<Cmd>Telescope neoclip<CR>", "Neoclip" },
@@ -110,6 +110,7 @@ wk.register({
 		D = { "<Plug>(Marks-deletebuf)", "Delete Buffer Marks" },
 		a = { "<Cmd>delmarks a-zA-Z0-9<CR>", "Delete All Marks" },
 		t = { "<Cmd>Telescope marks<CR>", "Telescope Marks" },
+		m = { "<Cmd>MarksListBuf<CR>", "Buffer Marks" },
 	},
 	["m"] = {
 		name = "Marks",
