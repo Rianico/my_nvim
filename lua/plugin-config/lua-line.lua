@@ -5,7 +5,7 @@ local icons = {
 
 require("lualine").setup({
 	options = {
-		icons_enabled = true,
+		icons_enabled = false,
 		theme = "auto",
 		component_separators = { left = icons.ui.Separator, right = "" },
 		section_separators = { left = icons.ui.Separator, right = "" },
