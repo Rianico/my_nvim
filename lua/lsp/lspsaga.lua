@@ -77,9 +77,9 @@ require("lspsaga").setup({
 	},
 	finder = keybindings.lspsaga_finder_keys,
 	code_action = {
-		num_shortcut = true,
-		show_server_name = true,
-		extend_gitsigns = true,
+		num_shortcut = false,
+		show_server_name = false,
+		extend_gitsigns = false,
 		keys = keybindings.code_action_keys,
 	},
 	definition = keybindings.lspsaga_definition_keys,
@@ -88,7 +88,7 @@ require("lspsaga").setup({
 		keys = keybindings.lspsaga_callhierarchy_keys,
 	},
 	diagnostic = {
-		on_insert = true,
+		on_insert = false,
 		on_insert_follow = false,
 		insert_winblend = 0,
 		show_code_action = true,
