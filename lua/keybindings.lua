@@ -263,7 +263,7 @@ pluginKeys.rust_tools_mapping = function(client, bufnr)
 	vim.keymap.set("n", "<Space>r", require("rust-tools").runnables.runnables, bufopts)
 	vim.keymap.set("n", "<Space>k", ":RustMoveItemUp<CR>", bufopts)
 	vim.keymap.set("n", "<Space>j", ":RustMoveItemDown<CR>", bufopts)
-	vim.keymap.set("n", "<Space>em", ":RustExpandMacro<CR>", bufopts)
+	vim.keymap.set("n", "<Space>e", ":RustExpandMacro<CR>", bufopts)
 	vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", bufopts)
 end
 
@@ -301,11 +301,6 @@ pluginKeys.lspsaga_mapping = function()
 	map("n", "]D", function()
 		require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 	end, bufopts)
-
-	-- pass somc cli command into a floating terminal and execute it.
-	map("n", "<A-d>", "<Cmd>Lspsaga term_toggle gitui<CR>", bufopts)
-	-- close floaterm
-	map("t", "<A-d>", "<Cmd>Lspsaga term_toggle<CR>", bufopts)
 end
 pluginKeys.lspsaga_finder_keys = {
 	jump_to = "p",
