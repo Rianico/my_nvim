@@ -1,10 +1,14 @@
 local keybindings = require("keybindings")
+local icons = {
+	diagnostic = require("ui.icons").get("diagnostics", false),
+	misc = require("ui.icons").get("misc", false),
+}
 require("trouble").setup({
 	-- your configuration comes here
 	-- or leave it empty to use the default settings
 	-- refer to the configuration section below
 	position = "bottom", -- position of the list can be: bottom, top, left, right
-	height = 10, -- height of the trouble list when position is top or bottom
+	height = 32, -- height of the trouble list when position is top or bottom
 	width = 50, -- width of the list when position is left or right
 	icons = true, -- use devicons for filenames
 	mode = "document_diagnostics", -- "workspace_diagnostics", "document_diagnostics", "quickfix", "lsp_references", "loclist"
@@ -21,12 +25,13 @@ require("trouble").setup({
 	auto_jump = { "lsp_definitions" }, -- for the given modes, automatically jump if there is only a single result
 	signs = {
 		-- icons / text used for a diagnostic
-		error = "",
-		warning = "",
-		hint = "",
-		information = "",
-		other = "﫠",
+		error = icons.diagnostic.Error,
+		warning = icons.diagnostic.Warning,
+		hint = icons.diagnostic.Hint,
+		information = icons.diagnostic.Information,
+		other = icons.misc.Ghost,
 	},
 	use_diagnostic_signs = true, -- enabling this will use the signs defined in your lsp client
 })
+
 keybindings.trouble_mapping()

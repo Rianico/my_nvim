@@ -106,6 +106,8 @@ packer.startup(function(use)
 	use({ "lewis6991/gitsigns.nvim", tag = "release" })
 	-- terminal
 	use({ "akinsho/toggleterm.nvim", tag = "v2.2.1" })
+	-- zen
+	use("folke/zen-mode.nvim")
 	-- telescope
 	use({
 		"nvim-telescope/telescope.nvim",

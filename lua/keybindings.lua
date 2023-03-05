@@ -73,6 +73,9 @@ map("n", "<C-S-p>", "<Cmd>Telescope commands<CR>", opt)
 -- :buffers
 map("n", "<Leader>b", "<Cmd>Telescope buffers<CR>", opt)
 
+-- Zen Mode
+map("n", "<Leader>z", "<Cmd>ZenMode<CR>", opt)
+
 wk.register({
 	-- registers
 	-- list registers:
@@ -137,7 +140,7 @@ wk.register({
 		c = { "<Cmd>Gitsigns toggle_signs<CR>", "Sign Column" },
 		h = { "<Cmd>Gitsigns toggle_linehl<CR>", "Toggle Linehl" },
 
-		t = {
+		g = {
 			"<Cmd>lua require('toggleterm.terminal').Terminal:new({ cmd = 'gitui', hidden = true, count = 9, direction = 'tab' }):toggle()<CR>",
 			"Gitui",
 		},
