@@ -77,8 +77,8 @@ require("lspsaga").setup({
 	},
 	finder = keybindings.lspsaga_finder_keys,
 	code_action = {
-		num_shortcut = false,
-		show_server_name = false,
+		num_shortcut = true,
+		show_server_name = true,
 		extend_gitsigns = false,
 		keys = keybindings.code_action_keys,
 	},
