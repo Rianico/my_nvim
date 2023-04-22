@@ -230,15 +230,33 @@ pluginKeys.cmp_mapping = function(cmp)
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.close(),
+		-- ["<Tab>"] = cmp.mapping(function(fallback)
+		-- 	if cmp.visible() then
+		-- 		cmp.select_next_item()
+		-- 	elseif vim.fn["vsnip#available"](1) then
+		-- 		feedkey("<Plug>(vsnip-expand-or-jump)", "")
+		-- 		-- elseif require("luasnip").expand_or_jumpable() then
+		-- 		-- 	vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
+		-- 	elseif has_words_before() then
+		-- 		cmp.complete()
+		-- 	else
+		-- 		fallback()
+		-- 	end
+		-- end, { "i", "s" }),
+		-- ["<S-Tab>"] = cmp.mapping(function(fallback)
+		-- 	if cmp.visible() then
+		-- 		cmp.select_prev_item()
+		-- 	elseif vim.fn("vsnip#jumpable(-1)")[1] then
+		-- 		feedkey("<Plug>(vsnip-jump-prev)", "")
+		-- 		-- elseif require("luasnip").jumpable(-1) then
+		-- 		-- 	vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
+		-- 	else
+		-- 		fallback()
+		-- 	end
+		-- end, { "i", "s" }),
 		["<Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_next_item()
-			elseif vim.fn["vsnip#available"](1) then
-				feedkey("<Plug>(vsnip-expand-or-jump)", "")
-				-- elseif require("luasnip").expand_or_jumpable() then
-				-- 	vim.fn.feedkeys(t("<Plug>luasnip-expand-or-jump"), "")
-			elseif has_words_before() then
-				cmp.complete()
 			else
 				fallback()
 			end
@@ -246,10 +264,6 @@ pluginKeys.cmp_mapping = function(cmp)
 		["<S-Tab>"] = cmp.mapping(function(fallback)
 			if cmp.visible() then
 				cmp.select_prev_item()
-			elseif vim.fn("vsnip#jumpable(-1)")[1] then
-				feedkey("<Plug>(vsnip-jump-prev)", "")
-				-- elseif require("luasnip").jumpable(-1) then
-				-- 	vim.fn.feedkeys(t("<Plug>luasnip-jump-prev"), "")
 			else
 				fallback()
 			end

@@ -48,6 +48,9 @@ null_ls.setup({
 		formatting.fixjson,
 		-- python
 		formatting.black.with({ extra_args = { "--fast" } }),
+		-- xml
+		formatting.xmlformat,
+		-- formatting.xmllint,
 
 		diagnostics.shellcheck,
 	},
