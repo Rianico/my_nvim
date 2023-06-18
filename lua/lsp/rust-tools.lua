@@ -39,7 +39,7 @@ local opts = {
 
 			-- whether to show parameter hints with the inlay hints or not
 			-- default: true
-			show_parameter_hints = true,
+			show_parameter_hints = false,
 
 			-- prefix for parameter hints
 			-- default: "<-"
@@ -47,7 +47,7 @@ local opts = {
 
 			-- prefix for all the other hints (type, chaining)
 			-- default: "=>"
-			other_hints_prefix = "",
+			other_hints_prefix = "    ",
 
 			-- whether to align to the length of the longest line in the file
 			max_len_align = false,
@@ -59,7 +59,7 @@ local opts = {
 			right_align = false,
 
 			-- padding from the right if right_align is true
-			right_align_padding = 7,
+			right_align_padding = 1,
 
 			-- The color of the hints
 			highlight = "Comment",
@@ -90,7 +90,7 @@ local opts = {
 
 			-- whether the hover action window gets automatically focused
 			-- default: false
-			auto_focus = true,
+			auto_focus = false,
 		},
 
 		-- settings for showing the create graph based on graphviz and the dot
@@ -178,7 +178,7 @@ local opts = {
 		on_attach = require("keybindings").rust_tools_mapping,
 		-- standalone file support
 		-- setting it to false may improve startup time
-		standalone = true,
+		standalone = false,
 	}, -- rust-analyzer options
 	settings = {
 		["rust-analyzer"] = {

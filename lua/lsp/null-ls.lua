@@ -7,11 +7,11 @@ end
 -- more info: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTIN_CONFIG.md
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
+local diagnostics = null_ls.builtins.diagnostics
 
 null_ls.setup({
 	debug = false,
 	sources = {
-		-- Formatting ---------------------
 		-- rust
 		formatting.rustfmt.with({
 			extra_args = function(params)
@@ -51,6 +51,8 @@ null_ls.setup({
 		-- xml
 		formatting.xmlformat,
 		-- formatting.xmllint,
+		-- markdown
+		formatting.markdownlint,
 
 		diagnostics.shellcheck,
 	},
