@@ -6,6 +6,10 @@ local lspconfig = require("lspconfig")
 local mason = require("mason")
 local mason_lsp = require("mason-lspconfig")
 
+local on_attach = require("keybindings").on_attach
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
 -- the servers that should be automatically installed
 local lsp_servers = {
 	-- lua
@@ -55,15 +59,17 @@ mason_lsp.setup_handlers({
 	function(server_name) -- default handler (optional)
 		-- Use an on_attach function to only map the following keys
 		-- after the language server attaches to the current buffer
-		local on_attach = require("keybindings").on_attach
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
-		capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
-		lspconfig[server_name].setup({})
+		lspconfig[server_name].setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
+		})
 	end,
 	-- Next, you can provide a dedicated handler for specific servers.
 	-- For example, a handler override for the `rust_analyzer`:
 	["sumneko_lua"] = function()
 		lspconfig.sumneko_lua.setup({
+			on_attach = on_attach,
+			capabilities = capabilities,
 			settings = {
 				Lua = {
 					diagnostics = {
