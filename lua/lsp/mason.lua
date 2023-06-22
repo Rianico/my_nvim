@@ -7,8 +7,7 @@ local mason = require("mason")
 local mason_lsp = require("mason-lspconfig")
 
 local on_attach = require("keybindings").on_attach
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- the servers that should be automatically installed
 local lsp_servers = {
