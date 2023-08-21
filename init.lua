@@ -1,12 +1,12 @@
 local ensure_packer = function()
-	local fn = vim.fn
-	local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-	if fn.empty(fn.glob(install_path)) > 0 then
-		fn.system({ "git", "clone", "--depth", "1", "git@github.com:wbthomason/packer.nvim.git", install_path })
-		vim.cmd([[packadd packer.nvim]])
-		return true
-	end
-	return false
+    local fn = vim.fn
+    local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+    if fn.empty(fn.glob(install_path)) > 0 then
+        fn.system({ "git", "clone", "--depth", "1", "git@github.com:wbthomason/packer.nvim.git", install_path })
+        vim.cmd([[packadd packer.nvim]])
+        return true
+    end
+    return false
 end
 local packer_bootstrap = ensure_packer()
 
@@ -14,10 +14,10 @@ require("plugins")
 
 -- the first run will install packer and our plugins
 if packer_bootstrap then
-	local packer = require("packer")
-	packer.init({ git = { default_url_format = "git@github.com:%s" } })
-	packer.sync()
-	return
+    local packer = require("packer")
+    packer.init({ git = { default_url_format = "git@github.com:%s" } })
+    packer.sync()
+    return
 end
 
 require("basic")
@@ -64,39 +64,39 @@ require("plugin-config/neoclip")
 require("plugin-config.telescope")
 
 if vim.g.neovide then
-	vim.g.neovide_scale_factor = 1.3
+    vim.g.neovide_scale_factor = 1.3
 
-	vim.g.neovide_floating_blur_amount_x = 2.0
-	vim.g.neovide_floating_blur_amount_y = 2.0
+    vim.g.neovide_floating_blur_amount_x = 2.0
+    vim.g.neovide_floating_blur_amount_y = 2.0
 
-	vim.g.neovide_scroll_animation_length = 0.9
-	vim.g.neovide_hide_mouse_when_typing = true
-	vim.g.neovide_remember_window_size = true
+    vim.g.neovide_scroll_animation_length = 0.9
+    vim.g.neovide_hide_mouse_when_typing = true
+    vim.g.neovide_remember_window_size = true
 
-	-- for mac
-	local global = require("global")
-	if global.is_mac then
-		vim.g.neovide_input_use_logo = true
-		vim.g.neovide_input_macos_alt_is_meta = true
-	end
+    -- for mac
+    local global = require("global")
+    if global.is_mac then
+        vim.g.neovide_input_use_logo = true
+        vim.g.neovide_input_macos_alt_is_meta = true
+    end
 
-	vim.g.neovide_cursor_antialiasing = true
-	vim.g.neovide_cursor_vfx_mode = "torpedo"
-	vim.g.neovide_cursor_trail_length = 0.5
-	vim.g.neovide_cursor_vfx_opacity = 200.0
-	vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
-	vim.g.neovide_cursor_vfx_particle_density = 7.0
-	vim.g.neovide_cursor_vfx_particle_speed = 10.0
-	vim.g.neovide_cursor_vfx_particle_phase = 1.5
-	vim.g.neovide_cursor_vfx_particle_curl = 1.0
+    vim.g.neovide_cursor_antialiasing = true
+    vim.g.neovide_cursor_vfx_mode = "torpedo"
+    vim.g.neovide_cursor_trail_length = 0.5
+    vim.g.neovide_cursor_vfx_opacity = 200.0
+    vim.g.neovide_cursor_vfx_particle_lifetime = 1.2
+    vim.g.neovide_cursor_vfx_particle_density = 7.0
+    vim.g.neovide_cursor_vfx_particle_speed = 10.0
+    vim.g.neovide_cursor_vfx_particle_phase = 1.5
+    vim.g.neovide_cursor_vfx_particle_curl = 1.0
 
-	-- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
-	vim.g.neovide_transparency = 0.9
-	vim.g.transparency = 0.8
-	-- vim.g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
+    -- g:neovide_transparency should be 0 if you want to unify transparency of content and title bar.
+    vim.g.neovide_transparency = 0.9
+    vim.g.transparency = 0.8
+    -- vim.g.neovide_background_color = '#0f1117'.printf('%x', float2nr(255 * g:transparency))
 end
 
 -- for ripgrep
 if vim.fn.executable("rg") == 1 then
-	vim.o.grepprg = "rg --vimgrep"
+    vim.o.grepprg = "rg --vimgrep"
 end
