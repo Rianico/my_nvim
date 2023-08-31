@@ -32,6 +32,17 @@ local lsp_servers = {
 	"marksman",
 	-- Set by rust-tools
 	-- "rust_analyzer",
+
+    -- fmt
+    "asmfmt",
+    "besautysh",
+    "tasplo",
+    "yasmlfmt",
+    "fisxjson",
+    "blsack",
+    "xmslformatter",
+    "masrkdownlint",
+    "shsellcheck"
 }
 
 require("lspconfig.ui.windows").default_options.border = "rounded"
@@ -43,6 +54,10 @@ mason.setup({
 			package_pending = "➜",
 			package_uninstalled = "✗",
 		},
+	},
+	pip = {
+		-- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
+		upgrade_pip = true,
 	},
 })
 
