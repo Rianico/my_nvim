@@ -65,14 +65,16 @@ packer.startup(function(use)
     --
     -- file exploer
     use({
-        "kyazdani42/nvim-tree.lua",
-        requires = "kyazdani42/nvim-web-devicons",
+        "nvim-tree/nvim-tree.lua",
+        "nvim-tree/nvim-web-devicons",
         run = ":TSUpdate",
     })
     -- about pair
     use("tpope/vim-surround")
     -- theme
-    use("sainnhe/gruvbox-material")
+    -- use("sainnhe/gruvbox-material")
+    -- use({ 'rose-pine/neovim', as = 'rose-pine' })
+    use { "catppuccin/nvim", as = "catppuccin" }
     -- comment
     use("numToStr/Comment.nvim")
     -- code formatting
