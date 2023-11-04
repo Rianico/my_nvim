@@ -83,7 +83,7 @@ cmp.setup({
     sources = {
         { name = "nvim_lsp" },
         { name = "nvim_lsp_signature_help" },
-        -- { name = "vsnip" },
+        { name = "vsnip" },
         { name = "nvim_lua" },
         -- { name = "luasnip" },
         { name = "path" },
