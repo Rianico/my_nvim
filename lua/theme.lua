@@ -25,14 +25,5 @@
 --     return
 -- end
 -- colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha"
-require("catppuccin").setup({
-    integrations = {
-        gitsigns = true,
-        nvimtree = true,
-        treesitter = true,
-        notify = true,
-        harpoon = true,
-        lsp_saga = true
-    }
-})
+require('ui.config').catppuccin()
 vim.cmd.colorscheme "catppuccin-macchiato"
