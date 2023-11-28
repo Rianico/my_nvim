@@ -8,10 +8,8 @@ local ensure_packer = function()
     end
     return false
 end
+
 local packer_bootstrap = ensure_packer()
-
-require("plugins")
-
 -- the first run will install packer and our plugins
 if packer_bootstrap then
     local packer = require("packer")
@@ -20,6 +18,7 @@ if packer_bootstrap then
     return
 end
 
+require("plugins")
 require("basic")
 require("keybindings")
 require("theme")
