@@ -36,14 +36,14 @@ packer.startup(function(use)
             { "onsails/lspkind.nvim" },
             -- sort completion
             { "lukas-reineke/cmp-under-comparator" },
-            { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
-            { "hrsh7th/cmp-nvim-lsp", after = "cmp_luasnip" },
-            { "hrsh7th/cmp-nvim-lua", after = "cmp-nvim-lsp" },
-            { "andersevenrud/cmp-tmux", after = "cmp-nvim-lua" },
-            { "hrsh7th/cmp-path", after = "cmp-tmux" },
-            { "f3fora/cmp-spell", after = "cmp-path" },
-            { "hrsh7th/cmp-buffer", after = "cmp-spell" },
-            { "kdheepak/cmp-latex-symbols", after = "cmp-buffer" },
+            { "saadparwaiz1/cmp_luasnip",           after = "LuaSnip" },
+            { "hrsh7th/cmp-nvim-lsp",               after = "cmp_luasnip" },
+            { "hrsh7th/cmp-nvim-lua",               after = "cmp-nvim-lsp" },
+            { "andersevenrud/cmp-tmux",             after = "cmp-nvim-lua" },
+            { "hrsh7th/cmp-path",                   after = "cmp-tmux" },
+            { "f3fora/cmp-spell",                   after = "cmp-path" },
+            { "hrsh7th/cmp-buffer",                 after = "cmp-spell" },
+            { "kdheepak/cmp-latex-symbols",         after = "cmp-buffer" },
             { "L3MON4D3/LuaSnip" },
             { "saadparwaiz1/cmp_luasnip" },
             { "hrsh7th/cmp-cmdline" },
@@ -55,7 +55,7 @@ packer.startup(function(use)
         "simrat39/rust-tools.nvim",
         requires = { { "nvim-lua/plenary.nvim", opt = false }, { "mfussenegger/nvim-dap", opt = true } },
     })
-    --
+    use({ 'scalameta/nvim-metals', requires = { "nvim-lua/plenary.nvim" } })
     -- trouble
     use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
     --

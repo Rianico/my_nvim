@@ -26,6 +26,7 @@ require("theme")
 -- for lsp
 require("lsp.mason")
 require("lsp.rust-tools")
+require("lsp.metals")
 require("lsp.null-ls")
 require("lsp.nvim-treesitter")
 require("lsp.formatting")
