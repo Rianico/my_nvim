@@ -1,21 +1,22 @@
-local ensure_packer = function()
-    local fn = vim.fn
-    local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
-    if fn.empty(fn.glob(install_path)) > 0 then
-        fn.system({ "git", "clone", "--depth", "1", "git@github.com:wbthomason/packer.nvim.git", install_path })
-        vim.cmd([[packadd packer.nvim]])
-        return true
+function fileExists(filePath)
+    local fileHandle, errorMessage = io.open(filePath, "r")
+    if not fileHandle then
+        return false, errorMessage
     end
-    return false
+
+    io.close(fileHandle)
+    return true
 end
 
-local packer_bootstrap = ensure_packer()
--- the first run will install packer and our plugins
-if packer_bootstrap then
+local fn = vim.fn
+local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local exists, errorMessage = fileExists(install_path)
+
+if not exists then
+    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+    vim.cmd([[packadd packer.nvim]])
     local packer = require("packer")
-    packer.init({ git = { default_url_format = "git@github.com:%s" } })
     packer.sync()
-    return
 end
 
 require("plugins")

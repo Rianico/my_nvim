@@ -1,5 +1,4 @@
 local packer = require("packer")
-packer.init({ git = { default_url_format = "git@github.com:%s" } })
 packer.startup(function(use)
     -- speedup nvim
     use("lewis6991/impatient.nvim")
