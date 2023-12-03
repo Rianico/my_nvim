@@ -59,7 +59,7 @@ function config.alpha()
         }
     end
 
-    local leader = " "
+    local leader = ","
     dashboard.section.buttons.val = {
         button("space s c", " Scheme change", leader, "<Cmd>Telescope colorscheme<CR>"),
         button("space f r", " File frecency", leader, "<Cmd>Telescope frecency<CR>"),
@@ -125,7 +125,7 @@ end
 
 function config.catppuccin()
     require("catppuccin").setup({
-        flavour = "mocha", -- Can be one of: latte, frappe, macchiato, mocha
+        flavour = "latte", -- Can be one of: latte, frappe, macchiato, mocha
         background = { light = "latte", dark = "mocha" },
         dim_inactive = {
             enabled = false,
@@ -134,7 +134,7 @@ function config.catppuccin()
             shade = "dark",
             percentage = 0.15,
         },
-        transparent_background = false,
+        transparent_background = true,
         term_colors = true,
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
         styles = {
@@ -203,7 +203,7 @@ function config.catppuccin()
             beacon = false,
             navic = { enabled = false },
             overseer = false,
-            fidget = true,
+            fidget = false,
         },
         color_overrides = {
             mocha = {
@@ -347,236 +347,6 @@ function config.catppuccin()
             end,
         },
     })
-end
-
-function config.nvim_tree()
-    local icons = {
-        diagnostics = require("ui.icons").get("diagnostics"),
-        documents = require("ui.icons").get("documents"),
-        git = require("ui.icons").get("git"),
-        ui = require("ui.icons").get("ui"),
-    }
-
-    require("nvim-tree").setup({
-        create_in_closed_folder = false,
-        respect_buf_cwd = false,
-        auto_reload_on_write = true,
-        disable_netrw = false,
-        hijack_cursor = true,
-        hijack_netrw = true,
-        hijack_unnamed_buffer_when_opening = false,
-        ignore_buffer_on_setup = false,
-        open_on_setup = false,
-        open_on_setup_file = false,
-        open_on_tab = false,
-        sort_by = "name",
-        sync_root_with_cwd = true,
-        view = {
-            adaptive_size = false,
-            centralize_selection = false,
-            width = 30,
-            side = "left",
-            preserve_window_proportions = false,
-            number = false,
-            relativenumber = false,
-            signcolumn = "yes",
-            hide_root_folder = false,
-            float = {
-                enable = false,
-                open_win_config = {
-                    relative = "editor",
-                    border = "rounded",
-                    width = 30,
-                    height = 30,
-                    row = 1,
-                    col = 1,
-                },
-            },
-        },
-        renderer = {
-            add_trailing = false,
-            group_empty = true,
-            highlight_git = false,
-            full_name = false,
-            highlight_opened_files = "none",
-            special_files = { "Cargo.toml", "Makefile", "README.md", "readme.md", "CMakeLists.txt" },
-            symlink_destination = true,
-            indent_markers = {
-                enable = true,
-                icons = {
-                    corner = "└ ",
-                    edge = "│ ",
-                    item = "│ ",
-                    none = "  ",
-                },
-            },
-            root_folder_label = ":.:s?.*?/..?",
-            icons = {
-                webdev_colors = true,
-                git_placement = "before",
-                show = {
-                    file = true,
-                    folder = true,
-                    folder_arrow = false,
-                    git = true,
-                },
-                padding = " ",
-                symlink_arrow = "  ",
-                glyphs = {
-                    default = icons.documents.Default, --
-                    symlink = icons.documents.Symlink, --
-                    bookmark = icons.ui.Bookmark,
-                    git = {
-                        unstaged = icons.git.Mod_alt,
-                        staged = icons.git.Add, --
-                        unmerged = icons.git.Unmerged,
-                        renamed = icons.git.Rename, --
-                        untracked = icons.git.Untracked, -- "ﲉ"
-                        deleted = icons.git.Remove, --
-                        ignored = icons.git.Ignore, --◌
-                    },
-                    folder = {
-                        -- arrow_open = "",
-                        -- arrow_closed = "",
-                        arrow_open = "",
-                        arrow_closed = "",
-                        default = icons.ui.Folder,
-                        open = icons.ui.FolderOpen,
-                        empty = icons.ui.EmptyFolder,
-                        empty_open = icons.ui.EmptyFolderOpen,
-                        symlink = icons.ui.SymlinkFolder,
-                        symlink_open = icons.ui.FolderOpen,
-                    },
-                },
-            },
-        },
-        hijack_directories = {
-            enable = true,
-            auto_open = true,
-        },
-        update_focused_file = {
-            enable = true,
-            update_root = false,
-            ignore_list = {},
-        },
-        ignore_ft_on_setup = {},
-        filters = {
-            dotfiles = false,
-            custom = { ".DS_Store" },
-            exclude = {},
-        },
-        actions = {
-            use_system_clipboard = true,
-            change_dir = {
-                enable = true,
-                global = false,
-            },
-            open_file = {
-                quit_on_open = false,
-                resize_window = false,
-                window_picker = {
-                    enable = true,
-                    chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890",
-                    exclude = {
-                        filetype = { "notify", "packer", "qf", "diff", "fugitive", "fugitiveblame" },
-                        buftype = { "nofile", "terminal", "help" },
-                    },
-                },
-            },
-            remove_file = {
-                close_window = true,
-            },
-        },
-        diagnostics = {
-            enable = false,
-            show_on_dirs = false,
-            debounce_delay = 50,
-            icons = {
-                hint = icons.diagnostics.Hint_alt,
-                info = icons.diagnostics.Information_alt,
-                warning = icons.diagnostics.Warning_alt,
-                error = icons.diagnostics.Error_alt,
-            },
-        },
-        filesystem_watchers = {
-            enable = true,
-            debounce_delay = 50,
-        },
-        git = {
-            enable = true,
-            ignore = true,
-            show_on_dirs = true,
-            timeout = 400,
-        },
-        trash = {
-            cmd = "gio trash",
-            require_confirm = true,
-        },
-        live_filter = {
-            prefix = "[FILTER]: ",
-            always_show_folders = true,
-        },
-        log = {
-            enable = false,
-            truncate = false,
-            types = {
-                all = false,
-                config = false,
-                copy_paste = false,
-                dev = false,
-                diagnostics = false,
-                git = false,
-                profile = false,
-                watcher = false,
-            },
-        },
-    })
-end
-
-function config.nvim_bufferline()
-    local icons = { ui = require("ui.icons").get("ui") }
-
-    local opts = {
-        options = {
-            number = nil,
-            modified_icon = icons.ui.Modified,
-            buffer_close_icon = icons.ui.Close,
-            left_trunc_marker = icons.ui.Left,
-            right_trunc_marker = icons.ui.Right,
-            max_name_length = 14,
-            max_prefix_length = 13,
-            tab_size = 20,
-            show_buffer_close_icons = true,
-            show_buffer_icons = true,
-            show_tab_indicators = true,
-            diagnostics = "nvim_lsp",
-            always_show_bufferline = true,
-            separator_style = "thin",
-            offsets = {
-                {
-                    filetype = "NvimTree",
-                    text = "File Explorer",
-                    text_align = "center",
-                    padding = 1,
-                },
-                {
-                    filetype = "undotree",
-                    text = "Undo Tree",
-                    text_align = "center",
-                    highlight = "Directory",
-                    separator = true,
-                },
-            },
-            diagnostics_indicator = function(count)
-                return "(" .. count .. ")"
-            end,
-        },
-        -- Change bufferline's highlights here! See `:h bufferline-highlights` for detailed explanation.
-        -- Note: If you use catppuccin then modify the colors below!
-        highlights = {},
-    }
-
-    require("bufferline").setup(opts)
 end
 
 function config.gitsigns()
