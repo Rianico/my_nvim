@@ -125,16 +125,16 @@ end
 
 function config.catppuccin()
     require("catppuccin").setup({
-        flavour = "latte", -- Can be one of: latte, frappe, macchiato, mocha
+        flavour = "frappe", -- Can be one of: latte, frappe, macchiato, mocha
         background = { light = "latte", dark = "mocha" },
         dim_inactive = {
-            enabled = false,
+            enabled = true,
             -- Dim inactive splits/windows/buffers.
             -- NOT recommended if you use old palette (a.k.a., mocha).
             shade = "dark",
             percentage = 0.15,
         },
-        transparent_background = true,
+        transparent_background = false,
         term_colors = true,
         compile_path = vim.fn.stdpath("cache") .. "/catppuccin",
         styles = {
@@ -203,7 +203,7 @@ function config.catppuccin()
             beacon = false,
             navic = { enabled = false },
             overseer = false,
-            fidget = false,
+            fidget = true,
         },
         color_overrides = {
             mocha = {

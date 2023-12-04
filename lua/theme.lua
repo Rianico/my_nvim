@@ -26,4 +26,4 @@
 -- end
 -- colorscheme catppuccin " catppuccin-latte, catppuccin-frappe, catppuccin-macchiato, catppuccin-mocha"
 require('ui.config').catppuccin()
-vim.cmd.colorscheme "catppuccin-macchiato"
+vim.cmd.colorscheme "catppuccin"
