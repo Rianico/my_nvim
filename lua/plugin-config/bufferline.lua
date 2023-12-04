@@ -6,6 +6,7 @@ local icons = {
     documents = require("ui.icons").get("documents", true),
     diagnostics = require("ui.icons").get("diagnostics", true),
 }
+
 require("bufferline").setup({
     highlights = require("catppuccin.groups.integrations.bufferline").get(),
     options = {
@@ -29,13 +30,13 @@ require("bufferline").setup({
         -- tab_size = 18,
         -- can also be a table containing 2 custom separators
         -- [focused and unfocused]. eg: { '|', '|' }
-        show_buffer_icons = false,  -- disable filetype icons for buffers
+        show_buffer_icons = false,        -- disable filetype icons for buffers
         show_buffer_close_icons = false,
         show_buffer_default_icon = false, -- whether or not an unrecognised filetype should show a default icon
         show_close_icon = true,
         show_tab_indicators = true,
         show_duplicate_prefix = true, -- whether to show duplicate buffer prefix
-        separator_style = "thin", -- "slant" | "slope" | "thick" | "thin" | { "any", "any" },
+        separator_style = "thin",     -- "slant" | "slope" | "thick" | "thin" | { "any", "any" },
         hover = {
             enabled = true,
             delay = 200,
@@ -75,7 +76,7 @@ require("bufferline").setup({
                     name = "Docs",
                     highlight = { undercurl = true, sp = "green" },
                     auto_close = true, -- whether or not close this group if it doesn't contain the current buffer
-                    priority = 2, -- determines where it will appear relative to other groups (Optional)
+                    priority = 2,      -- determines where it will appear relative to other groups (Optional)
                     icons = icons.documents.Files,
                     matcher = function(buf)
                         return buf.filename:match("%.md") or buf.filename:match("%.txt")

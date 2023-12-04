@@ -1,5 +1,10 @@
 require("fidget").setup({
-	window = { blend = 0 },
+    notification = {
+        window = {
+            winblend = 0,
+        },
+    },
+    window = { blend = 0 },
 })
 
 vim.api.nvim_set_hl(0, "FidgetTitle", { link = "Title" })
