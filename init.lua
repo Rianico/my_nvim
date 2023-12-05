@@ -8,12 +8,11 @@ function fileExists(filePath)
     return true
 end
 
-local fn = vim.fn
-local install_path = fn.stdpath("data") .. "/site/pack/packer/start/packer.nvim"
+local install_path = "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
 local exists, errorMessage = fileExists(install_path)
 
 if not exists then
-    fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
+    vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
     vim.cmd([[packadd packer.nvim]])
     local packer = require("packer")
     packer.sync()
