@@ -1,15 +1,23 @@
-function fileExists(filePath)
-    local fileHandle, errorMessage = io.open(filePath, "r")
-    if not fileHandle then
-        return false, errorMessage
+--- Check if a file or directory exists in this path
+function exists(file)
+    local ok, err, code = os.rename(file, file)
+    if not ok then
+        if code == 13 then
+            -- Permission denied, but it exists
+            return true
+        end
     end
+    return ok, err
+end
 
-    io.close(fileHandle)
-    return true
+--- Check if a directory exists in this path
+function isdir(path)
+    -- "/" works on both Unix and Windows
+    return exists(path .. "/")
 end
 
 local install_path = "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
-local exists, errorMessage = fileExists(install_path)
+local exists = isdir(install_path)
 
 if not exists then
     vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
