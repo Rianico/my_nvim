@@ -296,12 +296,12 @@ pluginKeys.cmp_mapping = function(cmp)
         ["<C-b>"] = cmp.mapping.scroll_docs(-4),
         ["<C-f>"] = cmp.mapping.scroll_docs(4),
         ["<C-e>"] = cmp.mapping.abort(),
-        ["<C-L>"] = cmp.mapping(function(fallback)
+        ["<C-l>"] = cmp.mapping(function(fallback)
             if ls.expand_or_jumpable() then
                 ls.expand_or_jump()
             end
         end, { "i", "s" }),
-        ["<C-J>"] = cmp.mapping(function(fallback)
+        ["<C-j>"] = cmp.mapping(function(fallback)
             if ls.jumpable(-1) then
                 ls.jump(-1)
             end
