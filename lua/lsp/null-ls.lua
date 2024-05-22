@@ -38,7 +38,7 @@ null_ls.setup({
         -- proto
         formatting.buf,
         -- lua
-        formatting.lua_format,
+        -- formatting.lua_format,
         -- toml
         formatting.taplo,
         -- yaml
@@ -53,8 +53,8 @@ null_ls.setup({
         -- markdown
         formatting.markdownlint,
         formatting.djlint,
-		diagnostics.shellcheck,
-		-- cmake
-		diagnostics.cmake_lint,
-	},
+        diagnostics.shellcheck,
+        -- cmake
+        diagnostics.cmake_lint,
+    },
 })

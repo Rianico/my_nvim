@@ -30,9 +30,9 @@ require("bufferline").setup({
         -- tab_size = 18,
         -- can also be a table containing 2 custom separators
         -- [focused and unfocused]. eg: { '|', '|' }
-        show_buffer_icons = false,        -- disable filetype icons for buffers
+        show_buffer_icons = false, -- disable filetype icons for buffers
         show_buffer_close_icons = false,
-        show_buffer_default_icon = false, -- whether or not an unrecognised filetype should show a default icon
+        -- show_buffer_default_icon = false, -- whether or not an unrecognised filetype should show a default icon
         show_close_icon = true,
         show_tab_indicators = true,
         show_duplicate_prefix = true, -- whether to show duplicate buffer prefix

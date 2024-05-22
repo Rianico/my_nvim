@@ -53,7 +53,7 @@ end, {
 })
 
 function M.enable_format_on_save(is_configured)
-    local opts = { pattern = "*", timeout = 1000 }
+    local opts = { pattern = "*", timeout = 3000 }
     vim.api.nvim_create_augroup("format_on_save", {})
     vim.api.nvim_create_autocmd("BufWritePre", {
         group = "format_on_save",

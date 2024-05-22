@@ -51,7 +51,7 @@ map("n", "<C-n>", "<Cmd>noh<CR>", opt)
 local wk = require("which-key")
 wk.setup({
     window = {
-        border = "double", -- none, single, double, shadow
+        border = "double",   -- none, single, double, shadow
         position = "bottom", -- bottom, top
     },
 })
@@ -60,8 +60,8 @@ local wk_opts = {
     -- prefix: use "<Leader>f" for example for mapping everything related to finding files
     -- the prefix is prepended to every mapping part of `mappings`
     prefix = "",
-    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
-    silent = true, -- use `silent` when creating keymaps
+    buffer = nil,   -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true,  -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = false, -- use `nowait` when creating keymaps
 }
@@ -257,7 +257,6 @@ pluginKeys.nvim_tree_on_attach = function(bufnr)
     vim.keymap.set('n', 'c', api.fs.copy.node, opts('Copy'))
     vim.keymap.set('n', 'p', api.fs.paste, opts('Paste'))
     vim.keymap.set('n', 'o', api.node.run.system, opts('Run System'))
-
 end
 
 -- For vim.lsp
@@ -329,7 +328,7 @@ end
 pluginKeys.lspsaga_mapping = function()
     local bufopts = { noremap = true, silent = true }
 
-    map("n", "gr", "<Cmd>Lspsaga lsp_finder<CR>", bufopts)
+    map("n", "gr", "<Cmd>Lspsaga finder<CR>", bufopts)
     map("n", "gd", "<Cmd>Lspsaga peek_definition<CR>", bufopts)
     map("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", bufopts)
     map("n", "K", "<Cmd>Lspsaga hover_doc ++keep<CR>", bufopts)
@@ -354,8 +353,8 @@ pluginKeys.lspsaga_mapping = function()
     end, bufopts)
 end
 pluginKeys.lspsaga_finder_keys = {
-    jump_to = "p",
-    edit = { "o", "<CR>" },
+    shuttle = "p",
+    toggle_or_open = { "o", "<CR>" },
     vsplit = "v",
     split = "s",
     tabe = "t",
@@ -395,23 +394,23 @@ pluginKeys.trouble_action_keys = {
     -- key mappings for actions in the trouble list
     -- map to {} to remove a mapping, for example:
     -- close = {}
-    close = "q", -- close the list
-    cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
-    refresh = "r", -- manually refresh
-    jump = { "<CR>", "<tab>" }, -- jump to the diagnostic or open / close folds
-    open_split = { "<c-s>" }, -- open buffer in new split
-    open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
-    open_tab = { "<c-t>" }, -- open buffer in new tab
-    jump_close = { "o" }, -- jump to the diagnostic and close the list
-    toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
-    toggle_preview = "P", -- toggle auto_preview
-    hover = "K", -- opens a small popup with the full multiline message
-    preview = "p", -- preview the diagnostic location
-    close_folds = { "Z" }, -- close all folds
-    open_folds = { "z" }, -- open all folds
+    close = "q",                  -- close the list
+    cancel = "<esc>",             -- cancel the preview and get back to your last window / buffer / cursor
+    refresh = "r",                -- manually refresh
+    jump = { "<CR>", "<tab>" },   -- jump to the diagnostic or open / close folds
+    open_split = { "<c-s>" },     -- open buffer in new split
+    open_vsplit = { "<c-v>" },    -- open buffer in new vsplit
+    open_tab = { "<c-t>" },       -- open buffer in new tab
+    jump_close = { "o" },         -- jump to the diagnostic and close the list
+    toggle_mode = "m",            -- toggle between "workspace" and "document" diagnostics mode
+    toggle_preview = "P",         -- toggle auto_preview
+    hover = "K",                  -- opens a small popup with the full multiline message
+    preview = "p",                -- preview the diagnostic location
+    close_folds = { "Z" },        -- close all folds
+    open_folds = { "z" },         -- open all folds
     toggle_fold = { "zA", "za" }, -- toggle fold of current file
-    previous = "k", -- previous item
-    next = "j", -- next item
+    previous = "k",               -- previous item
+    next = "j",                   -- next item
 }
 pluginKeys.trouble_mapping = function()
     -- Lua
