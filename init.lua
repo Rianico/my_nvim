@@ -16,7 +16,7 @@ function isdir(path)
     return exists(path .. "/")
 end
 
-local install_path = "~/.local/share/nvim/site/pack/packer/start/packer.nvim"
+local install_path = os.getenv("HOME") .. "/.local/share/nvim/site/pack/packer/start/packer.nvim"
 local exists = isdir(install_path)
 
 if not exists then
