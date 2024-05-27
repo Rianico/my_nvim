@@ -1,5 +1,5 @@
 --- Check if a file or directory exists in this path
-function exists(file)
+local function exists(file)
     local ok, err, code = os.rename(file, file)
     if not ok then
         if code == 13 then
@@ -11,15 +11,15 @@ function exists(file)
 end
 
 --- Check if a directory exists in this path
-function isdir(path)
+local function isdir(path)
     -- "/" works on both Unix and Windows
     return exists(path .. "/")
 end
 
 local install_path = os.getenv("HOME") .. "/.local/share/nvim/site/pack/packer/start/packer.nvim"
-local exists = isdir(install_path)
+local is_exists = isdir(install_path)
 
-if not exists then
+if not is_exists then
     vim.fn.system({ "git", "clone", "--depth", "1", "https://github.com/wbthomason/packer.nvim", install_path })
     vim.cmd([[packadd packer.nvim]])
     local packer = require("packer")
