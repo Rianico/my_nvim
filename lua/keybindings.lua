@@ -24,7 +24,6 @@ map("n", "<C-q>", ":confirm q<CR>", opt)
 map("t", "<esc>", [[<C-n>]], opt)
 
 -- window
-map("n", "<Leader>q", "<C-w>c", opt)
 map({ "t", "n" }, "<C-h>", [[<Cmd>wincmd h<CR>]], opt)
 map({ "t", "n" }, "<C-j>", [[<Cmd>wincmd j<CR>]], opt)
 map({ "t", "n" }, "<C-k>", [[<Cmd>wincmd k<CR>]], opt)
