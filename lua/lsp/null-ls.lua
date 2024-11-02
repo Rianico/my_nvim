@@ -53,8 +53,12 @@ null_ls.setup({
         -- markdown
         formatting.markdownlint,
         formatting.djlint,
+        -- go
+        formatting.gofmt,
         diagnostics.shellcheck,
         -- cmake
         diagnostics.cmake_lint,
+
+
     },
 })

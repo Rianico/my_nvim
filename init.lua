@@ -44,6 +44,8 @@ require("lsp.cmp")
 require("lsp.lspsaga")
 require("lsp.lsp-signature")
 require("lsp.trouble")
+-- dap
+require("plugin-config.dap")
 
 -- for status/winbar
 require("plugin-config.lua-line")

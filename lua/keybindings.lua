@@ -50,7 +50,7 @@ map("n", "<C-n>", "<Cmd>noh<CR>", opt)
 local wk = require("which-key")
 wk.setup({
     window = {
-        border = "double",   -- none, single, double, shadow
+        border = "double", -- none, single, double, shadow
         position = "bottom", -- bottom, top
     },
 })
@@ -59,8 +59,8 @@ local wk_opts = {
     -- prefix: use "<Leader>f" for example for mapping everything related to finding files
     -- the prefix is prepended to every mapping part of `mappings`
     prefix = "",
-    buffer = nil,   -- Global mappings. Specify a buffer number for buffer local mappings
-    silent = true,  -- use `silent` when creating keymaps
+    buffer = nil, -- Global mappings. Specify a buffer number for buffer local mappings
+    silent = true, -- use `silent` when creating keymaps
     noremap = true, -- use `noremap` when creating keymaps
     nowait = false, -- use `nowait` when creating keymaps
 }
@@ -313,9 +313,25 @@ end
 pluginKeys.rust_tools_mapping = function(client, bufnr)
     pluginKeys.on_attach(client, bufnr)
     local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "<Space>d", ":RustHoverAction<CR>", bufopts)
+    vim.keymap.set("n", "<Space>h", ":RustHoverAction<CR>", bufopts)
     vim.keymap.set("n", "<Space>e", ":RustExpandMacro<CR>", bufopts)
     vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", bufopts)
+end
+
+pluginKeys.dap_mapping = function(dap, dapui)
+    vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
+    vim.keymap.set("n", "<space>B", dap.list_breakpoints)
+    vim.keymap.set("n", "<space>C", dap.run_to_cursor)
+    vim.keymap.set("n", "<space>c", dap.continue)
+    vim.keymap.set("n", "<space>s", dap.step_into)
+    vim.keymap.set("n", "<space>n", dap.step_over)
+    vim.keymap.set("n", "<space>o", dap.step_out)
+    vim.keymap.set("n", "<space>dr", dap.restart)
+    vim.keymap.set("n", "<space>dx", dap.terminate)
+    -- Eval var under cursor
+    vim.keymap.set("n", "<space>?", function()
+        dapui.eval(nil, { enter = true })
+    end)
 end
 
 -- For lspsaga
@@ -393,23 +409,23 @@ pluginKeys.trouble_action_keys = {
     -- key mappings for actions in the trouble list
     -- map to {} to remove a mapping, for example:
     -- close = {}
-    close = "q",                  -- close the list
-    cancel = "<esc>",             -- cancel the preview and get back to your last window / buffer / cursor
-    refresh = "r",                -- manually refresh
-    jump = { "<CR>", "<tab>" },   -- jump to the diagnostic or open / close folds
-    open_split = { "<c-s>" },     -- open buffer in new split
-    open_vsplit = { "<c-v>" },    -- open buffer in new vsplit
-    open_tab = { "<c-t>" },       -- open buffer in new tab
-    jump_close = { "o" },         -- jump to the diagnostic and close the list
-    toggle_mode = "m",            -- toggle between "workspace" and "document" diagnostics mode
-    toggle_preview = "P",         -- toggle auto_preview
-    hover = "K",                  -- opens a small popup with the full multiline message
-    preview = "p",                -- preview the diagnostic location
-    close_folds = { "Z" },        -- close all folds
-    open_folds = { "z" },         -- open all folds
+    close = "q", -- close the list
+    cancel = "<esc>", -- cancel the preview and get back to your last window / buffer / cursor
+    refresh = "r", -- manually refresh
+    jump = { "<CR>", "<tab>" }, -- jump to the diagnostic or open / close folds
+    open_split = { "<c-s>" }, -- open buffer in new split
+    open_vsplit = { "<c-v>" }, -- open buffer in new vsplit
+    open_tab = { "<c-t>" }, -- open buffer in new tab
+    jump_close = { "o" }, -- jump to the diagnostic and close the list
+    toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
+    toggle_preview = "P", -- toggle auto_preview
+    hover = "K", -- opens a small popup with the full multiline message
+    preview = "p", -- preview the diagnostic location
+    close_folds = { "Z" }, -- close all folds
+    open_folds = { "z" }, -- open all folds
     toggle_fold = { "zA", "za" }, -- toggle fold of current file
-    previous = "k",               -- previous item
-    next = "j",                   -- next item
+    previous = "k", -- previous item
+    next = "j", -- next item
 }
 pluginKeys.trouble_mapping = function()
     -- Lua

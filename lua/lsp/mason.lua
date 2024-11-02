@@ -5,6 +5,8 @@ vim.api.nvim_command([[packadd cmp-nvim-lsp]])
 local lspconfig = require("lspconfig")
 local mason = require("mason")
 local mason_lsp = require("mason-lspconfig")
+local util = require("lspconfig/util")
+require("lspconfig.ui.windows").default_options.border = "rounded"
 
 local on_attach = require("keybindings").on_attach
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
@@ -29,11 +31,13 @@ local lsp_servers = {
     "marksman",
     -- Set by rust-tools
     -- "rust_analyzer",
+    -- go
+    "gopls",
+
 }
 
-require("lspconfig.ui.windows").default_options.border = "rounded"
-
-mason.setup({
+mason.setup()
+mason_lsp.setup({
     ui = {
         icons = {
             package_installed = "✓",
@@ -45,9 +49,6 @@ mason.setup({
         -- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
         upgrade_pip = true,
     },
-})
-
-mason_lsp.setup({
     ensure_installed = lsp_servers,
     automatic_installation = true,
 })
@@ -67,3 +68,15 @@ mason_lsp.setup_handlers({
 })
 
 require("lsp.formatting").configure_format_on_save()
+
+require("lspconfig").gopls.setup {
+    root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+    settings = {
+        gopls = {
+            usePlaceholders = true,
+            analyses = {
+                unusedparams = true,
+            },
+        },
+    }
+}

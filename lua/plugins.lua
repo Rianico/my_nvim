@@ -10,6 +10,17 @@ packer.startup(function(use)
         "williamboman/mason-lspconfig.nvim",
         "neovim/nvim-lspconfig",
     })
+    -- dap
+    use({
+        "mfussenegger/nvim-dap",
+        tag = "0.8.0",
+        requires = {
+            "leoluz/nvim-dap-go",
+            "rcarriga/nvim-dap-ui",
+            "nvim-neotest/nvim-nio",
+            "williamboman/mason.nvim",
+        },
+    })
     -- lsp enhanced
     use({
         "glepnir/lspsaga.nvim",
@@ -22,7 +33,7 @@ packer.startup(function(use)
     })
     use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
     -- Visualize lsp progress
-    use({ "j-hui/fidget.nvim", tag = "legacy" })
+    use({ "j-hui/fidget.nvim", tag = "v1.4.5" })
     -- Autocompletion framework
     -- See hrsh7th other plugins for more great completion sources!
     -- Snippet engine
@@ -35,14 +46,14 @@ packer.startup(function(use)
             { "onsails/lspkind.nvim" },
             -- sort completion
             { "lukas-reineke/cmp-under-comparator" },
-            { "saadparwaiz1/cmp_luasnip",           after = "LuaSnip" },
-            { "hrsh7th/cmp-nvim-lsp",               after = "cmp_luasnip" },
-            { "hrsh7th/cmp-nvim-lua",               after = "cmp-nvim-lsp" },
-            { "andersevenrud/cmp-tmux",             after = "cmp-nvim-lua" },
-            { "hrsh7th/cmp-path",                   after = "cmp-tmux" },
-            { "f3fora/cmp-spell",                   after = "cmp-path" },
-            { "hrsh7th/cmp-buffer",                 after = "cmp-spell" },
-            { "kdheepak/cmp-latex-symbols",         after = "cmp-buffer" },
+            { "saadparwaiz1/cmp_luasnip", after = "LuaSnip" },
+            { "hrsh7th/cmp-nvim-lsp", after = "cmp_luasnip" },
+            { "hrsh7th/cmp-nvim-lua", after = "cmp-nvim-lsp" },
+            { "andersevenrud/cmp-tmux", after = "cmp-nvim-lua" },
+            { "hrsh7th/cmp-path", after = "cmp-tmux" },
+            { "f3fora/cmp-spell", after = "cmp-path" },
+            { "hrsh7th/cmp-buffer", after = "cmp-spell" },
+            { "kdheepak/cmp-latex-symbols", after = "cmp-buffer" },
             { "L3MON4D3/LuaSnip" },
             { "saadparwaiz1/cmp_luasnip" },
             { "hrsh7th/cmp-cmdline" },
@@ -84,7 +95,7 @@ packer.startup(function(use)
         requires = { "kyazdani42/nvim-web-devicons", opt = true },
     })
     -- bufferline
-    use({ "akinsho/bufferline.nvim", tag = "v3.*", requires = "nvim-tree/nvim-web-devicons" })
+    use({ "akinsho/bufferline.nvim", tag = "v4.8.*", requires = "nvim-tree/nvim-web-devicons" })
     -- Leap
     use({
         "ggandor/flit.nvim",
