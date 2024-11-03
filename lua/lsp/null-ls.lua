@@ -1,12 +1,10 @@
-local status, null_ls = pcall(require, "null-ls")
-if not status then
-    vim.notify("null-ls not found")
-    return
-end
+local null_ls = require("null-ls")
 
 -- more info: https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTIN_CONFIG.md
 local formatting = null_ls.builtins.formatting
 local diagnostics = null_ls.builtins.diagnostics
+
+local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 
 null_ls.setup({
     debug = false,
@@ -58,7 +56,22 @@ null_ls.setup({
         diagnostics.shellcheck,
         -- cmake
         diagnostics.cmake_lint,
-
-
     },
+    on_attach = function(client, bufnr)
+        if client.supports_method("textDocument/formatting") then
+            vim.api.nvim_clear_autocmds({
+                group = augroup,
+                buffer = bufnr,
+            })
+            vim.api.nvim_create_autocmd("BufWritePre", {
+                group = augroup,
+                buffer = bufnr,
+                callback = function()
+                    vim.lsp.buf.format({ bufnr = bufnr })
+                end,
+            })
+        end
+    end,
 })
+
+-- require("lsp.formatting").configure_format_on_save()

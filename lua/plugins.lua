@@ -18,6 +18,7 @@ packer.startup(function(use)
             "leoluz/nvim-dap-go",
             "rcarriga/nvim-dap-ui",
             "nvim-neotest/nvim-nio",
+            "theHamsta/nvim-dap-virtual-text",
             "williamboman/mason.nvim",
         },
     })

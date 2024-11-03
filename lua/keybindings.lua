@@ -262,24 +262,24 @@ end
 ---@diagnostic disable-next-line: unused-local
 pluginKeys.on_attach = function(client, bufnr)
     -- See `:help vim.lsp.*` for documentation on any of the below functions
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
+    -- local opt = { noremap = true, silent = true, buffer = bufnr }
     -- finished by lspsaga
-    -- vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, bufopts)
-    -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, bufopts)
-    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, bufopts)
-    -- vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, bufopts)
-    -- vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, bufopts)
-    -- vim.keymap.set("n", "gr", vim.lsp.buf.references, bufopts)
-    -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, bufopts)
-    vim.keymap.set("n", "gi", vim.lsp.buf.implementation, bufopts)
-    vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, bufopts)
-    vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, bufopts)
-    vim.keymap.set("n", "<space>wl", function()
+    -- vim.keymap.set("n", "<space>d", vim.lsp.buf.type_definition, opt)
+    -- vim.keymap.set("n", "gd", vim.lsp.buf.definition, opt)
+    -- vim.keymap.set("n", "K", vim.lsp.buf.hover, opt)
+    -- vim.keymap.set("n", "<Leader>r", vim.lsp.buf.rename, opt)
+    -- vim.keymap.set("n", "<space>ca", vim.lsp.buf.code_action, opt)
+    -- vim.keymap.set("n", "gr", vim.lsp.buf.references, opt)
+    -- vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opt)
+    map("n", "gi", vim.lsp.buf.implementation, { desc = "Go to the implementation" }, opt)
+    map("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opt)
+    map("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opt)
+    map("n", "<space>wl", function()
         print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-    end, bufopts)
+    end, opt)
     vim.keymap.set("n", "<space>f", function()
         vim.lsp.buf.format({ async = true })
-    end, bufopts)
+    end, opt)
 end
 
 -- For cmp
@@ -312,26 +312,26 @@ end
 -- For rust-tools
 pluginKeys.rust_tools_mapping = function(client, bufnr)
     pluginKeys.on_attach(client, bufnr)
-    local bufopts = { noremap = true, silent = true, buffer = bufnr }
-    vim.keymap.set("n", "<Space>h", ":RustHoverAction<CR>", bufopts)
-    vim.keymap.set("n", "<Space>e", ":RustExpandMacro<CR>", bufopts)
-    vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", bufopts)
+    vim.keymap.set("n", "<Space>h", ":RustHoverAction<CR>", { desc = "Rust Hover Action" }, opt)
+    vim.keymap.set("n", "<Space>e", ":RustExpandMacro<CR>", { desc = "Rust Expand Macro" }, opt)
+    vim.keymap.set("n", "<Space>p", ":RustParentModule<CR>", opt)
 end
 
 pluginKeys.dap_mapping = function(dap, dapui)
-    vim.keymap.set("n", "<space>b", dap.toggle_breakpoint)
-    vim.keymap.set("n", "<space>B", dap.list_breakpoints)
-    vim.keymap.set("n", "<space>C", dap.run_to_cursor)
-    vim.keymap.set("n", "<space>c", dap.continue)
-    vim.keymap.set("n", "<space>s", dap.step_into)
-    vim.keymap.set("n", "<space>n", dap.step_over)
-    vim.keymap.set("n", "<space>o", dap.step_out)
-    vim.keymap.set("n", "<space>dr", dap.restart)
-    vim.keymap.set("n", "<space>dx", dap.terminate)
+
+    map("n", "<space>db", dap.toggle_breakpoint, { desc = "Dap Toggle Breakpoint" }, opt)
+    map("n", "<space>dli", dap.list_breakpoints, { desc = "Dap List Breakpoints" }, opt)
+    map("n", "<space>dC", dap.run_to_cursor, { desc = "Dap Run To Cursor" }, opt)
+    map("n", "<space>dc", dap.continue, { desc = "Dap Continue" }, opt)
+    map("n", "<f7>", dap.step_into, { desc = "Dap Step Into" }, opt)
+    map("n", "<f8>", dap.step_over, { desc = "Dap Step Over" }, opt)
+    map("n", "<f20>", dap.step_out, { desc = "Dap Step Out" }, { noremap = true }, opt)
+    map("n", "<space>dr", dap.restart, { desc = "Dap Restart" }, opt)
+    map("n", "<space>dx", dap.terminate, { desc = "Dap Terminated" }, opt)
     -- Eval var under cursor
     vim.keymap.set("n", "<space>?", function()
         dapui.eval(nil, { enter = true })
-    end)
+    end, { desc = "Dap Eval Value" })
 end
 
 -- For lspsaga
@@ -341,31 +341,29 @@ end
 -- vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
 -- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
 pluginKeys.lspsaga_mapping = function()
-    local bufopts = { noremap = true, silent = true }
-
-    map("n", "gr", "<Cmd>Lspsaga finder<CR>", bufopts)
-    map("n", "gd", "<Cmd>Lspsaga peek_definition<CR>", bufopts)
-    map("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", bufopts)
-    map("n", "K", "<Cmd>Lspsaga hover_doc ++keep<CR>", bufopts)
+    map("n", "gr", "<Cmd>Lspsaga finder<CR>", opt)
+    map("n", "gd", "<Cmd>Lspsaga peek_definition<CR>", opt)
+    map("n", "gD", "<Cmd>Lspsaga goto_definition<CR>", opt)
+    map("n", "K", "<Cmd>Lspsaga hover_doc ++keep<CR>", opt)
     -- Outline
-    map("n", "<Leader>ll", "<Cmd>Lspsaga outline<CR>", bufopts)
+    map("n", "<Leader>ll", "<Cmd>Lspsaga outline<CR>", opt)
     -- Call hierarchy
-    map("n", "<Leader>li", "<Cmd>Lspsaga incoming_calls<CR>", bufopts)
-    map("n", "<Leader>lo", "<Cmd>Lspsaga outgoing_calls<CR>", bufopts)
+    map("n", "<Leader>li", "<Cmd>Lspsaga incoming_calls<CR>", opt)
+    map("n", "<Leader>lo", "<Cmd>Lspsaga outgoing_calls<CR>", opt)
     -- Code action
-    map({ "n", "v" }, "<Space>ca", "<Cmd>Lspsaga code_action<CR>", bufopts)
+    map({ "n", "v" }, "<Space>ca", "<Cmd>Lspsaga code_action<CR>", opt)
     -- Rename
-    map("n", "<space>r", "<Cmd>Lspsaga rename<CR>", bufopts)
+    map("n", "<space>r", "<Cmd>Lspsaga rename<CR>", opt)
     -- Diagnsotic jump can use `<c-o>` to jump back
-    map("n", "[d", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", bufopts)
-    map("n", "]d", "<Cmd>Lspsaga diagnostic_jump_next<CR>", bufopts)
+    map("n", "[d", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", opt)
+    map("n", "]d", "<Cmd>Lspsaga diagnostic_jump_next<CR>", opt)
     -- Only jump to error
     map("n", "[D", function()
         require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
-    end, bufopts)
+    end, opt)
     map("n", "]D", function()
         require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
-    end, bufopts)
+    end, opt)
 end
 pluginKeys.lspsaga_finder_keys = {
     shuttle = "p",

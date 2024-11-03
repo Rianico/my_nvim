@@ -8,49 +8,49 @@ vim.api.nvim_create_user_command("FormatToggle", function()
     M.toggle_format_on_save()
 end, {})
 
-local block_list = {}
-vim.api.nvim_create_user_command("FormatterToggle", function(opts)
-    if block_list[opts.args] == nil then
-        vim.notify(
-            string.format("[LSP]Formatter for [%s] has been recorded in list and disabled.", opts.args),
-            vim.log.levels.WARN,
-            { title = "LSP Formatter Warning!" }
-        )
-        block_list[opts.args] = true
-    else
-        block_list[opts.args] = not block_list[opts.args]
-        vim.notify(
-            string.format(
-                "[LSP]Formatter for [%s] has been %s.",
-                opts.args,
-                not block_list[opts.args] and "enabled" or "disabled"
-            ),
-            not block_list[opts.args] and vim.log.levels.INFO or vim.log.levels.WARN,
-            { title = string.format("LSP Formatter %s", not block_list[opts.args] and "Info" or "Warning") }
-        )
-    end
-end, {
-    nargs = 1,
-    complete = function(_, _, _)
-        return {
-            "markdown",
-            "vim",
-            "lua",
-            "c",
-            "cpp",
-            "python",
-            "vue",
-            "typescript",
-            "javascript",
-            "yaml",
-            "html",
-            "css",
-            "scss",
-            "sh",
-            "rust",
-        }
-    end,
-})
+-- local block_list = {}
+-- vim.api.nvim_create_user_command("FormatterToggle", function(opts)
+--     if block_list[opts.args] == nil then
+--         vim.notify(
+--             string.format("[LSP]Formatter for [%s] has been recorded in list and disabled.", opts.args),
+--             vim.log.levels.WARN,
+--             { title = "LSP Formatter Warning!" }
+--         )
+--         block_list[opts.args] = true
+--     else
+--         block_list[opts.args] = not block_list[opts.args]
+--         vim.notify(
+--             string.format(
+--                 "[LSP]Formatter for [%s] has been %s.",
+--                 opts.args,
+--                 not block_list[opts.args] and "enabled" or "disabled"
+--             ),
+--             not block_list[opts.args] and vim.log.levels.INFO or vim.log.levels.WARN,
+--             { title = string.format("LSP Formatter %s", not block_list[opts.args] and "Info" or "Warning") }
+--         )
+--     end
+-- end, {
+--     nargs = 1,
+--     complete = function(_, _, _)
+--         return {
+--             "markdown",
+--             "vim",
+--             "lua",
+--             "c",
+--             "cpp",
+--             "python",
+--             "vue",
+--             "typescript",
+--             "javascript",
+--             "yaml",
+--             "html",
+--             "css",
+--             "scss",
+--             "sh",
+--             "rust",
+--         }
+--     end,
+-- })
 
 function M.enable_format_on_save(is_configured)
     local opts = { pattern = "*", timeout = 3000 }

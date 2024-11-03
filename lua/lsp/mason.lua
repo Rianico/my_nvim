@@ -33,7 +33,6 @@ local lsp_servers = {
     -- "rust_analyzer",
     -- go
     "gopls",
-
 }
 
 mason.setup()
@@ -67,12 +66,11 @@ mason_lsp.setup_handlers({
     end,
 })
 
-require("lsp.formatting").configure_format_on_save()
-
 require("lspconfig").gopls.setup {
     root_dir = util.root_pattern("go.work", "go.mod", ".git"),
     settings = {
         gopls = {
+            completeUnimported = true,
             usePlaceholders = true,
             analyses = {
                 unusedparams = true,
