@@ -89,7 +89,7 @@ packer.startup(function(use)
     -- comment
     use("numToStr/Comment.nvim")
     -- code formatting
-    use({ "jose-elias-alvarez/null-ls.nvim", requires = "nvim-lua/plenary.nvim" })
+    use({ "nvimtools/none-ls.nvim", requires = "nvim-lua/plenary.nvim" })
     -- status line
     use({
         "nvim-lualine/lualine.nvim",
