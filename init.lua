@@ -64,6 +64,7 @@ require("plugin-config.comment")
 require("plugin-config.vista")
 -- mini.vim: cursor_word, pairs, ai
 require("plugin-config.mini")
+require("plugin-config.colorizer")
 -- marks
 require("plugin-config/marks")
 -- neoclip, manage your registers

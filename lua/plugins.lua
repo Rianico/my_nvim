@@ -104,6 +104,7 @@ packer.startup(function(use)
 	use("echasnovski/mini.cursorword")
 	use("echasnovski/mini.pairs")
 	use({ "echasnovski/mini.ai", branch = "stable" })
+	use({ "norcalli/nvim-colorizer.lua" })
 	-- repeat
 	use("tpope/vim-repeat")
 	-- startup
