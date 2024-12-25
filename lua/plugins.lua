@@ -65,7 +65,8 @@ packer.startup(function(use)
 	use({ "scalameta/nvim-metals", requires = { "nvim-lua/plenary.nvim" } })
 	-- trouble
 	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
-	--
+	-- about pair
+	use("tpope/vim-surround")
 	-- grammar highlight
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use({ "p00f/nvim-ts-rainbow", after = "nvim-treesitter" })
@@ -76,8 +77,6 @@ packer.startup(function(use)
 		"nvim-tree/nvim-web-devicons",
 		run = ":TSUpdate",
 	})
-	-- about pair
-	use("tpope/vim-surround")
 	-- theme
 	-- use("sainnhe/gruvbox-material")
 	-- use({ 'rose-pine/neovim', as = 'rose-pine' })
@@ -104,6 +103,7 @@ packer.startup(function(use)
 	use("echasnovski/mini.cursorword")
 	use("echasnovski/mini.pairs")
 	use({ "echasnovski/mini.ai", branch = "stable" })
+	use({ "echasnovski/mini.icons", branch = "stable" })
 	use({ "norcalli/nvim-colorizer.lua" })
 	-- repeat
 	use("tpope/vim-repeat")

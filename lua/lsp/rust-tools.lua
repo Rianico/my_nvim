@@ -97,7 +97,7 @@ local opts = {
 	},
 	server = {
 		capabilities = require("cmp_nvim_lsp").default_capabilities(),
-		on_attach = require("keybindings").rust_tools_mapping,
+		on_attach = require("keybindings").rustaceanvim,
 	},
 	-- settings = {
 	["rust-analyzer"] = {

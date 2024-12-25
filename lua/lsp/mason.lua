@@ -8,7 +8,7 @@ local mason_lsp = require("mason-lspconfig")
 local util = require("lspconfig/util")
 require("lspconfig.ui.windows").default_options.border = "rounded"
 
-local on_attach = require("keybindings").on_attach
+local on_attach = require("keybindings").default_on_attach
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- the servers that should be automatically installed
@@ -64,7 +64,9 @@ mason_lsp.setup_handlers({
 	end,
 })
 
-require("lspconfig").gopls.setup({
+local lspconfig = require("lspconfig")
+
+lspconfig.gopls.setup({
 	root_dir = util.root_pattern("go.work", "go.mod", ".git"),
 	settings = {
 		gopls = {
@@ -77,7 +79,7 @@ require("lspconfig").gopls.setup({
 	},
 })
 
-require("lspconfig").lua_ls.setup({
+lspconfig.lua_ls.setup({
 	settings = {
 		Lua = {
 			runtime = {
@@ -95,3 +97,42 @@ require("lspconfig").lua_ls.setup({
 		},
 	},
 })
+
+vim.g.rustaceanvim = {
+	-- Plugin configuration
+	tools = {
+		executors = "toggleterm",
+		test_executor = "background",
+		hover_actions = {
+			auto_focus = true,
+		},
+	},
+	-- LSP configuration
+	server = {
+		capabilities = require("cmp_nvim_lsp").default_capabilities(),
+		on_attach = function(client, bufnr)
+			require("keybindings").rustaceanvim(client, bufnr)
+		end,
+		default_settings = {
+			-- rust-analyzer language server configuration
+			["rust-analyzer"] = {
+				imports = {
+					granularity = {
+						group = "module",
+					},
+					prefix = "self",
+				},
+				cargo = {
+					buildScripts = {
+						enable = true,
+					},
+				},
+				procMacro = {
+					enable = true,
+				},
+			},
+		},
+	},
+	-- DAP configuration
+	dap = {},
+}
