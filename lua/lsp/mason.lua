@@ -98,6 +98,10 @@ lspconfig.lua_ls.setup({
 	},
 })
 
+vim.b.rustfmt_autosave = 1
+-- https://rust-lang.github.io/rustfmt/?version=v1.6.0&search=
+vim.g.rustfmt_options = '--config imports_granularity="Module"'
+
 vim.g.rustaceanvim = {
 	-- Plugin configuration
 	tools = {
@@ -108,31 +112,7 @@ vim.g.rustaceanvim = {
 		},
 	},
 	-- LSP configuration
-	server = {
-		capabilities = require("cmp_nvim_lsp").default_capabilities(),
-		on_attach = function(client, bufnr)
-			require("keybindings").rustaceanvim(client, bufnr)
-		end,
-		default_settings = {
-			-- rust-analyzer language server configuration
-			["rust-analyzer"] = {
-				imports = {
-					granularity = {
-						group = "module",
-					},
-					prefix = "self",
-				},
-				cargo = {
-					buildScripts = {
-						enable = true,
-					},
-				},
-				procMacro = {
-					enable = true,
-				},
-			},
-		},
-	},
+	server = {},
 	-- DAP configuration
 	dap = {},
 }

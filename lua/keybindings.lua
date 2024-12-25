@@ -259,7 +259,7 @@ pluginKeys.nvim_tree_on_attach = function(bufnr)
 end
 
 -- general lsp keybindings based on vim.lsp
-pluginKeys.default_on_attach = function(_, _)
+pluginKeys.default_on_attach = function(client, bufnr)
 	wk.add({
 		mod = "n",
 		{
@@ -280,7 +280,7 @@ pluginKeys.default_on_attach = function(_, _)
 		{
 			"<space>f",
 			function()
-				vim.lsp.buf.format({ async = true })
+				vim.lsp.buf.format({ async = true, bufnr = bufnr })
 			end,
 			desc = "Lsp Buffer Format",
 		},

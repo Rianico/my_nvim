@@ -31,33 +31,7 @@ local slintfmt = {
 	}),
 }
 
--- require install rustfmt in local
-local rustfmt = {
-	method = null_ls.methods.FORMATTING,
-	filetypes = { "rust" },
-	-- null_ls.generator creates an async source
-	-- that spawns the command with the given arguments and options
-	generator = null_ls.generator({
-		command = "rustfmt",
-		-- args = { "--stdin" },
-		to_stdin = true,
-		from_stderr = true,
-		-- choose an output format (raw, json, or line)
-		format = "line",
-		check_exit_code = function(code, stderr)
-			local success = code <= 1
-			if not success then
-				-- can be noisy for things that run often (e.g. diagnostics), but can
-				-- be useful for things that run on demand (e.g. formatting)
-				print(stderr)
-			end
-			return success
-		end,
-		on_output = function(_, _) end,
-	}),
-}
-
-null_ls.register({ slintfmt, rustfmt })
+null_ls.register({ slintfmt })
 
 null_ls.setup({
 	debug = false,
