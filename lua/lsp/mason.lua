@@ -8,7 +8,7 @@ local mason_lsp = require("mason-lspconfig")
 local util = require("lspconfig/util")
 require("lspconfig.ui.windows").default_options.border = "rounded"
 
-local on_attach = require("keybindings").default_on_attach
+local keybindings = require("keybindings")
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
 -- the servers that should be automatically installed
@@ -58,13 +58,13 @@ mason_lsp.setup_handlers({
 		-- Use an on_attach function to only map the following keys
 		-- after the language server attaches to the current buffer
 		lspconfig[server_name].setup({
-			on_attach = on_attach,
+			on_attach = function(client, buffer)
+				keybindings.default_on_attach(client, buffer)
+			end,
 			capabilities = capabilities,
 		})
 	end,
 })
-
-local lspconfig = require("lspconfig")
 
 lspconfig.gopls.setup({
 	root_dir = util.root_pattern("go.work", "go.mod", ".git"),
@@ -100,8 +100,18 @@ lspconfig.lua_ls.setup({
 
 vim.b.rustfmt_autosave = 1
 -- https://rust-lang.github.io/rustfmt/?version=v1.6.0&search=
-vim.g.rustfmt_options = '--config imports_granularity="Module"'
+vim.g.rustfmt_options = "--config "
+	.. table.concat({
+		'imports_granularity="Module"',
+		'newline_style="Auto"',
+		'group_imports="StdExternalCrate"',
+		'merge_derives="false"',
+		"reorder_impl_items=true",
+		"where_single_line=true",
+		"wrap_comments=true",
+	}, ",")
 
+-- https://github.com/mrcjkb/rustaceanvim/blob/master/lua/rustaceanvim/config/internal.lua#L6
 vim.g.rustaceanvim = {
 	-- Plugin configuration
 	tools = {
@@ -112,7 +122,34 @@ vim.g.rustaceanvim = {
 		},
 	},
 	-- LSP configuration
-	server = {},
+	server = {
+		on_attach = function(client, buffer)
+			keybindings.rustaceanvim(client, buffer)
+		end,
+		standalone = false,
+		--- @type table
+		default_settings = {
+			--- options to send to rust-analyzer
+			--- See: https://rust-analyzer.github.io/manual.html#configuration
+			--- @type table
+			["rust-analyzer"] = {
+				-- imports = {
+				-- 	granularity = {
+				-- 		group = "module",
+				-- 	},
+				-- 	prefix = "self",
+				-- },
+				-- cargo = {
+				-- 	buildScripts = {
+				-- 		enable = true,
+				-- 	},
+				-- },
+				-- procMacro = {
+				-- 	enable = true,
+				-- },
+			},
+		},
+	},
 	-- DAP configuration
 	dap = {},
 }
