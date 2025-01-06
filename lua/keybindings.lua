@@ -108,12 +108,12 @@ wk.register({
 	["<Leader>m"] = {
 		name = "Marks",
 		-- list marks: ' in normal mode
-		d = { "<Plug>(Marks-delete)", "Delete Input Marks" },
-		l = { "<Plug>(Marks-deleteline)", "Delete Line Marks" },
-		D = { "<Plug>(Marks-deletebuf)", "Delete Buffer Marks" },
-		a = { "<Cmd>delmarks a-zA-Z0-9<CR>", "Delete All Marks" },
-		t = { "<Cmd>Telescope marks<CR>", "Telescope Marks" },
-		m = { "<Cmd>MarksListBuf<CR>", "Buffer Marks" },
+		d = { "<Plug>(Marks-delete)", "Delete Marks Input: <input>" },
+		l = { "<Plug>(Marks-deleteline)", "Delete Marks In Current Line" },
+		D = { "<Plug>(Marks-deletebuf)", "Delete Marks In Current Buffer" },
+		A = { "<Cmd>delmarks a-zA-Z0-9<CR>", "Delete All Marks" },
+		b = { "<Cmd>MarksListBuf<CR>", "Buffer Marks" },
+		m = { "<Cmd>Telescope marks<CR>", "Telescope Marks" },
 	},
 	["m"] = {
 		name = "Marks",
