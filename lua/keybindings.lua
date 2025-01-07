@@ -330,29 +330,35 @@ end
 pluginKeys.lspsaga_mapping = function()
 	wk.add({
 		mod = "n",
-		{ "gf", "<Cmd>Lspsaga finder<CR>" },
-		{ "gd", "<Cmd>Lspsaga peek_definition<CR>" },
-		{ "gD", ":lua vim.lsp.buf.type_definition()<CR>", desc = "Lsp go to definition" },
-		{ "gr", "<Cmd>Lspsaga rename ++project<CR>" },
+		{ "gf", "<Cmd>Lspsaga finder<CR>", desc = "Code Action: Find ref" },
+		{
+			"gd",
+			"<Cmd>Lspsaga peek_definition<CR>",
+			desc = "Code Actions: Definition",
+		},
+		{ "gD", "<Cmd>Lspsaga goto_type_definition<CR>", desc = "Code Actions: Type Definition" },
+		{ "gr", "<Cmd>Lspsaga rename ++project<CR>", desc = "Code Actions: Rename" },
 		{ "<Space>l", group = "Lspsaga " },
-		{ "<Space>ll", "<Cmd>Lspsaga code_action<CR>" },
-		{ "<Space>ls", "<Cmd>Lspsaga outline<CR>" },
-		{ "<Space>li", "<Cmd>Lspsaga incoming_calls<CR>" },
-		{ "<Space>lo", "<Cmd>Lspsaga outgoing_calls<CR>" },
-		{ "<Space>lk", "<Cmd>Lspsaga hover_doc ++keep<CR>" },
-		{ "[d", "<Cmd>Lspsaga diagnostic_jump_prev<CR>" },
-		{ "]d", "<Cmd>Lspsaga diagnostic_jump_next<CR>" },
+		{ "<Space>ll", "<Cmd>Lspsaga code_action<CR>", desc = "code actions" },
+		{ "<Space>ls", "<Cmd>Lspsaga outline<CR>", desc = "code outline" },
+		{ "<Space>li", "<Cmd>Lspsaga incoming_calls<CR>", desc = "incoming calls" },
+		{ "<Space>lo", "<Cmd>Lspsaga outgoing_calls<CR>", desc = "outgoing calls" },
+		{ "<Space>lk", "<Cmd>Lspsaga hover_doc ++keep<CR>", desc = "hover docs" },
+		{ "[d", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "jump to prev diagnostic" },
+		{ "]d", "<Cmd>Lspsaga diagnostic_jump_next<CR>", desc = "jump to next diagnostic" },
 		{
 			"[D",
 			function()
 				require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR })
 			end,
+			desc = "jump to prev error",
 		},
 		{
 			"]D",
 			function()
 				require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR })
 			end,
+			desc = "jump to next error",
 		},
 	})
 end
