@@ -43,4 +43,4 @@ require("Comment").setup({
 })
 
 local ft = require("Comment.ft")
-ft({ "go", "rust" }, { "//%s", "///%s" })
+ft({ "go", "rust", "slint" }, { "//%s", "///%s" })
