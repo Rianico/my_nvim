@@ -91,9 +91,12 @@ wk.register({
 	["<Leader>f"] = {
 		name = "Files",
 		f = { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Grep Current Buffer" },
-		g = { "<Cmd>Telescope live_grep<CR>", "Grep All Files" },
+		g = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
+		s = { "<cmd>Telescope grep_string<CR>", "Grep String" },
 		e = { "<Cmd>Telescope file_browser<CR>", "File Browser" },
 		E = { "<Cmd>NvimTreeFindFileToggle<CR>", "File Explorer" },
+		-- <C-q> Send all items not filtered to quickfixlist (qflist)
+		-- M-q Send all selected items to qflist
 	},
 
 	-- harpoon
