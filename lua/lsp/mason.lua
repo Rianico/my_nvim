@@ -98,7 +98,7 @@ lspconfig.lua_ls.setup({
 	},
 })
 
-vim.b.rustfmt_autosave = 1
+vim.g.rustfmt_autosave = 1
 -- https://rust-lang.github.io/rustfmt/?version=v1.6.0&search=
 vim.g.rustfmt_options = "--config "
 	.. table.concat({
@@ -109,6 +109,7 @@ vim.g.rustfmt_options = "--config "
 		"reorder_impl_items=true",
 		"where_single_line=true",
 		"wrap_comments=true",
+		"max_width=161",
 	}, ",")
 
 -- https://github.com/mrcjkb/rustaceanvim/blob/master/lua/rustaceanvim/config/internal.lua#L6
@@ -126,7 +127,7 @@ vim.g.rustaceanvim = {
 		on_attach = function(client, buffer)
 			keybindings.rustaceanvim(client, buffer)
 		end,
-		standalone = false,
+		standalone = true,
 		--- @type table
 		default_settings = {
 			--- options to send to rust-analyzer
