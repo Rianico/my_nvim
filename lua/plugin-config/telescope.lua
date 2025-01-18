@@ -19,18 +19,21 @@ local nvb_actions = transform_mod({
 })
 
 telescope.setup({
-	defaults = {},
+	defaults = {
+		theme = "dropdown",
+		layout_config = {
+			width = 0.98,
+			height = 0.618,
+		},
+	},
 	pickers = {
 		find_files = {
 			theme = "ivy",
 			results_title = false,
 			sorting_strategy = "ascending",
-
-			layout_strategy = "bottom_pane",
 			layout_config = {
 				height = 20,
 			},
-
 			mappings = {
 				n = {
 					["y"] = nvb_actions.file_path,
@@ -41,7 +44,6 @@ telescope.setup({
 			},
 		},
 		git_files = {
-			-- theme = "dropdown",
 			mappings = {
 				n = {
 					["y"] = nvb_actions.file_path,

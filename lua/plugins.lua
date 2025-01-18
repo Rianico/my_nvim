@@ -35,6 +35,7 @@ packer.startup(function(use)
 	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 	-- Visualize lsp progress
 	use({ "j-hui/fidget.nvim", tag = "v1.4.5" })
+	use({ "rcarriga/nvim-notify", tag = "v3.15.0" })
 	-- Autocompletion framework
 	-- See hrsh7th other plugins for more great completion sources!
 	-- Snippet engine
@@ -66,7 +67,7 @@ packer.startup(function(use)
 	-- trouble
 	use({ "folke/trouble.nvim", requires = "kyazdani42/nvim-web-devicons" })
 	-- about pair
-	use("tpope/vim-surround")
+	-- use("tpope/vim-surround")
 	-- grammar highlight
 	use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
 	use({ "p00f/nvim-ts-rainbow", after = "nvim-treesitter" })
@@ -104,6 +105,9 @@ packer.startup(function(use)
 	use("echasnovski/mini.pairs")
 	use({ "echasnovski/mini.ai", branch = "stable" })
 	use({ "echasnovski/mini.icons", branch = "stable" })
+	use({ "echasnovski/mini.surround", branch = "stable" })
+	use({ "echasnovski/mini.files", branch = "stable" })
+
 	use({ "norcalli/nvim-colorizer.lua" })
 	-- repeat
 	use("tpope/vim-repeat")
