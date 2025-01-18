@@ -42,10 +42,15 @@ require("noice").setup({
 			},
 		},
 		notify = {
-			render = "minimal",
-			style = "fade",
+			render = "default",
 		},
 	},
+})
+
+require("notify").setup({
+	timeout = 3500,
+	stages = "fade",
+	fps = 60,
 })
 
 local colors = {
