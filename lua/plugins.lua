@@ -34,8 +34,20 @@ packer.startup(function(use)
 	})
 	use({ "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" })
 	-- Visualize lsp progress
-	use({ "j-hui/fidget.nvim", tag = "v1.4.5" })
-	use({ "rcarriga/nvim-notify", tag = "v3.15.0" })
+	-- use({ "j-hui/fidget.nvim", tag = "v1.4.5" })
+	use({
+		"folke/noice.nvim",
+		tag = "v4.9.0",
+		requires = {
+			-- if you lazy-load any plugin below, make sure to add proper `module="..."` entries
+			"MunifTanjim/nui.nvim",
+			-- OPTIONAL:
+			--   `nvim-notify` is only needed, if you want to use the notification view.
+			--   If not available, we use `mini` as the fallback
+			"rcarriga/nvim-notify",
+		},
+	})
+
 	-- Autocompletion framework
 	-- See hrsh7th other plugins for more great completion sources!
 	-- Snippet engine
