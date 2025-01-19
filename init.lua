@@ -36,15 +36,16 @@ require("lsp.mason")
 require("lsp.metals")
 require("lsp.null-ls")
 require("lsp.nvim-treesitter")
--- require("lsp.formatting")
 require("lsp.luasnip")
-require("lsp.fidget")
 require("lsp.cmp")
 require("lsp.lspsaga")
 require("lsp.lsp-signature")
 require("lsp.trouble")
 -- dap
 require("plugin-config.dap")
+
+-- beautify
+require("plugin-config.noice")
 
 -- for status/winbar
 require("plugin-config.lua-line")
