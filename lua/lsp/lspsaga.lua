@@ -5,21 +5,17 @@ local icons = {
 
 local keybindings = require("keybindings")
 
-local function set_sidebar_icons()
-	-- Set icons for sidebar.
-	local diagnostic_icons = {
-		Error = icons.diagnostics.Error_alt,
-		Warn = icons.diagnostics.Warning_alt,
-		Info = icons.diagnostics.Information_alt,
-		Hint = icons.diagnostics.Hint_alt,
-	}
-	for type, icon in pairs(diagnostic_icons) do
-		local hl = "DiagnosticSign" .. type
-		vim.fn.sign_define(hl, { text = icon, texthl = hl })
-	end
+-- Set icons for sidebar.
+local diagnostic_icons = {
+	Error = icons.diagnostics.Error_alt,
+	Warn = icons.diagnostics.Warning_alt,
+	Info = icons.diagnostics.Information_alt,
+	Hint = icons.diagnostics.Hint_alt,
+}
+for type, icon in pairs(diagnostic_icons) do
+	local hl = "DiagnosticSign" .. type
+	vim.fn.sign_define(hl, { text = icon, texthl = hl })
 end
-
-set_sidebar_icons()
 
 require("lspsaga").setup({
 	-- preview lines above of lsp_finder
