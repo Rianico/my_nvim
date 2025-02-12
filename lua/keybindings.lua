@@ -1,6 +1,3 @@
-vim.g.mapleader = ","
-vim.g.maplocalleader = ","
-
 local map = vim.keymap.set
 local opt = { noremap = true, silent = true }
 
@@ -345,7 +342,7 @@ pluginKeys.cmp_mapping = function(cmp)
 		["<C-b>"] = cmp.mapping.scroll_docs(-4),
 		["<C-f>"] = cmp.mapping.scroll_docs(4),
 		["<C-e>"] = cmp.mapping.abort(),
-		["<C-l>"] = cmp.mapping(function(_)
+		["<C-k>"] = cmp.mapping(function(_)
 			if ls.expand_or_jumpable() then
 				ls.expand_or_jump()
 			end
@@ -353,6 +350,24 @@ pluginKeys.cmp_mapping = function(cmp)
 		["<C-j>"] = cmp.mapping(function(_)
 			if ls.jumpable(-1) then
 				ls.jump(-1)
+			end
+		end, { "i", "s" }),
+		["<Tab>"] = cmp.mapping(function(fallback)
+			local col = vim.fn.col(".") - 1
+
+			if cmp.visible() then
+				cmp.select_next_item(select_opts)
+			elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
+				fallback()
+			else
+				cmp.complete()
+			end
+		end, { "i", "s" }),
+		["<S-Tab>"] = cmp.mapping(function(fallback)
+			if cmp.visible() then
+				cmp.select_prev_item(select_opts)
+			else
+				fallback()
 			end
 		end, { "i", "s" }),
 	}

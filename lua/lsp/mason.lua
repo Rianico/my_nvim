@@ -1,7 +1,6 @@
-vim.api.nvim_command([[packadd lsp_signature.nvim]])
-vim.api.nvim_command([[packadd lspsaga.nvim]])
-vim.api.nvim_command([[packadd cmp-nvim-lsp]])
-
+-- vim.api.nvim_command([[packadd lsp_signature.nvim]])
+-- vim.api.nvim_command([[packadd lspsaga.nvim]])
+-- vim.api.nvim_command([[packadd cmp-nvim-lsp]])
 local lspconfig = require("lspconfig")
 local mason = require("mason")
 local mason_lsp = require("mason-lspconfig")
@@ -9,7 +8,7 @@ local util = require("lspconfig/util")
 require("lspconfig.ui.windows").default_options.border = "rounded"
 
 local keybindings = require("keybindings")
-local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 -- the servers that should be automatically installed
 local lsp_servers = {
@@ -17,7 +16,6 @@ local lsp_servers = {
 	"lua_ls",
 	"clangd",
 	"bashls",
-	"bufls",
 	"cmake",
 	"dockerls",
 	"jdtls",
@@ -28,7 +26,7 @@ local lsp_servers = {
 	-- xml
 	"lemminx",
 	-- markdown
-	"marksman",
+	-- "marksman",
 	-- go
 	"gopls",
 }

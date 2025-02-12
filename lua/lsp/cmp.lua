@@ -35,35 +35,12 @@ local cmp = require("cmp")
 cmp.setup({
 	snippet = {
 		expand = function(args)
-			-- vim.fn["vsnip#anonymous"](args.body) -- For `vsnip` users
-			-- For `luasnip` users.
 			require("luasnip").lsp_expand(args.body)
-
-			-- For `ultisnips` users.
-			-- vim.fn["UltiSnips#Anon"](args.body)
-
-			-- For `snippy` users.
-			-- require'snippy'.expand_snippet(args.body)
 		end,
 	},
 	window = {
-		documentation = {
-			border = border("CmpDocBorder"),
-		},
-	},
-	sorting = {
-		priority_weight = 2,
-		comparators = {
-			-- require("cmp_tabnine.compare"),
-			compare.offset,
-			compare.exact,
-			compare.score,
-			require("cmp-under-comparator").under,
-			compare.kind,
-			compare.sort_text,
-			compare.length,
-			compare.order,
-		},
+		-- documentation = { border = border("CmpDocBorder") },
+		documentation = cmp.config.window.bordered(),
 	},
 	formatting = {
 		fields = { "kind", "abbr", "menu" },
@@ -81,15 +58,14 @@ cmp.setup({
 	mapping = cmp.mapping.preset.insert(require("keybindings").cmp_mapping(cmp)),
 	-- You should specify your *installed* sources.
 	sources = {
-		{ name = "nvim_lsp" },
+		{ name = "nvim_lsp", keyword_length = 1 },
 		{ name = "nvim_lsp_signature_help" },
-		{ name = "vsnip" },
-		{ name = "nvim_lua" },
-		-- { name = "luasnip" },
-		{ name = "path" },
+		{ name = "vsnip", keyword_length = 1 },
+		{ name = "nvim_lua", keyword_length = 2 },
+		{ name = "path", keyword_length = 2 },
 		-- { name = "spell" },
 		-- { name = "orgmode" },
-		{ name = "buffer" },
+		{ name = "buffer", keyword_length = 2 },
 		-- { name = "latex_symbols" },
 		-- { name = "cmp_tabnine" },
 	},
