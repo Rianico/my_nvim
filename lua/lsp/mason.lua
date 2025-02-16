@@ -1,154 +1,139 @@
--- vim.api.nvim_command([[packadd lsp_signature.nvim]])
--- vim.api.nvim_command([[packadd lspsaga.nvim]])
--- vim.api.nvim_command([[packadd cmp-nvim-lsp]])
-local lspconfig = require("lspconfig")
+-- https://www.lazyvim.org/extras/lang/scala
 local mason = require("mason")
-local mason_lsp = require("mason-lspconfig")
-local util = require("lspconfig/util")
-require("lspconfig.ui.windows").default_options.border = "rounded"
+local mason_lspconfig = require("mason-lspconfig")
+local lspconfig = require("lspconfig")
 
-local keybindings = require("keybindings")
-local capabilities = require("cmp_nvim_lsp").default_capabilities()
+local util = require("lspconfig/util")
+
+local default_opts = {
+  capabilities = require("cmp_nvim_lsp").default_capabilities(),
+}
 
 -- the servers that should be automatically installed
 local lsp_servers = {
-	-- lua
-	"lua_ls",
-	"clangd",
-	"bashls",
-	"cmake",
-	"dockerls",
-	"jdtls",
-	-- toml
-	"taplo",
-	-- json
-	"jsonls",
-	-- xml
-	"lemminx",
-	-- markdown
-	-- "marksman",
-	-- go
-	"gopls",
+  -- lua
+  "lua_ls",
+  "clangd",
+  "bashls",
+  "cmake",
+  "dockerls",
+  -- go
+  "gopls",
+  -- "delve",
+  -- "gomodifytags",
+  -- "impl",
+  "jdtls",
+  -- toml
+  "taplo",
+  -- json
+  "jsonls",
+  -- xml
+  "lemminx",
+  -- markdown
+  -- "marksman",
+  -- python
+  "ruff",
 }
 
 mason.setup()
-mason_lsp.setup({
-	ui = {
-		icons = {
-			package_installed = "✓",
-			package_pending = "➜",
-			package_uninstalled = "✗",
-		},
-	},
-	pip = {
-		-- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
-		upgrade_pip = true,
-	},
-	ensure_installed = lsp_servers,
-	automatic_installation = true,
+mason_lspconfig.setup({
+  ui = {
+    icons = {
+      package_installed = "✓",
+      package_pending = "➜",
+      package_uninstalled = "✗",
+    },
+  },
+  pip = {
+    -- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
+    upgrade_pip = true,
+  },
+  ensure_installed = lsp_servers,
+  automatic_installation = true,
+  handles = {
+    function(server_name) -- default handler (optional)
+      require("lspconfig")[server_name].setup({ vim.tbl_deep_extend("force", default_opts, {}) })
+    end,
+  },
 })
 
-mason_lsp.setup_handlers({
-	-- The first entry (without a key) will be the default handler
-	-- and will be called for each installed server that doesn't have
-	-- a dedicated handler.
-	function(server_name) -- default handler (optional)
-		-- Use an on_attach function to only map the following keys
-		-- after the language server attaches to the current buffer
-		lspconfig[server_name].setup({
-			on_attach = function(client, buffer)
-				keybindings.default_on_attach(client, buffer)
-			end,
-			capabilities = capabilities,
-		})
-	end,
-})
+-- for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
+-- You can add custom settings for specific servers here
+--     local server_opts = vim.tbl_deep_extend("force", default_opts, {})
+--     lspconfig[server_name].setup(server_opts)
+-- end
 
 lspconfig.gopls.setup({
-	root_dir = util.root_pattern("go.work", "go.mod", ".git"),
-	settings = {
-		gopls = {
-			completeUnimported = true,
-			usePlaceholders = true,
-			analyses = {
-				unusedparams = true,
-			},
-		},
-	},
+  on_attach = function(client, _)
+    if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
+      local semantic = client.config.capabilities.textDocument.semanticTokens
+      client.server_capabilities.semanticTokensProvider = {
+        full = true,
+        legend = { tokenModifiers = semantic.tokenModifiers, tokenTypes = semantic.tokenTypes },
+        range = true,
+      }
+    end
+  end,
+  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+  settings = {
+    gopls = {
+      gofumpt = true,
+      codelenses = {
+        gc_details = false,
+        generate = true,
+        regenerate_cgo = true,
+        run_govulncheck = true,
+        test = true,
+        tidy = true,
+        upgrade_dependency = true,
+        vendor = true,
+      },
+      hints = {
+        assignVariableTypes = true,
+        compositeLiteralFields = true,
+        compositeLiteralTypes = true,
+        constantValues = true,
+        functionTypeParameters = true,
+        parameterNames = true,
+        rangeVariableTypes = true,
+      },
+      analyses = {
+        nilness = true,
+        unusedparams = true,
+        unusedwrite = true,
+        useany = true,
+      },
+      usePlaceholders = true,
+      completeUnimported = true,
+      staticcheck = true,
+      directoryFilters = { "-.git", "-.vscode", "-.idea", "-.vscode-test", "-node_modules" },
+      semanticTokens = true,
+    },
+  },
 })
 
 lspconfig.lua_ls.setup({
-	settings = {
-		Lua = {
-			runtime = {
-				version = "LuaJIT",
-			},
-			format = {
-				enable = true,
-				-- Put format options here
-				-- NOTE: the value should be String!
-				defaultConfig = {
-					indent_style = "space",
-					indent_size = "2",
-				},
-			},
-		},
-	},
+  settings = {
+    Lua = {
+      runtime = {
+        version = "LuaJIT",
+      },
+      diagnostics = {
+        globals = { "vim" },
+      },
+    },
+  },
 })
 
-vim.g.rustfmt_autosave = 1
--- https://rust-lang.github.io/rustfmt/?version=v1.6.0&search=
-vim.g.rustfmt_options = "--config "
-	.. table.concat({
-		'imports_granularity="Module"',
-		'newline_style="Auto"',
-		'group_imports="StdExternalCrate"',
-		'merge_derives="false"',
-		"reorder_impl_items=true",
-		"where_single_line=true",
-		"wrap_comments=true",
-		"max_width=161",
-	}, ",")
-
--- https://github.com/mrcjkb/rustaceanvim/blob/master/lua/rustaceanvim/config/internal.lua#L6
-vim.g.rustaceanvim = {
-	-- Plugin configuration
-	tools = {
-		executors = "toggleterm",
-		test_executor = "background",
-		hover_actions = {
-			auto_focus = true,
-		},
-	},
-	-- LSP configuration
-	server = {
-		on_attach = function(client, buffer)
-			keybindings.rustaceanvim(client, buffer)
-		end,
-		standalone = true,
-		--- @type table
-		default_settings = {
-			--- options to send to rust-analyzer
-			--- See: https://rust-analyzer.github.io/manual.html#configuration
-			--- @type table
-			["rust-analyzer"] = {
-				-- imports = {
-				-- 	granularity = {
-				-- 		group = "module",
-				-- 	},
-				-- 	prefix = "self",
-				-- },
-				-- cargo = {
-				-- 	buildScripts = {
-				-- 		enable = true,
-				-- 	},
-				-- },
-				-- procMacro = {
-				-- 	enable = true,
-				-- },
-			},
-		},
-	},
-	-- DAP configuration
-	dap = {},
-}
+lspconfig.ruff.setup({
+  cmd_env = { RUFF_TRACE = "messages" },
+  init_options = {
+    settings = {
+      logLevel = "error",
+    },
+  },
+  on_attach = function(client, _)
+    -- Disable hover in favor of Pyright
+    client.server_capabilities.hoverProvider = false
+  end,
+})
