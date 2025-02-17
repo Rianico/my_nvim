@@ -29,6 +29,7 @@ local lsp_servers = {
   "jsonls",
   -- xml
   "lemminx",
+  -- lua
   -- markdown
   -- "marksman",
   -- python

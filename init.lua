@@ -1,5 +1,6 @@
 require("basic")
 require("config.lazy")
+require("keybindings")
 
 -- for lsp
 require("lsp.mason")
@@ -20,7 +21,7 @@ require("config.lua-line")
 require("config.bufferline")
 
 -- git
--- require("config.gitsigns")
+require("config.gitsigns")
 -- terminal
 require("config.toggleterm")
 -- motion
@@ -37,4 +38,3 @@ require("config/marks")
 -- fuzzy finder, can also integration with many plugins amazingly!
 -- require("config.telescope")
 
-require("keybindings")

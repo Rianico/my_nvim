@@ -4,8 +4,9 @@ local provider = "volcano"
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
-  lazy = false,
-  version = false, -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+  lazy = true,
+  -- version = "*", -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+  commit = "8f325129498ead873d7da7abfd5e0eef72d5ef2f",
   opts = {
     vendors = {
       ["volcano"] = {

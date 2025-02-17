@@ -70,34 +70,61 @@ wk.setup({
   },
 })
 
--- telescope
-map("n", "<C-p>", "<Cmd>Telescope find_files<CR>", opt)
--- :buffers
-map("n", "<Leader>b", "<Cmd>Telescope buffers<CR>", opt)
-
 -- Zen Mode
 map("n", "<Leader>z", "<Cmd>ZenMode<CR>", opt)
 
 pluginKeys = {
-  snacks = {
-    -- Top Pickers & Explorer
-    { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-    { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-    { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
-    { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-    { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-    { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
-
-    -- find
-    { "<leader>fb", function() Snacks.picker.buffers() end, desc = "Buffers" },
-    { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-    { "<leader>ff", function() Snacks.picker.files() end, desc = "Find Files" },
-    { "<leader>fg", function() Snacks.picker.git_files() end, desc = "Find Git Files" },
-    { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
-    { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
-  },
+  snacks = {},
 }
 wk.add({
+  -- Top Pickers & Explorer
+  { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
+  { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
+  { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
+  { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+
+  -- find
+  { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
+  { "<C-p>", function() Snacks.picker.files() end, desc = "Find Files" },
+  { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
+  { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
+  { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
+
+  -- grep
+  { "<leader>sb", function() Snacks.picker.lines() end, desc = "Grep Buffer Lines" },
+  { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Opened Buffers Line" },
+  { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
+  { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
+
+  -- diagnostics
+  { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
+  { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
+
+  -- lsp
+  { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
+  { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
+  { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
+  { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
+  { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
+  { "gs", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
+  { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+
+  -- quick list
+  { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
+  { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
+
+  -- todo: <C-r> replace which-key
+  { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
+  { "<leader>s'", function() Snacks.picker.marks() end, desc = "Marks" },
+  { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Search History" },
+  { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
+  { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
+  { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
+  { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
+  { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
+  { "<C-r>", function() Snacks.picker.resume() end, desc = "Resume", mode = { "n", "v" } },
+  { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
+
   -- Git from Snacks
   { "<leader>g", group = "Git" },
   { "<leader>gB", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
@@ -116,15 +143,6 @@ wk.add({
 })
 
 wk.register({
-  -- registers
-  -- listrregisters:
-  --   normal mode: "
-  --   insert mode: <C-r>
-  ["<Leader>r"] = {
-    name = "Registers",
-    r = { "<Cmd>Telescope neoclip<CR>", "Neoclip" },
-    t = { "<Cmd>Telescope registers<CR>", "Telescope Registers" },
-  },
 
   -- telescope
   ["<Leader>f"] = {
@@ -132,7 +150,6 @@ wk.register({
     f = { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Grep Current Buffer" },
     g = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
     s = { "<cmd>Telescope grep_string<CR>", "Grep String" },
-    e = { "<Cmd>Telescope file_browser<CR>", "File Browser" },
     E = { ":lua MiniFiles.open()<CR>", "File Explorer" },
     -- <C-q> Send all items not filtered to quickfixlist (qflist)
     -- M-q Send all selected items to qflist
@@ -168,10 +185,8 @@ wk.register({
     -- s<space><space> jump to the line
     s = { "<Plug>(leap-forward)", "Leap Forward", modes = { "n", "x", "o" } },
     S = { "<Plug>(leap-backward)", "Leap Backward", modes = { "n", "x", "o" } },
-    g = { "<Plug>(leap-from-window)", "Leap Across Window", modes = { "n" } },
+    W = { "<Plug>(leap-from-window)", "Leap Across Window", modes = { "n" } },
   },
-
-  -- Git
 
   -- toggleterm
   ["<Leader>t"] = {

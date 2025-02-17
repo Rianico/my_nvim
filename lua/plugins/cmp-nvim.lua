@@ -1,4 +1,3 @@
-local keybindings = require("keybindings")
 local M = {}
 
 M.CREATE_UNDO = vim.api.nvim_replace_termcodes("<c-G>u", true, true, true)
@@ -197,7 +196,7 @@ return {
           documentation = cmp.config.window.bordered(),
         },
         preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
-        mapping = cmp.mapping.preset.insert(keybindings.cmp_mapping(cmp, auto_select, M)),
+        mapping = cmp.mapping.preset.insert(require("keybindings").cmp_mapping(cmp, auto_select, M)),
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "path" },

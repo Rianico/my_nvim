@@ -89,5 +89,3 @@ require("lspsaga").setup({
     keys = keybindings.lspsaga_diagnostic_keys,
   },
 })
-
-require("keybindings").lspsaga_mapping()
