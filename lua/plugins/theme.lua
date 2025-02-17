@@ -114,47 +114,15 @@ return {
         vim.o.laststatus = 0
       end
     end,
-    opts = function()
-      -- PERF: we don't need this lualine require madness 🤷
-      local lualine_require = require("lualine_require")
-      lualine_require.require = require
+    opts = function(_, _)
+      -- vim.o.laststatus = vim.g.lualine_laststatus
       local icons = LazyVim.ui.icons
-
-      local colors = {
-        blue = "#80a0ff",
-        cyan = "#79dac8",
-        black = "#080808",
-        white = "#c6c6c6",
-        red = "#ff5189",
-        violet = "#d183e8",
-        grey = "#6D5033",
-      }
-
-      local bubbles_theme = {
-        normal = {
-          a = { fg = colors.black, bg = colors.violet },
-          b = { fg = colors.white },
-          c = { fg = colors.grey },
-        },
-
-        insert = { a = { fg = colors.black, bg = colors.blue } },
-        visual = { a = { fg = colors.black, bg = colors.cyan } },
-        replace = { a = { fg = colors.black, bg = colors.red } },
-
-        inactive = {
-          a = { fg = colors.white, bg = colors.black },
-          b = { fg = colors.white, bg = colors.black },
-          c = { fg = colors.white },
-        },
-      }
-      vim.o.laststatus = vim.g.lualine_laststatus
-
       local opts = {
-        options = {
-          theme = "auto",
-          component_separators = "",
-          section_separators = { left = "", right = "" },
-        },
+        -- options = {
+        --   theme = "auto",
+        --   component_separators = "",
+        --   section_separators = { left = "", right = "" },
+        -- },
         sections = {
           lualine_a = {
             "mode",
@@ -207,27 +175,33 @@ return {
 
           lualine_z = { function() return " " .. os.date("%R") end },
         },
+        inactive_sections = {
+          lualine_a = { "filename" },
+          lualine_b = {},
+          lualine_c = {},
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = { "location" },
+        },
+        winbar = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { "filename" },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
+        },
+
+        inactive_winbar = {
+          lualine_a = {},
+          lualine_b = {},
+          lualine_c = { "filename" },
+          lualine_x = {},
+          lualine_y = {},
+          lualine_z = {},
+        },
         extensions = { "neo-tree", "lazy", "fzf" },
       }
-
-      -- do not add trouble symbols if aerial is enabled
-      -- And allow it to be overriden for some buffer types (see autocmds)
-      if vim.g.trouble_lualine and LazyVim.has("trouble.nvim") then
-        local trouble = require("trouble")
-        local symbols = trouble.statusline({
-          mode = "symbols",
-          groups = {},
-          title = false,
-          filter = { range = true },
-          format = "{kind_icon}{symbol.name:Normal}",
-          hl_group = "lualine_c_normal",
-        })
-        table.insert(opts.sections.lualine_c, {
-          symbols and symbols.get,
-          cond = function() return vim.b.trouble_lualine ~= false and symbols.has() end,
-        })
-      end
-
       return opts
     end,
   },
