@@ -46,6 +46,7 @@ clipboard_config()
 
 vim.loader.enable()
 
+vim.cmd.colorscheme("catppuccin")
 -- utf8
 vim.g.encoding = "UTF-8"
 vim.o.fileencoding = "utf-8"
@@ -235,3 +236,5 @@ vim.api.nvim_create_autocmd("FileType", {
     end)
   end,
 })
+
+_G.LazyVim = require("util")

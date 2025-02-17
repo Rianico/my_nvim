@@ -91,8 +91,8 @@ wk.add({
   { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
 
   -- grep
-  { "<leader>sb", function() Snacks.picker.lines() end, desc = "Grep Buffer Lines" },
-  { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Opened Buffers Line" },
+  { "<leader>sb", function() Snacks.picker.lines() end, desc = "Search Lines" },
+  { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Buffers Line" },
   { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
   { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
 
@@ -122,7 +122,7 @@ wk.add({
   { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
   { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
   { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
-  { "<C-r>", function() Snacks.picker.resume() end, desc = "Resume", mode = { "n", "v" } },
+  { "<C-R>", function() Snacks.picker.resume() end, desc = "Resume", mode = { "n", "v" } },
   { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
 
   -- Git from Snacks
@@ -140,21 +140,12 @@ wk.add({
   { "<leader>gH", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Git Unstage Hunk" },
   { "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Git Reset Hunk" },
   { "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Git Reset Buffer" },
+
+  -- mini.surrounding
+  { "gz", "", desc = "+surround" },
 })
 
 wk.register({
-
-  -- telescope
-  ["<Leader>f"] = {
-    name = "Files",
-    f = { "<Cmd>Telescope current_buffer_fuzzy_find<CR>", "Grep Current Buffer" },
-    g = { "<Cmd>Telescope live_grep<CR>", "Live Grep" },
-    s = { "<cmd>Telescope grep_string<CR>", "Grep String" },
-    E = { ":lua MiniFiles.open()<CR>", "File Explorer" },
-    -- <C-q> Send all items not filtered to quickfixlist (qflist)
-    -- M-q Send all selected items to qflist
-  },
-
   -- harpoon
   ["<Leader>h"] = {
     name = "Harpoon",
@@ -177,15 +168,6 @@ wk.register({
   ["m"] = {
     name = "Marks",
     m = { "<Plug>(Marks-setnext)", "Marks SetNext" },
-  },
-
-  -- leap
-  ["<Leader>s"] = {
-    name = "Leap",
-    -- s<space><space> jump to the line
-    s = { "<Plug>(leap-forward)", "Leap Forward", modes = { "n", "x", "o" } },
-    S = { "<Plug>(leap-backward)", "Leap Backward", modes = { "n", "x", "o" } },
-    W = { "<Plug>(leap-from-window)", "Leap Across Window", modes = { "n" } },
   },
 
   -- toggleterm
@@ -344,10 +326,10 @@ pluginKeys.lspsaga_rename_keys = {
 }
 
 -- For cmp
-pluginKeys.cmp_mapping = function(cmp, auto_select, M)
+pluginKeys.cmp_mapping = function(cmp, auto_select)
   return {
-    ["<CR>"] = M.confirm({ select = auto_select }),
-    ["<S-CR>"] = M.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+    ["<CR>"] = LazyVim.cmp.confirm({ select = auto_select }),
+    ["<S-CR>"] = LazyVim.cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
     ["<C-b>"] = cmp.mapping.scroll_docs(-4),
     ["<C-f>"] = cmp.mapping.scroll_docs(4),
     ["<C-e>"] = function(fallback)
