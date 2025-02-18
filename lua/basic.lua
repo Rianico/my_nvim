@@ -46,10 +46,9 @@ clipboard_config()
 
 vim.loader.enable()
 
-vim.cmd.colorscheme("catppuccin")
+-- vim.cmd.colorscheme("catppuccin")
 -- utf8
 vim.g.encoding = "UTF-8"
-vim.o.fileencoding = "utf-8"
 -- jk移动时光标下上方保留8行
 vim.o.scrolloff = 999
 vim.o.sidescrolloff = 999

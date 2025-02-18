@@ -15,32 +15,6 @@ map("n", "<C-s>", ":w<CR>", opt)
 map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 
---terminal
-map("t", "<esc>", [[<C-n>]], opt)
-
--- window
--- <C-w>x, exchange with other window
--- <C-w>r, rotate current window
-map({ "t", "n" }, "<C-h>", [[<Cmd>wincmd h<CR>]], opt)
-map({ "t", "n" }, "<C-j>", [[<Cmd>wincmd j<CR>]], opt)
-map({ "t", "n" }, "<C-k>", [[<Cmd>wincmd k<CR>]], opt)
-map({ "t", "n" }, "<C-l>", [[<Cmd>wincmd l<CR>]], opt)
-
--- bufferline
-map("n", ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", opt)
-map("n", ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", opt)
-map("n", ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", opt)
-map("n", ";4", "<Cmd>BufferLineGoToBuffer 4<CR>", opt)
-map("n", ";5", "<Cmd>BufferLineGoToBuffer 5<CR>", opt)
-map("n", ";6", "<Cmd>BufferLineGoToBuffer 6<CR>", opt)
-map("n", ";7", "<Cmd>BufferLineGoToBuffer 7<CR>", opt)
-map("n", ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", opt)
-map("n", "[t", "<Cmd>BufferLineCyclePrev<CR>", opt)
-map("n", "]t", "<Cmd>BufferLineCycleNext<CR>", opt)
-
--- local search
-map("n", "<C-n>", "<Cmd>noh<CR>", opt)
-
 local wk = require("which-key")
 wk.setup({
   preset = "classic", -- "classic" | "modern" | "helix"
@@ -70,9 +44,6 @@ wk.setup({
   },
 })
 
--- Zen Mode
-map("n", "<Leader>z", "<Cmd>ZenMode<CR>", opt)
-
 pluginKeys = {
   snacks = {},
 }
@@ -82,48 +53,77 @@ wk.add({
   { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
   { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
   { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
+  { "<c-/>", function() Snacks.picker.grep() end, desc = "Toggle Terminal" },
+  { "<c-_>", function() Snacks.picker.grep() end, desc = "which_key_ignore" },
+  { "<Leader>z", "<Cmd>ZenMode<CR>", desc = "Zen mode", hidden = true },
 
   -- find
   { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
   { "<C-p>", function() Snacks.picker.files() end, desc = "Find Files" },
-  { "<leader>,", function() Snacks.picker.buffers() end, desc = "Buffers" },
   { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
   { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
 
   -- grep
-  { "<leader>sb", function() Snacks.picker.lines() end, desc = "Search Lines" },
-  { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep Buffers Line" },
-  { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep" },
-  { "<leader>sw", function() Snacks.picker.grep_word() end, desc = "Visual selection or word", mode = { "n", "x" } },
+  { "<leader>s", group = "search" },
+  { "<leader>sb", function() Snacks.picker.lines() end, desc = "Grep: Lines" },
+  { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep: Buffers Line" },
+  { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep: Global" },
+  {
+    "<leader>sw",
+    function() Snacks.picker.grep_word() end,
+    desc = "Grep: Selection or Word",
+    mode = { "n", "x" },
+  },
 
   -- diagnostics
-  { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "Diagnostics" },
-  { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "Buffer Diagnostics" },
+  { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "LSP: Diagnostics" },
+  { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "LSP: Buffer Diagnostics" },
 
   -- lsp
-  { "gd", function() Snacks.picker.lsp_definitions() end, desc = "Goto Definition" },
-  { "gD", function() Snacks.picker.lsp_declarations() end, desc = "Goto Declaration" },
-  { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "References" },
-  { "gI", function() Snacks.picker.lsp_implementations() end, desc = "Goto Implementation" },
-  { "gy", function() Snacks.picker.lsp_type_definitions() end, desc = "Goto T[y]pe Definition" },
-  { "gs", function() Snacks.picker.lsp_symbols() end, desc = "LSP Symbols" },
-  { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP Workspace Symbols" },
+  {
+    mod = "n",
+    { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP: Definition" },
+    { "gD", "<Cmd>Lspsaga peek_definition<CR>", desc = "LSP: Peek Definition" },
+    { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP: References" },
+    { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP: Goto Implementation" },
+    { "gt", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP: Goto Type Definition" },
+    { "gT", "<Cmd>Lspsaga peek_type_definition<CR>", desc = "LSP: Goto Type Definition" },
+    { "gs", function() Snacks.picker.lsp_symbols() end, desc = "LSP: LSP Symbols" },
+    { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP: Workspace Symbols" },
+    { "gf", "<Cmd>Lspsaga finder<CR>", desc = "LSP: Find ref" },
+    { "gR", "<Cmd>Lspsaga rename ++project<CR>", desc = "LSP: Rename" },
+
+    { "<Space>l", group = "Lsp" },
+    { "<Space>ll", "<cmd>Lspsaga code_action<CR>", desc = "LSP: Code Actions" },
+    { "<Space>ls", "<cmd>Lspsaga outline<CR>", desc = "LSP: Symbols" },
+    { "<Space>li", "<cmd>Telescope lsp_incoming_calls<CR>", desc = "LSP: Incoming Calls" },
+    { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", desc = "LSP: Outgoing Calls" },
+    { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>", desc = "LSP: Hover Docs" },
+    {
+      "[D",
+      function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
+      desc = "jump to prev error",
+    },
+    {
+      "]D",
+      function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
+      desc = "jump to next error",
+    },
+  },
 
   -- quick list
   { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
   { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
 
-  -- todo: <C-r> replace which-key
-  { '<leader>s"', function() Snacks.picker.registers() end, desc = "Registers" },
-  { "<leader>s'", function() Snacks.picker.marks() end, desc = "Marks" },
-  { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Search History" },
-  { "<leader>sc", function() Snacks.picker.command_history() end, desc = "Command History" },
-  { "<leader>:", function() Snacks.picker.command_history() end, desc = "Command History" },
-  { "<leader>sC", function() Snacks.picker.commands() end, desc = "Commands" },
-  { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Keymaps" },
-  { "<leader>sh", function() Snacks.picker.help() end, desc = "Help Pages" },
-  { "<C-R>", function() Snacks.picker.resume() end, desc = "Resume", mode = { "n", "v" } },
-  { "<leader>su", function() Snacks.picker.undo() end, desc = "Undo History" },
+  { '<leader>s"', function() Snacks.picker.registers() end, desc = "Tool: Registers" },
+  { "<leader>s'", function() Snacks.picker.marks() end, desc = "Tool: Marks" },
+  { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Tool: Search History" },
+  { "<leader>:", function() Snacks.picker.command_history() end, desc = "Tool: Command History" },
+  { "<leader>sc", function() Snacks.picker.commands() end, desc = "Tool: Commands" },
+  { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Tool: Keymaps" },
+  { "<leader>sh", function() Snacks.picker.help() end, desc = "Tool: Help Pages" },
+  -- { "<C-R>", function() Snacks.picker.resume() end, desc = "Resume", mode = { "n", "v" } },
+  { "<leader>su", function() Snacks.picker.undo() end, desc = "Tool: Undo History" },
 
   -- Git from Snacks
   { "<leader>g", group = "Git" },
@@ -140,90 +140,121 @@ wk.add({
   { "<leader>gH", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Git Unstage Hunk" },
   { "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Git Reset Hunk" },
   { "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Git Reset Buffer" },
+  {
+    "]c",
+    function()
+      if vim.wo.diff then
+        return "]c"
+      end
+      vim.schedule(function() require("gitsigns").next_hunk() end)
+      return "<Ignore>"
+    end,
+
+    desc = "Git: Next gitsigns hunk",
+  },
+  {
+    "[c",
+    function()
+      if vim.wo.diff then
+        return "[c"
+      end
+      vim.schedule(function() require("gitsigns").prev_hunk() end)
+      return "<Ignore>"
+    end,
+    desc = "Git: Previous gitsigns hunk",
+  },
 
   -- mini.surrounding
   { "gz", "", desc = "+surround" },
+  -- avante
+  { "<leader>a", group = "avante" },
+
+  -- bufferline
+  { ";", group = "BufferLine" },
+  { ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", desc = "Go to Buffer 1 in BufferLine", hidden = true },
+  { ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", desc = "Go to Buffer 2 in BufferLine", hidden = true },
+  { ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", desc = "Go to Buffer 3 in BufferLine", hidden = true },
+  { ";4", "<Cmd>BufferLineGoToBuffer 4<CR>", desc = "Go to Buffer 4 in BufferLine", hidden = true },
+  { ";5", "<Cmd>BufferLineGoToBuffer 5<CR>", desc = "Go to Buffer 5 in BufferLine", hidden = true },
+  { ";6", "<Cmd>BufferLineGoToBuffer 6<CR>", desc = "Go to Buffer 6 in BufferLine", hidden = true },
+  { ";7", "<Cmd>BufferLineGoToBuffer 7<CR>", desc = "Go to Buffer 7 in BufferLine", hidden = true },
+  { ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", desc = "Go to Buffer 8 in BufferLine", hidden = true },
+  { ";;", function() Snacks.picker.buffers() end, desc = "Buffers" },
+  { ";p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+  { ";cl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
+  { ";ch", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
+
+  { "[b", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer", hidden = true },
+  { "]b", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", hidden = true },
+  { "[B", "<Cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev", hidden = true },
+  { "]B", "<Cmd>BufferLineMoveNext<cr>", desc = "Move buffer next", hidden = true },
+  { "<S-h>", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+  { "<S-l>", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+
+  -- tabs
+  { "[t", ":tabprevious<CR>", desc = "Go to previous tab" },
+  { "]t", ":tabnext<CR>", desc = "Go to next tab" },
+  -- todo
+  { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
+  {
+    "<leader>sT",
+    function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end,
+    desc = "Todo/Fix/Fixme",
+  },
+
+  -- makrs
+  { "<Leader>m", group = "Marks" },
+  { "<Leader>mi", "<Plug>(Marks-delete)", desc = "Delete Marks Input: <input>" },
+  { "<Leader>md", "<Plug>(Marks-deleteline)", desc = "Delete Marks In Current Line" },
+  { "<Leader>mA", "<Cmd>delmarks a-zA-Z0-9<CR>", desc = "Delete All Marks" },
+  { "<Leader>mb", "<Cmd>MarksListBuf<CR>", desc = "Buffer Marks" },
+  { "<Leader>mB", "<Plug>(Marks-deletebuf)", desc = "Delete Current Buffer Marks" },
+  -- { "<Leader>ml'", proxy = "<leader>s'", desc = "List Marks" },
+
+  { "mm", "<Plug>(Marks-setnext)", desc = "Marks SetNext" },
+
+  { "<Leader>t", group = "ToggleTerm" },
+  { "<Leader>tt", "<Cmd>ToggleTerm direction=horizontal<CR>", desc = "Horizontal Terminal" },
+  { "<Leader>tv", "<Cmd>ToggleTerm direction=vertical<CR>", desc = "Vertical Terminal" },
 })
 
-wk.register({
-  -- harpoon
-  ["<Leader>h"] = {
-    name = "Harpoon",
-    h = { "<Cmd>lua require('harpoon.mark').add_file()<CR>", "Add File To Quick Menu" },
-    t = { "<Cmd>lua require('harpoon.ui').toggle_quick_menu()<CR>", "Toogle Quick Menu" },
-    T = { "<Cmd>Telescope harpoon marks<CR>", "Telescope Quick Menu" },
-  },
-
-  -- marks
-  ["<Leader>m"] = {
-    name = "Marks",
-    -- list marks: ' in normal mode
-    d = { "<Plug>(Marks-delete)", "Delete Marks Input: <input>" },
-    l = { "<Plug>(Marks-deleteline)", "Delete Marks In Current Line" },
-    D = { "<Plug>(Marks-deletebuf)", "Delete Marks In Current Buffer" },
-    A = { "<Cmd>delmarks a-zA-Z0-9<CR>", "Delete All Marks" },
-    b = { "<Cmd>MarksListBuf<CR>", "Buffer Marks" },
-    m = { "<Cmd>Telescope marks<CR>", "Telescope Marks" },
-  },
-  ["m"] = {
-    name = "Marks",
-    m = { "<Plug>(Marks-setnext)", "Marks SetNext" },
-  },
-
-  -- toggleterm
-  ["<Leader>t"] = {
-    name = "ToggleTerm",
-    -- <C-\> ToggleTerm
-    t = { "<Cmd>ToggleTerm direction=horizontal<CR>", "Horizontal Terminal" },
-    v = { "<Cmd>ToggleTerm direction=vertical<CR>", "Vertical VTerminal" },
+-- harpoon2
+wk.add({
+  { ";h", group = "Harpoon2" },
+  { ";ha", function() require("harpoon"):list():add() end, desc = "Harpoon File" },
+  {
+    ";hh",
+    function()
+      local harpoon = require("harpoon")
+      harpoon.ui:toggle_quick_menu(harpoon:list())
+    end,
+    desc = "Harpoon Quick Menu",
   },
 })
-
--- gitsigns
-local gs = require("gitsigns")
-map("n", "]c", function()
-  if vim.wo.diff then
-    return "]c"
-  end
-  vim.schedule(function() gs.next_hunk() end)
-  return "<Ignore>"
-end, { expr = true })
-map("n", "[c", function()
-  if vim.wo.diff then
-    return "[c"
-  end
-  vim.schedule(function() gs.prev_hunk() end)
-  return "<Ignore>"
-end, { expr = true })
-
--- general lsp keybindings based on vim.lsp
-pluginKeys.default_on_attach = function(_, _)
+for i = 1, 10 do
   wk.add({
-    mod = "n",
-    {
-      "gi",
-      vim.lsp.buf.implementation,
-      desc = "Go to the implementation",
-    },
-    { "<Space>w", group = "Workspace" },
-    { "<space>wa", vim.lsp.buf.add_workspace_folder, desc = "Workspace Add Folder" },
-    { "<space>wr", vim.lsp.buf.remove_workspace_folder, desc = "Workspace Remove Folder" },
-    {
-      "<space>wl",
-      function() print(vim.inspect(vim.lsp.buf.list_workspace_folders())) end,
-      desc = "Workspace List",
-    },
+    ";h" .. i,
+    function() require("harpoon"):list():select(i) end,
+    desc = "Harpoon to File " .. i,
   })
 end
 
-pluginKeys.rustaceanvim = function(client, bufnr)
-  pluginKeys.default_on_attach(client, bufnr)
+pluginKeys.rustaceanvim = function(_, _)
   wk.add({
     mod = "n",
     { "<Space>r", group = "Rust" },
-    { "<Space>rh", ":RustLsp hover actions<CR>", desc = "Rust Hover Action" },
-    { "<Space>re", ":RustLsp expandMacro<CR>", desc = "Rust Expand Macro" },
-    { "<Space>rp", ":RustLsp parentModule<CR>", desc = "Rust Parent Module" },
+    { "<Space>rh", ":RustLsp hover actions<CR>", desc = "Hover Action" },
+    { "K", ":RustLsp hover actions<CR>", desc = "Hover Action" },
+    { "<Space>rE", ":RustLsp expandMacro<CR>", desc = "Expand Macro" },
+    { "<Space>re", ":RustLsp explainError<CR>", desc = "Explain Error" },
+    { "<Space>rp", ":RustLsp parentModule<CR>", desc = "Parent Module" },
+    { "<Space>rd", ":RustLsp renderDiagnostic<CR>", desc = "Render Diagnostics" },
+    { "<Space>ro", ":RustLsp openDocs<CR>", desc = "Open docs.rs" },
+    { "<Space>rj", ":RustLsp joinLines<CR>", desc = "Join lines" },
+    { "<Space>rm", ":RustLsp view mir<CR>", desc = "MIR" },
+    { "<Space>rM", ":RustLsp view hir<CR>", desc = "HIR" },
+    { "<Space>rc", ":RustLsp openCargo<CR>", desc = "Cargo.toml" },
+    { "<Space>rr", ":RustLsp runnables ", desc = "Run With Args" },
   })
 end
 
@@ -246,44 +277,9 @@ pluginKeys.dap_mapping = function(dap, dapui)
       desc = "Dap Eval Value",
     },
   })
-  -- map("n", "<space>db", dap.toggle_breakpoint, { desc = "" }, opt)
-  -- Eval var under cursor
 end
 
--- For LSP
--- vim.keymap.set("n", "<space>e", vim.diagnostic.open_float, opt)
--- vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist, opts)
-pluginKeys.lspsaga_mapping = function()
-  wk.add({
-    mod = "n",
-    { "gf", "<Cmd>Lspsaga finder<CR>", desc = "Code Action: Find ref" },
-    {
-      "gd",
-      "<Cmd>Lspsaga peek_definition<CR>",
-      desc = "Code Actions: Definition",
-    },
-    { "gD", "<Cmd>Lspsaga goto_type_definition<CR>", desc = "Code Actions: Type Definition" },
-    { "gr", "<Cmd>Lspsaga rename ++project<CR>", desc = "Code Actions: Rename" },
-    { "<Space>l", group = "Lsp" },
-    { "<Space>ll", "<cmd>Lspsaga code_action<CR>", desc = "code actions" },
-    { "<Space>ls", "<cmd>Lspsaga outline<CR>", desc = "code outline" },
-    { "<Space>li", "<cmd>Telescope lsp_incoming_calls<CR>", desc = "incoming calls" },
-    { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", desc = "outgoing calls" },
-    { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>", desc = "hover docs" },
-    { "[d", "<Cmd>Lspsaga diagnostic_jump_prev<CR>", desc = "jump to prev diagnostic" },
-    { "]d", "<Cmd>Lspsaga diagnostic_jump_next<CR>", desc = "jump to next diagnostic" },
-    {
-      "[D",
-      function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-      desc = "jump to prev error",
-    },
-    {
-      "]D",
-      function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-      desc = "jump to next error",
-    },
-  })
-end
+-- For LSP saga
 pluginKeys.lspsaga_finder_keys = {
   shuttle = "[w",
   toggle_or_open = { "e", "<CR>" },
@@ -325,7 +321,7 @@ pluginKeys.lspsaga_rename_keys = {
   quit = "<ESC>",
 }
 
--- For cmp
+-- cmp
 pluginKeys.cmp_mapping = function(cmp, auto_select)
   return {
     ["<CR>"] = LazyVim.cmp.confirm({ select = auto_select }),
@@ -387,7 +383,7 @@ pluginKeys.trouble_action_keys = {
   jump_close = { "o" }, -- jump to the diagnostic and close the list
   toggle_mode = "m", -- toggle between "workspace" and "document" diagnostics mode
   toggle_preview = "P", -- toggle auto_preview
-  hover = "K", -- opens a small popup with the full multiline message
+  -- hover = "K", -- opens a small popup with the full multiline message
   preview = "p", -- preview the diagnostic location
   close_folds = { "Z" }, -- close all folds
   open_folds = { "z" }, -- open all folds

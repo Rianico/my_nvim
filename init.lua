@@ -14,13 +14,11 @@ require("lsp.conform")
 -- dap
 require("config.dap")
 
--- for status/winbar
--- require("config.lua-line")
-
 -- git
 require("config.gitsigns")
 -- terminal
 require("config.toggleterm")
+require("config.harpoon2")
 -- motion
 require("config.leap")
 -- comment

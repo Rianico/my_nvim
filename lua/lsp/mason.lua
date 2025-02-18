@@ -19,9 +19,6 @@ local lsp_servers = {
   "dockerls",
   -- go
   "gopls",
-  -- "delve",
-  -- "gomodifytags",
-  -- "impl",
   "jdtls",
   -- toml
   "taplo",
@@ -29,9 +26,6 @@ local lsp_servers = {
   "jsonls",
   -- xml
   "lemminx",
-  -- lua
-  -- markdown
-  -- "marksman",
   -- python
   "ruff",
 }
@@ -57,12 +51,6 @@ mason_lspconfig.setup({
     end,
   },
 })
-
--- for _, server_name in ipairs(mason_lspconfig.get_installed_servers()) do
--- You can add custom settings for specific servers here
---     local server_opts = vim.tbl_deep_extend("force", default_opts, {})
---     lspconfig[server_name].setup(server_opts)
--- end
 
 lspconfig.gopls.setup({
   on_attach = function(client, _)

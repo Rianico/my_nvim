@@ -19,6 +19,9 @@ return {
     },
     event = { "VeryLazy" },
     lazy = true,
+    config = function()
+      dofile(vim.g.base46_cache .. "trouble")
+    end,
   },
   -- lsp enhanced
   {
@@ -52,7 +55,12 @@ return {
     lazy = true,
   },
   -- trouble
-  { "folke/trouble.nvim", dependencies = "kyazdani42/nvim-web-devicons", lazy = true },
+  {
+    "folke/trouble.nvim",
+    dependencies = "kyazdani42/nvim-web-devicons",
+    lazy = true,
+    config = function() dofile(vim.g.base46_cache .. "trouble") end,
+  },
   -- grammar highlight
   {
     "nvim-treesitter/nvim-treesitter",
@@ -66,13 +74,6 @@ return {
   { "numToStr/Comment.nvim", event = { "VeryLazy" }, lazy = true },
   -- code formatting
   -- { "nvimtools/none-ls.nvim", dependencies = "nvim-lua/plenary.nvim" },
-  -- status line
-  {
-    "nvim-lualine/lualine.nvim",
-    dependencies = { "kyazdani42/nvim-web-devicons", opt = true },
-  },
-  -- bufferline
-  { "akinsho/bufferline.nvim", tag = "v4.9.1", dependencies = "nvim-tree/nvim-web-devicons" },
   -- Leap
   { "ggandor/flit.nvim", dependencies = "ggandor/leap.nvim" },
   -- vista
@@ -84,8 +85,6 @@ return {
   { "echasnovski/mini.icons", branch = "stable" },
   { "echasnovski/mini.surround", branch = "stable" },
   { "echasnovski/mini.files", branch = "stable" },
-  -- colorizer
-  { "norcalli/nvim-colorizer.lua" },
   -- repeat
   { "tpope/vim-repeat", event = "VeryLazy" },
   -- which key, hint the next shortcut key
@@ -113,39 +112,27 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    opts = {
-      menu = {
-        width = vim.api.nvim_win_get_width(0) - 4,
-      },
-      settings = {
-        save_on_toggle = true,
-      },
-    },
-    keys = function()
-      local keys = {
-        {
-          "<leader>H",
-          function() require("harpoon"):list():add() end,
-          desc = "Harpoon File",
+    opts = function(_, opts)
+      return vim.tbl_deep_extend("force", opts or {}, {
+        picker = {
+          actions = require("trouble.sources.snacks").actions,
+          win = {
+            input = {
+              keys = {
+                ["<c-t>"] = {
+                  "trouble_open",
+                  mode = { "n", "i" },
+                },
+              },
+            },
+          },
         },
-        {
-          "<leader>h",
-          function()
-            local harpoon = require("harpoon")
-            harpoon.ui:toggle_quick_menu(harpoon:list())
-          end,
-          desc = "Harpoon Quick Menu",
-        },
-      }
-
-      for i = 1, 5 do
-        table.insert(keys, {
-          "<leader>" .. i,
-          function() require("harpoon"):list():select(i) end,
-          desc = "Harpoon to File " .. i,
-        })
-      end
-      return keys
+      })
     end,
+  },
+  {
+    "folke/todo-comments.nvim",
+    event = "VeryLazy",
+    opt = {},
   },
 }

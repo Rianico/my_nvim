@@ -11,15 +11,14 @@ return {
 
     opts = function(_, _)
       local cmp = require("cmp")
-      local defaults = require("cmp.config.default")()
       local auto_select = true
-      return {
+      local options = {
         auto_brackets = {}, -- configure any filetype to auto add brackets
-        -- completion = {
-        --   completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
-        -- },
+        completion = {
+          completeopt = "menu,menuone,noinsert" .. (auto_select and "" or ",noselect"),
+        },
         window = {
-          -- completion = cmp.config.window.bordered(),
+          completion = cmp.config.window.bordered(),
           documentation = cmp.config.window.bordered(),
         },
         preselect = auto_select and cmp.PreselectMode.Item or cmp.PreselectMode.None,
@@ -27,7 +26,6 @@ return {
         sources = cmp.config.sources({
           { name = "nvim_lsp" },
           { name = "path" },
-        }, {
           { name = "buffer" },
         }),
         formatting = {
@@ -50,8 +48,10 @@ return {
             return item
           end,
         },
-        sorting = defaults.sorting,
+        sorting = require("cmp.config.default")().sorting,
       }
+      options = vim.tbl_deep_extend("force", options, require("nvchad.cmp"))
+      return options
     end,
   },
   -- snippets

@@ -71,7 +71,7 @@ return {
       end,
     },
     -- scroll = { enabled = true },
-    -- explorer = { enabled = true },
+    explorer = { enabled = true },
     picker = { enabled = true },
     -- scope = { enabled = true },
 
@@ -81,10 +81,5 @@ return {
     -- use noice
     notifier = { enabled = true },
     input = { enabled = true },
-  },
-  keys = {
-    -- git
-    -- search
-    -- LSP
   },
 }

@@ -5,9 +5,7 @@ return {
   ft = { "rust" },
   opts = {
     server = {
-      on_attach = function(client, bufnr)
-        require("keybindings").rustaceanvim(client, bufnr)
-      end,
+      on_attach = function(client, bufnr) require("keybindings").rustaceanvim(client, bufnr) end,
       default_settings = {
         -- rust-analyzer language server configuration
         ["rust-analyzer"] = {
@@ -19,6 +17,7 @@ return {
             },
           },
           -- Add clippy lints for Rust if using rust-analyzer
+          -- todo: migrate to clippy
           checkOnSave = true,
           -- Enable diagnostics if using rust-analyzer
           diagnostics = {
