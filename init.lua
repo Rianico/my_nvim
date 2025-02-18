@@ -29,4 +29,3 @@ require("config.mini")
 -- marks
 require("config/marks")
 -- fuzzy finder, can also integration with many plugins amazingly!
--- require("config.telescope")
