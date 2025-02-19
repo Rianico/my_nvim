@@ -1,34 +1,22 @@
 local options = {
 
   base46 = {
-    theme = "wombat", -- default theme
+    theme = "gruvchad", -- default theme
     hl_add = {},
     hl_override = {},
-    integrations = {
-      "dap",
-      "trouble",
-      "cmp",
-      "bufferline",
-      "codeactionmenu",
-      "lsp",
-      "lspsaga",
-      "mason",
-      "todo",
-      "notify",
-      "whichkey",
-    },
+    integrations = {},
     changed_themes = {},
     transparency = false,
-    theme_toggle = { "wombat", "one_light" },
+    theme_toggle = { "gruvchad", "one_light" },
   },
 
   ui = {
     cmp = {
-      icons_left = false, -- only for non-atom styles!
+      icons_left = true, -- only for non-atom styles!
       style = "default", -- default/flat_light/flat_dark/atom/atom_colored
       abbr_maxwidth = 60,
       format_colors = {
-        tailwind = true, -- will work for css lsp too
+        tailwind = false, -- will work for css lsp too
         icon = "󱓻",
       },
     },

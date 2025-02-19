@@ -24,6 +24,7 @@ wk.setup({
     -- position = "bottom", -- bottom, top
     height = { min = 4, max = 25 },
   },
+  sort = { "local", "order", "group", "mod", "alphanum", "desc" },
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -49,13 +50,14 @@ pluginKeys = {
 }
 wk.add({
   -- Top Pickers & Explorer
-  { "<leader><space>", function() Snacks.picker.smart() end, desc = "Smart Find Files" },
-  { "<leader>/", function() Snacks.picker.grep() end, desc = "Grep" },
-  { "<leader>n", function() Snacks.picker.notifications() end, desc = "Notification History" },
-  { "<leader>e", function() Snacks.explorer() end, desc = "File Explorer" },
-  { "<c-/>", function() Snacks.picker.grep() end, desc = "Toggle Terminal" },
-  { "<c-_>", function() Snacks.picker.grep() end, desc = "which_key_ignore" },
-  { "<Leader>z", "<Cmd>ZenMode<CR>", desc = "Zen mode", hidden = true },
+  { "<leader><space>", function() Snacks.picker.smart() end, desc = "General: Smart Find Files" },
+  { '<leader>"', function() Snacks.picker.registers() end, desc = "General: Registers", hidden = true },
+  { "<leader>'", function() Snacks.picker.marks() end, desc = "General: Marks", hidden = true },
+  { "<leader>n", function() Snacks.picker.notifications() end, desc = "General: Notification History" },
+  { "<leader>e", function() Snacks.explorer() end, desc = "General: File Explorer" },
+  { "<c-/>", function() Snacks.picker.grep() end, desc = "General: Grep" },
+  { "<c-_>", function() Snacks.picker.grep() end, desc = "General: Grep" },
+  { "<leader>z", "<Cmd>ZenMode<CR>", desc = "Zen mode", hidden = true },
 
   -- find
   { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
@@ -81,7 +83,7 @@ wk.add({
 
   -- lsp
   {
-    mod = "n",
+    mode = "n",
     { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP: Definition" },
     { "gD", "<Cmd>Lspsaga peek_definition<CR>", desc = "LSP: Peek Definition" },
     { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP: References" },
@@ -100,12 +102,12 @@ wk.add({
     { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", desc = "LSP: Outgoing Calls" },
     { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>", desc = "LSP: Hover Docs" },
     {
-      "[D",
+      "[e",
       function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
       desc = "jump to prev error",
     },
     {
-      "]D",
+      "]e",
       function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
       desc = "jump to next error",
     },
@@ -115,15 +117,16 @@ wk.add({
   { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
   { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
 
-  { '<leader>s"', function() Snacks.picker.registers() end, desc = "Tool: Registers" },
-  { "<leader>s'", function() Snacks.picker.marks() end, desc = "Tool: Marks" },
   { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Tool: Search History" },
   { "<leader>:", function() Snacks.picker.command_history() end, desc = "Tool: Command History" },
-  { "<leader>sc", function() Snacks.picker.commands() end, desc = "Tool: Commands" },
-  { "<leader>sk", function() Snacks.picker.keymaps() end, desc = "Tool: Keymaps" },
-  { "<leader>sh", function() Snacks.picker.help() end, desc = "Tool: Help Pages" },
-  -- { "<C-R>", function() Snacks.picker.resume() end, desc = "Resume", mode = { "n", "v" } },
-  { "<leader>su", function() Snacks.picker.undo() end, desc = "Tool: Undo History" },
+
+  -- Tools
+  { "<leader>t", group = "Tools" },
+  { "<leader>tc", function() Snacks.picker.commands() end, desc = "Tool: Commands" },
+  { "<leader>tk", function() Snacks.picker.keymaps() end, desc = "Tool: Keymaps" },
+  { "<leader>th", function() Snacks.picker.help() end, desc = "Tool: Help Pages" },
+  { "<leader>tu", function() Snacks.picker.undo() end, desc = "Tool: Undo History" },
+  { "<leader>tt", ":lua require('nvchad.themes').open()<cr>", desc = "Tool: Theme" },
 
   -- Git from Snacks
   { "<leader>g", group = "Git" },
@@ -212,10 +215,6 @@ wk.add({
   -- { "<Leader>ml'", proxy = "<leader>s'", desc = "List Marks" },
 
   { "mm", "<Plug>(Marks-setnext)", desc = "Marks SetNext" },
-
-  { "<Leader>t", group = "ToggleTerm" },
-  { "<Leader>tt", "<Cmd>ToggleTerm direction=horizontal<CR>", desc = "Horizontal Terminal" },
-  { "<Leader>tv", "<Cmd>ToggleTerm direction=vertical<CR>", desc = "Vertical Terminal" },
 })
 
 -- harpoon2
@@ -231,7 +230,7 @@ wk.add({
     desc = "Harpoon Quick Menu",
   },
 })
-for i = 1, 10 do
+for i = 1, 9 do
   wk.add({
     ";h" .. i,
     function() require("harpoon"):list():select(i) end,
@@ -241,7 +240,7 @@ end
 
 pluginKeys.rustaceanvim = function(_, _)
   wk.add({
-    mod = "n",
+    mode = "n",
     { "<Space>r", group = "Rust" },
     { "<Space>rh", ":RustLsp hover actions<CR>", desc = "Hover Action" },
     { "K", ":RustLsp hover actions<CR>", desc = "Hover Action" },
@@ -260,7 +259,7 @@ end
 
 pluginKeys.dap_mapping = function(dap, dapui)
   wk.add({
-    mod = "n",
+    mode = "n",
     { "<space>d", group = "Dap" },
     { "<space>db", dap.toggle_breakpoint, desc = "Dap Toggle Breakpoint" },
     { "<space>dl", dap.list_breakpoints, desc = "Dap List Breakpoints" },
