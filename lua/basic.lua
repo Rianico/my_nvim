@@ -183,6 +183,8 @@ vim.api.nvim_create_autocmd("FileType", {
     "startuptime",
     "tsplayground",
     "Avante",
+    "AvanteSelectedFiles",
+    "AvanteInput",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
