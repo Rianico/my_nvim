@@ -2,11 +2,13 @@
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
 local lspconfig = require("lspconfig")
-
 local util = require("lspconfig/util")
-
 local default_opts = {
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
+}
+default_opts.capabilities.textDocument.foldingRange = {
+  dynamicRegistration = false,
+  lineFoldingOnly = true,
 }
 
 -- the servers that should be automatically installed

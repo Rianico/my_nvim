@@ -1,6 +1,5 @@
 local map = vim.keymap.set
 local opt = { noremap = true, silent = true }
-
 local pluginKeys = {}
 
 -- emacs style shorten
@@ -56,8 +55,26 @@ wk.add({
   { "<leader>n", function() Snacks.picker.notifications() end, desc = "General: Notification History" },
   { "<leader>e", function() Snacks.explorer() end, desc = "General: File Explorer" },
   { "<c-/>", function() Snacks.picker.grep() end, desc = "General: Grep" },
+  {
+    "<c-\\>",
+    function()
+      local shell = vim.fn.executable("zsh") == 1 and "zsh" or "bash"
+      return Snacks.terminal.toggle(shell)
+    end,
+    desc = "Toggle Terminal",
+    mode = { "n", "t" },
+  },
   { "<c-_>", function() Snacks.picker.grep() end, desc = "General: Grep" },
-  { "<leader>z", "<Cmd>ZenMode<CR>", desc = "Zen mode", hidden = true },
+  { "<leader>z", function() Snacks.zen() end, desc = "Zen mode", hidden = true },
+
+  -- motions
+  -- stylua: ignore
+  {
+    { "s",     function() require("flash").jump() end,              mode = { "n", "x", "o" }, desc = "Flash" },
+    { "S",     function() require("flash").treesitter() end,        mode = { "n" },           desc = "Flash Treesitter" },
+    { "r",     function() require("flash").remote() end,            mode = "o",               desc = "Remote Flash" },
+    { "R",     function() require("flash").treesitter_search() end, mode = { "o", "x" },      desc = "Treesitter Search" },
+  },
 
   -- find
   { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
@@ -78,8 +95,8 @@ wk.add({
   },
 
   -- diagnostics
-  { "<leader>sd", function() Snacks.picker.diagnostics() end, desc = "LSP: Diagnostics" },
-  { "<leader>sD", function() Snacks.picker.diagnostics_buffer() end, desc = "LSP: Buffer Diagnostics" },
+  { "<leader>sd", function() Snacks.picker.diagnostics_buffer() end, desc = "LSP: Buffer Diagnostics" },
+  { "<leader>sD", function() Snacks.picker.diagnostics() end, desc = "LSP: Diagnostics" },
 
   -- lsp
   {
@@ -102,6 +119,16 @@ wk.add({
     { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", desc = "LSP: Outgoing Calls" },
     { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>", desc = "LSP: Hover Docs" },
     {
+      "[d",
+      function() require("lspsaga.diagnostic"):goto_prev() end,
+      desc = "jump to prev error",
+    },
+    {
+      "]d",
+      function() require("lspsaga.diagnostic"):goto_next() end,
+      desc = "jump to next error",
+    },
+    {
       "[e",
       function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
       desc = "jump to prev error",
@@ -111,6 +138,24 @@ wk.add({
       function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
       desc = "jump to next error",
     },
+  },
+
+  { "z", group = "UFO" },
+  { "zR", "<cmd>lua require('ufo').openAllFolds()<CR>", desc = "UFO: Open All Folds" },
+  { "zM", "<cmd>lua require('ufo').closeAllFolds()<CR>", desc = "UFO: Close All Folds" },
+  { "zr", "<cmd>lua require('ufo').openFoldsExceptKinds()<CR>", desc = "UFO: Open Folds Except Kinds" },
+  { "zm", "<cmd>lua require('ufo').closeFoldsWith()<CR>", desc = "UFO: Close Folds With" },
+  {
+    "zk",
+    function()
+      local winid = require("ufo").peekFoldedLinesUnderCursor()
+      if not winid then
+        -- choose one of coc.nvim and nvim lsp
+        vim.fn.CocActionAsync("definitionHover") -- coc.nvim
+        vim.lsp.buf.hover()
+      end
+    end,
+    desc = "UFO: Peek Folded Lines or Hover",
   },
 
   -- quick list
@@ -129,20 +174,34 @@ wk.add({
   { "<leader>tt", ":lua require('nvchad.themes').open()<cr>", desc = "Tool: Theme" },
 
   -- Git from Snacks
-  { "<leader>g", group = "Git" },
-  { "<leader>gB", function() Snacks.picker.git_branches() end, desc = "Git Branches" },
-  { "<leader>gb", "<Cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Git Blame" },
-  { "<leader>gl", function() Snacks.picker.git_log() end, desc = "Git Log" },
-  { "<leader>gL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
-  { "<leader>gf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
-  { "<leader>gs", function() Snacks.picker.git_status() end, desc = "Git Status" },
-  { "<leader>gd", function() Snacks.picker.git_diff() end, desc = "Git Diff (Hunks)" },
-  -- extend Gitsigns
-  { "<leader>gD", "<Cmd>Gitsigns toggle_deleted<CR>", desc = "Git Toggle Deleted" },
-  { "<leader>gh", "<Cmd>Gitsigns stage_hunk<CR>", desc = "Git Stage Hunk" },
-  { "<leader>gH", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Git Unstage Hunk" },
-  { "<leader>gr", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Git Reset Hunk" },
-  { "<leader>gR", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Git Reset Buffer" },
+  { "<c-g>", group = "Git" },
+  -- Search
+  { "<c-g>s", group = "Git Search" },
+  { "<c-g>sl", function() Snacks.picker.git_log() end, desc = "Git Log" },
+  { "<c-g>sL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
+  { "<c-g>sf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
+  { "<c-g>sd", function() Snacks.picker.git_diff() end, desc = "All Diff Hunks" },
+  { "<c-g>ss", function() Snacks.picker.git_status() end, desc = "Git Status" },
+  { "<c-g>sb", function() Snacks.picker.git_branches() end, desc = "Branches" },
+
+  { "<c-g>t", group = "Toggle" },
+  { "<c-g>td", "<Cmd>Gitsigns toggle_deleted<CR>", desc = "Toggle Deleted" },
+  { "<c-g>tb", "<Cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Toggle Blame" },
+  { "<c-g>tw", "<Cmd>Gitsigns toggle_word_diff<CR>", desc = "Toggle Word diff" },
+  { "<c-g>tl", "<Cmd>Gitsigns toggle_linehl<CR>", desc = "Toggle Line Highlight" },
+  { "<c-g>tn", "<Cmd>Gitsigns toggle_numhl<CR>", desc = "Toggle Line Num Highlight" },
+
+  -- hunks
+  { "<c-g>g", "<Cmd>Gitsigns stage_hunk<CR>", desc = "Hunk: Stage" },
+  { "<c-g>h", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Hunk: Unstage" },
+  { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Hunk: Reset" },
+  { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>", desc = "Hunk: Preview Inline" },
+  { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>", desc = "Hunk: Preview" },
+  { "<c-g>S", "<Cmd>Gitsigns select_hunk<CR>", desc = "Hunk: Select" },
+  -- buffer
+  { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Buffer: Reset" },
+  { "<c-g>a", "<Cmd>Gitsigns stage_buffer<CR>", desc = "Buffer: Stage" },
+  { "<c-g>d", "<Cmd>Gitsigns diffthis ~<CR>", desc = "Buffer: Diff This" },
   {
     "]c",
     function()
@@ -197,6 +256,7 @@ wk.add({
   -- tabs
   { "[t", ":tabprevious<CR>", desc = "Go to previous tab" },
   { "]t", ":tabnext<CR>", desc = "Go to next tab" },
+
   -- todo
   { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
   {
@@ -345,25 +405,6 @@ pluginKeys.cmp_mapping = function(cmp, auto_select)
       end
       return "<C-n>"
     end, { "i", "s" }),
-    -- ["<Tab>"] = cmp.mapping(function(fallback)
-    --   local col = vim.fn.col(".") - 1
-    --   if cmp.visible() then
-    --     cmp.select_next_item(select_opts)
-    --   elseif col == 0 or vim.fn.getline("."):sub(col, col):match("%s") then
-    --     fallback()
-    --   else
-    --     cmp.complete()
-    --   end
-    -- end, { "i", "s" }),
-    -- ["<S-Tab>"] = cmp.mapping(function(fallback)
-    --   if cmp.visible() then
-    --     cmp.select_prev_item(select_opts)
-    --   else
-    --     fallback()
-    --   end
-    -- end, { "i", "s" }),
-    -- ["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
-    -- ["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
   }
 end
 

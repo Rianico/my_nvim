@@ -7,6 +7,16 @@ return {
       "hrsh7th/cmp-nvim-lsp",
       "hrsh7th/cmp-buffer",
       "hrsh7th/cmp-path",
+      "hrsh7th/cmp-cmdline",
+      {
+        "garymjr/nvim-snippets",
+        opts = {
+          friendly_snippets = true,
+        },
+        -- install jsregexp (optional!).
+        -- build = "make install_jsregexp",
+        dependencies = { "rafamadriz/friendly-snippets" },
+      },
     },
 
     opts = function(_, _)
@@ -27,6 +37,8 @@ return {
           { name = "nvim_lsp" },
           { name = "path" },
           { name = "buffer" },
+          { name = "cmp-cmdline" },
+          { name = "snippets" },
         }),
         formatting = {
           format = function(_, item)
@@ -49,30 +61,12 @@ return {
           end,
         },
         sorting = require("cmp.config.default")().sorting,
+        snippet = {
+          expand = function(item) return LazyVim.cmp.expand(item.body) end,
+        },
       }
       options = vim.tbl_deep_extend("force", options, require("nvchad.cmp"))
       return options
-    end,
-  },
-  -- snippets
-  {
-    "hrsh7th/nvim-cmp",
-    dependencies = {
-      {
-        "garymjr/nvim-snippets",
-        opts = {
-          friendly_snippets = true,
-        },
-        dependencies = { "rafamadriz/friendly-snippets" },
-      },
-    },
-    opts = function(_, opts)
-      opts.snippet = {
-        expand = function(item) return LazyVim.cmp.expand(item.body) end,
-      }
-      if LazyVim.has("nvim-snippets") then
-        table.insert(opts.sources, { name = "snippets" })
-      end
     end,
   },
 }

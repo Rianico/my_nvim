@@ -78,13 +78,17 @@ vim.o.autoread = true
 vim.bo.autoread = true
 -- smaller updatetime
 vim.o.updatetime = 600
+
 -- 设置 timeoutlen 为等待键盘快捷键连击时间200 毫秒，可根据需要设置
 -- 遇到问题详见：https://github.com/nshen/learn-neovim-lua/issues/1
 vim.o.timeout = true
 vim.o.timeoutlen = 320
--- disable netrw at the very start of your init.lua (strongly advised)
-vim.g.loaded_netrw = 1
-vim.g.loaded_netrwPlugin = 1
+
+-- nvim-ufo
+vim.o.foldcolumn = "0" -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
 
 -- for ripgrep
 if vim.fn.executable("rg") == 1 then
@@ -159,48 +163,6 @@ vim.api.nvim_create_autocmd({ "BufWritePre" }, {
   end,
 })
 
----@type table<number, {token:lsp.ProgressToken, msg:string, done:boolean}[]>
-local progress = vim.defaulttable()
-vim.api.nvim_create_autocmd("LspProgress", {
-  ---@param ev {data: {client_id: integer, params: lsp.ProgressParams}}
-  callback = function(ev)
-    local client = vim.lsp.get_client_by_id(ev.data.client_id)
-    local value = ev.data.params.value --[[@as {percentage?: number, title?: string, message?: string, kind: "begin" | "report" | "end"}]]
-    if not client or type(value) ~= "table" then
-      return
-    end
-    local p = progress[client.id]
-
-    for i = 1, #p + 1 do
-      if i == #p + 1 or p[i].token == ev.data.params.token then
-        p[i] = {
-          token = ev.data.params.token,
-          msg = ("[%3d%%] %s%s"):format(
-            value.kind == "end" and 100 or value.percentage or 100,
-            value.title or "",
-            value.message and (" **%s**"):format(value.message) or ""
-          ),
-          done = value.kind == "end",
-        }
-        break
-      end
-    end
-
-    local msg = {} ---@type string[]
-    progress[client.id] = vim.tbl_filter(function(v) return table.insert(msg, v.msg) or not v.done end, p)
-
-    local spinner = { "⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏" }
-    vim.notify(table.concat(msg, "\n"), "info", {
-      id = "lsp_progress",
-      title = client.name,
-      opts = function(notif)
-        notif.icon = #progress[client.id] == 0 and " "
-          or spinner[math.floor(vim.uv.hrtime() / (1e6 * 80)) % #spinner + 1]
-      end,
-    })
-  end,
-})
-
 -- close some filetypes with <q>
 vim.api.nvim_create_autocmd("FileType", {
   group = augroup("close_with_q"),
@@ -220,6 +182,7 @@ vim.api.nvim_create_autocmd("FileType", {
     "spectre_panel",
     "startuptime",
     "tsplayground",
+    "Avante",
   },
   callback = function(event)
     vim.bo[event.buf].buflisted = false
@@ -233,6 +196,17 @@ vim.api.nvim_create_autocmd("FileType", {
         desc = "Quit buffer",
       })
     end)
+  end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args)
+    local bufnr = args.buf
+    local client = vim.lsp.get_client_by_id(args.data.client_id)
+    if vim.tbl_contains({ "null-ls" }, client.name) then -- blacklist lsp
+      return
+    end
+    require("lsp_signature").on_attach({}, bufnr)
   end,
 })
 

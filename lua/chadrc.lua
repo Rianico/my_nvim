@@ -1,13 +1,13 @@
 local options = {
 
   base46 = {
-    theme = "gruvchad", -- default theme
+    theme = "tokyonight", -- default theme
     hl_add = {},
     hl_override = {},
     integrations = {},
     changed_themes = {},
     transparency = false,
-    theme_toggle = { "gruvchad", "one_light" },
+    theme_toggle = { "tokyonight", "one_light" },
   },
 
   ui = {

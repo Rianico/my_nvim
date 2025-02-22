@@ -19,9 +19,7 @@ return {
     },
     event = { "VeryLazy" },
     lazy = true,
-    config = function()
-      dofile(vim.g.base46_cache .. "trouble")
-    end,
+    config = function() dofile(vim.g.base46_cache .. "trouble") end,
   },
   -- lsp enhanced
   {
@@ -38,15 +36,16 @@ return {
     init = function() vim.o.formatexpr = "v:lua.require'conform'.formatexpr()" end,
     lazy = true,
   },
-  { "ray-x/lsp_signature.nvim", after = "nvim-lspconfig" },
-  -- Autocompletion framework
-  { "hrsh7th/vim-vsnip" },
   {
-    "L3MON4D3/LuaSnip",
-    -- follow latest release.
-    version = "v2.3.*", -- Replace <CurrentMajor> by the latest released major (first number of latest release)
-    -- install jsregexp (optional!).
-    build = "make install_jsregexp",
+    "ray-x/lsp_signature.nvim",
+    event = "InsertEnter",
+    opts = {
+      bind = true,
+      handler_opts = {
+        border = "rounded",
+      },
+    },
+    config = function(_, opts) require("lsp_signature").setup(opts) end,
   },
   {
     "scalameta/nvim-metals",
@@ -74,16 +73,11 @@ return {
   { "numToStr/Comment.nvim", event = { "VeryLazy" }, lazy = true },
   -- code formatting
   -- { "nvimtools/none-ls.nvim", dependencies = "nvim-lua/plenary.nvim" },
-  -- Leap
-  { "ggandor/flit.nvim", dependencies = "ggandor/leap.nvim" },
-  -- vista
-  { "liuchengxu/vista.vim", lazy = true },
   -- mini.nvim
   { "echasnovski/mini.cursorword" },
   { "echasnovski/mini.pairs" },
   { "echasnovski/mini.ai", branch = "stable" },
   { "echasnovski/mini.icons", branch = "stable" },
-  { "echasnovski/mini.surround", branch = "stable" },
   { "echasnovski/mini.files", branch = "stable" },
   -- repeat
   { "tpope/vim-repeat", event = "VeryLazy" },
@@ -93,10 +87,6 @@ return {
   { "chentoast/marks.nvim", lazy = true },
   -- git
   { "lewis6991/gitsigns.nvim", tag = "release", lazy = true },
-  -- terminal
-  { "akinsho/toggleterm.nvim", tag = "v2.2.1", lazy = true },
-  -- zen
-  { "folke/zen-mode.nvim", event = "VeryLazy", lazy = true },
   -- telescope
   {
     "nvim-telescope/telescope.nvim",
@@ -112,27 +102,53 @@ return {
   {
     "ThePrimeagen/harpoon",
     branch = "harpoon2",
-    opts = function(_, opts)
-      return vim.tbl_deep_extend("force", opts or {}, {
-        picker = {
-          actions = require("trouble.sources.snacks").actions,
-          win = {
-            input = {
-              keys = {
-                ["<c-t>"] = {
-                  "trouble_open",
-                  mode = { "n", "i" },
-                },
-              },
-            },
-          },
-        },
-      })
-    end,
+    opts = {},
   },
   {
     "folke/todo-comments.nvim",
     event = "VeryLazy",
     opt = {},
+  },
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {
+      jump = {
+        autojump = true,
+      },
+      modes = {
+        char = {
+          jump_labels = true,
+          multi_line = false,
+        },
+      },
+    },
+  },
+  {
+    "kylechui/nvim-surround",
+    version = "*", -- Use for stability; omit to use `main` branch for the latest features
+    event = "VeryLazy",
+    --[[
+        Old text                    Command         New text
+    --------------------------------------------------------------------------------
+        surr*ound_words             ysiw)           (surround_words)
+        *make strings               ys$"            "make strings"
+        [delete ar*ound me!]        ds]             delete around me!
+        remove <b>HTML t*ags</b>    dst             remove HTML tags
+        'change quot*es'            cs'"            "change quotes"
+        <b>or tag* types</b>        csth1<CR>       <h1>or tag types</h1>
+        delete(functi*on calls)     dsf             function calls
+    --]]
+    config = function() require("nvim-surround").setup({}) end,
+  },
+  {
+    "kevinhwang91/nvim-ufo",
+    dependencies = { "kevinhwang91/promise-async" },
+    config = function()
+      require("ufo").setup({
+        provider_selector = function(bufnr, filetype, buftype) return { "lsp", "indent" } end,
+      })
+    end,
   },
 }

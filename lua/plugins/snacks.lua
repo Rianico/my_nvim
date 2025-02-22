@@ -70,6 +70,7 @@ return {
           and not vim.tbl_contains(exclude, vim.bo[buf].filetype)
       end,
     },
+    dim = { enabled = true },
     -- scroll = { enabled = true },
     explorer = { enabled = true },
     picker = { enabled = true },
@@ -81,5 +82,24 @@ return {
     -- use noice
     notifier = { enabled = true },
     input = { enabled = true },
+    terminal = {
+      bo = {
+        filetype = "snacks_terminal",
+      },
+      wo = {},
+      keys = {
+        q = "hide",
+        gf = function(self)
+          local f = vim.fn.findfile(vim.fn.expand("<cfile>"), "**")
+          if f == "" then
+            Snacks.notify.warn("No file under cursor")
+          else
+            self:hide()
+            vim.schedule(function() vim.cmd("e " .. f) end)
+          end
+        end,
+      },
+    },
+    zen = { enabled = true },
   },
 }
