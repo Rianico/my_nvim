@@ -44,9 +44,6 @@ wk.setup({
   },
 })
 
-pluginKeys = {
-  snacks = {},
-}
 wk.add({
   -- Top Pickers & Explorer
   { "<leader><space>", function() Snacks.picker.smart() end, desc = "General: Smart Find Files" },
@@ -192,15 +189,16 @@ wk.add({
   { "<c-g>tn", "<Cmd>Gitsigns toggle_numhl<CR>", desc = "Toggle Line Num Highlight" },
 
   -- hunks
-  { "<c-g>g", "<Cmd>Gitsigns stage_hunk<CR>", desc = "Hunk: Stage" },
-  { "<c-g>h", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Hunk: Unstage" },
+  { "<c-g>h", "<Cmd>Gitsigns stage_hunk<CR>", desc = "Hunk: Stage" },
+  { "<c-g>H", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Hunk: Unstage" },
   { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Hunk: Reset" },
   { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>", desc = "Hunk: Preview Inline" },
   { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>", desc = "Hunk: Preview" },
   { "<c-g>S", "<Cmd>Gitsigns select_hunk<CR>", desc = "Hunk: Select" },
   -- buffer
+  { "<c-g>B", "<Cmd>Gitsigns reset_buffer_index<CR>", desc = "Buffer: Unstage" },
+  { "<c-g>b", "<Cmd>Gitsigns stage_buffer<CR>", desc = "Buffer: Stage" },
   { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Buffer: Reset" },
-  { "<c-g>a", "<Cmd>Gitsigns stage_buffer<CR>", desc = "Buffer: Stage" },
   { "<c-g>d", "<Cmd>Gitsigns diffthis ~<CR>", desc = "Buffer: Diff This" },
   {
     "]c",
@@ -233,18 +231,18 @@ wk.add({
 
   -- bufferline
   { ";", group = "BufferLine" },
-  { ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", desc = "Go to Buffer 1 in BufferLine", hidden = true },
-  { ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", desc = "Go to Buffer 2 in BufferLine", hidden = true },
-  { ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", desc = "Go to Buffer 3 in BufferLine", hidden = true },
-  { ";4", "<Cmd>BufferLineGoToBuffer 4<CR>", desc = "Go to Buffer 4 in BufferLine", hidden = true },
-  { ";5", "<Cmd>BufferLineGoToBuffer 5<CR>", desc = "Go to Buffer 5 in BufferLine", hidden = true },
-  { ";6", "<Cmd>BufferLineGoToBuffer 6<CR>", desc = "Go to Buffer 6 in BufferLine", hidden = true },
-  { ";7", "<Cmd>BufferLineGoToBuffer 7<CR>", desc = "Go to Buffer 7 in BufferLine", hidden = true },
-  { ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", desc = "Go to Buffer 8 in BufferLine", hidden = true },
+  { ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", desc = "Go to BufferLine 1 ", hidden = true },
+  { ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", desc = "Go to BufferLine 2 ", hidden = true },
+  { ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", desc = "Go to BufferLine 3 ", hidden = true },
+  { ";4", "<Cmd>BufferLineGoToBuffer 4<CR>", desc = "Go to BufferLine 4 ", hidden = true },
+  { ";5", "<Cmd>BufferLineGoToBuffer 5<CR>", desc = "Go to BufferLine 5 ", hidden = true },
+  { ";6", "<Cmd>BufferLineGoToBuffer 6<CR>", desc = "Go to BufferLine 6 ", hidden = true },
+  { ";7", "<Cmd>BufferLineGoToBuffer 7<CR>", desc = "Go to BufferLine 7 ", hidden = true },
+  { ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", desc = "Go to BufferLine 8 ", hidden = true },
   { ";;", function() Snacks.picker.buffers() end, desc = "Buffers" },
   { ";p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-  { ";cl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
-  { ";ch", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
+  { ";bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
+  { ";bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
 
   { "[b", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer", hidden = true },
   { "]b", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", hidden = true },

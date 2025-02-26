@@ -1,5 +1,5 @@
 vim.opt.laststatus = 3
-local provider = "volcano"
+local provider = "gemini"
 -- Avante.nvim with build process
 return {
   "yetone/avante.nvim",
@@ -36,6 +36,9 @@ return {
     -- currently designating it as `copilot` provider is dangerous because: https://github.com/yetone/avante.nvim/issues/1048
     -- Of course, you can reduce the request frequency by increasing `suggestion.debounce`.
     auto_suggestions_provider = provider,
+    web_search_engine = {
+      provider = "google", -- tavily, serpapi, searchapi, google or kagi
+    },
     ---Specify the special dual_boost mode
     ---1. enabled: Whether to enable dual_boost mode. Default to false.
     ---2. first_provider: The first provider to generate response. Default to "openai".
