@@ -45,7 +45,6 @@ return {
         border = "rounded",
       },
     },
-    config = function(_, opts) require("lsp_signature").setup(opts) end,
   },
   {
     "scalameta/nvim-metals",
