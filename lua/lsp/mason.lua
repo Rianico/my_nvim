@@ -22,6 +22,7 @@ local lsp_servers = {
   -- go
   "gopls",
   "jdtls",
+  "slint_lsp",
   -- toml
   "taplo",
   -- json
@@ -128,3 +129,10 @@ lspconfig.ruff.setup({
     client.server_capabilities.hoverProvider = false
   end,
 })
+
+lspconfig.slint_lsp.setup({
+  command = { "slint-lsp" },
+  highlightingModeRegex = "slint",
+})
+
+lspconfig.taplo.setup({})

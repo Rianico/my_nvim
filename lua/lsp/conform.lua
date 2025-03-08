@@ -9,7 +9,8 @@ conform.setup({
     -- Conform will run multiple formatters sequentially
     python = { "isort", "black" },
     rust = { "rustfmt", lsp_format = "fallback" },
-    slint = { "slintfmt" },
+    slint = { "slint_lsp" },
+    toml = { "taplo" },
   },
   default_format_opts = {
     lsp_format = "fallback",
@@ -33,6 +34,7 @@ conform.setup({
   end,
 })
 
+-- all custom formatter settings, see https://github.com/stevearc/conform.nvim/blob/master/scripts/options_doc.lua
 conform.formatters.stylua = {
   prepend_args = {
     "--indent-type",
@@ -65,7 +67,12 @@ conform.formatters.rustfmt = {
 
 conform.formatters.slintfmt = {
   command = "slint-lsp",
+  stdin = false,
   args = { "format", "$FILENAME" },
+}
+
+conform.formatters.taplo = {
+  append_args = { "--option", "reorder_keys=true" },
 }
 
 vim.keymap.set("", "<localleader>f", function()
@@ -79,20 +86,12 @@ vim.keymap.set("", "<localleader>f", function()
   end)
 end, { desc = "Format code" })
 
-vim.api.nvim_create_user_command("FormatDisable", function(args)
-  if args.bang then
-    -- FormatDisable! will disable formatting just for this buffer
-    vim.b.disable_autoformat = true
-  else
-    vim.g.disable_autoformat = true
-  end
+vim.api.nvim_create_user_command("ToggleCodeFormat", function()
+  vim.b.disable_autoformat = not vim.b.disable_autoformat
+  vim.g.disable_autoformat = not vim.g.disable_autoformat
+  local status = vim.g.disable_autoformat and "disabled"
+    or (vim.b.disable_autoformat and "disabled locally" or "enabled")
+  vim.notify("Auto-formatting " .. status, vim.log.levels.INFO)
 end, {
-  desc = "Disable autoformat-on-save",
-  bang = true,
-})
-vim.api.nvim_create_user_command("FormatEnable", function()
-  vim.b.disable_autoformat = false
-  vim.g.disable_autoformat = false
-end, {
-  desc = "Re-enable autoformat-on-save",
+  desc = "Toggle autoformat-on-save",
 })
