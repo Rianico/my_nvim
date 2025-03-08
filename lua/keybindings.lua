@@ -201,10 +201,10 @@ wk.add({
   { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Buffer: Reset" },
   { "<c-g>d", "<Cmd>Gitsigns diffthis ~<CR>", desc = "Buffer: Diff This" },
   {
-    "]c",
+    "]g",
     function()
       if vim.wo.diff then
-        return "]c"
+        return "]g"
       end
       vim.schedule(function() require("gitsigns").next_hunk() end)
       return "<Ignore>"
@@ -213,10 +213,10 @@ wk.add({
     desc = "Git: Next gitsigns hunk",
   },
   {
-    "[c",
+    "[g",
     function()
       if vim.wo.diff then
-        return "[c"
+        return "[g"
       end
       vim.schedule(function() require("gitsigns").prev_hunk() end)
       return "<Ignore>"
@@ -228,32 +228,6 @@ wk.add({
   { "gz", "", desc = "+surround" },
   -- avante
   { "<leader>a", group = "avante" },
-
-  -- bufferline
-  { ";", group = "BufferLine" },
-  { ";1", "<Cmd>BufferLineGoToBuffer 1<CR>", desc = "Go to BufferLine 1 ", hidden = true },
-  { ";2", "<Cmd>BufferLineGoToBuffer 2<CR>", desc = "Go to BufferLine 2 ", hidden = true },
-  { ";3", "<Cmd>BufferLineGoToBuffer 3<CR>", desc = "Go to BufferLine 3 ", hidden = true },
-  { ";4", "<Cmd>BufferLineGoToBuffer 4<CR>", desc = "Go to BufferLine 4 ", hidden = true },
-  { ";5", "<Cmd>BufferLineGoToBuffer 5<CR>", desc = "Go to BufferLine 5 ", hidden = true },
-  { ";6", "<Cmd>BufferLineGoToBuffer 6<CR>", desc = "Go to BufferLine 6 ", hidden = true },
-  { ";7", "<Cmd>BufferLineGoToBuffer 7<CR>", desc = "Go to BufferLine 7 ", hidden = true },
-  { ";8", "<Cmd>BufferLineGoToBuffer 8<CR>", desc = "Go to BufferLine 8 ", hidden = true },
-  { ";;", function() Snacks.picker.buffers() end, desc = "Buffers" },
-  { ";p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-  { ";bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
-  { ";bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
-
-  { "[b", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer", hidden = true },
-  { "]b", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", hidden = true },
-  { "[B", "<Cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev", hidden = true },
-  { "]B", "<Cmd>BufferLineMoveNext<cr>", desc = "Move buffer next", hidden = true },
-  { "<S-h>", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
-  { "<S-l>", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
-
-  -- tabs
-  { "[t", ":tabprevious<CR>", desc = "Go to previous tab" },
-  { "]t", ":tabnext<CR>", desc = "Go to next tab" },
 
   -- todo
   { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
@@ -274,6 +248,34 @@ wk.add({
 
   { "mm", "<Plug>(Marks-setnext)", desc = "Marks SetNext" },
 })
+
+-- bufferline
+wk.add({
+  { ";", group = "BufferLine" },
+  { ";;", function() Snacks.picker.buffers() end, desc = "Buffers" },
+  { ";p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+  { ";bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
+  { ";bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
+
+  { "[b", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer", hidden = true },
+  { "]b", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", hidden = true },
+  { "[B", "<Cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev", hidden = true },
+  { "]B", "<Cmd>BufferLineMoveNext<cr>", desc = "Move buffer next", hidden = true },
+  { "<S-h>", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
+  { "<S-l>", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
+
+  -- tabs
+  { "[t", ":tabprevious<CR>", desc = "Go to previous tab" },
+  { "]t", ":tabnext<CR>", desc = "Go to next tab" },
+})
+for i = 1, 9 do
+  wk.add({
+    ";" .. i,
+    "<Cmd>BufferLineGoToBuffer " .. i .. "<CR>",
+    desc = "Go to BufferLine " .. i .. " ",
+    hidden = true,
+  })
+end
 
 -- harpoon2
 wk.add({
