@@ -21,8 +21,15 @@ return {
           padding = 1,
         },
         { section = "keys", gap = 1, padding = 1 },
-        { pane = 2, icon = " ", title = "Recent Files", section = "recent_files", indent = 2, padding = 1 },
-        { pane = 2, icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
+        {
+          pane = 2,
+          icon = LazyVim.ui.kinds.File,
+          title = "Recent Files",
+          section = "recent_files",
+          indent = 2,
+          padding = 1,
+        },
+        { pane = 2, icon = LazyVim.ui.kinds.Folder, title = "Projects", section = "projects", indent = 2, padding = 1 },
         {
           pane = 2,
           icon = " ",
@@ -73,12 +80,20 @@ return {
     dim = { enabled = true },
     -- scroll = { enabled = true },
     explorer = { enabled = true },
-    picker = { enabled = true },
+    picker = {
+      enabled = true,
+      icons = {
+        diagnostics = {
+          Error = LazyVim.ui.diagnostics.Error,
+          Warn = LazyVim.ui.diagnostics.Warn,
+          Hint = LazyVim.ui.diagnostics.Hint,
+          Info = LazyVim.ui.diagnostics.Info,
+        },
+      },
+    },
     -- scope = { enabled = true },
-
     -- quickfile = { enabled = true },
     -- words = { enabled = true },
-
     -- use noice
     notifier = { enabled = true },
     input = { enabled = true },

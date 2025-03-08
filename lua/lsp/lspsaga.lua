@@ -2,10 +2,10 @@ local keybindings = require("keybindings")
 
 -- Set icons for sidebar.
 local diagnostic_icons = {
-  Error = LazyVim.ui.icons.diagnostics.Error,
-  Warn = LazyVim.ui.icons.diagnostics.Warning,
-  Info = LazyVim.ui.icons.diagnostics.Info,
-  Hint = LazyVim.ui.icons.diagnostics.Hint_alt,
+  Error = LazyVim.ui.diagnostics.Error,
+  Warn = LazyVim.ui.diagnostics.Warn,
+  Info = LazyVim.ui.diagnostics.Info,
+  Hint = LazyVim.ui.diagnostics.Hint,
 }
 for type, icon in pairs(diagnostic_icons) do
   local hl = "DiagnosticSign" .. type

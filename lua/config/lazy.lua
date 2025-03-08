@@ -23,8 +23,8 @@ vim.g.maplocalleader = "\\"
 
 -- put this before lazy setup
 vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46_cache/"
-
 -- Setup lazy.nvim
+_G.LazyVim = require("util")
 require("lazy").setup({
   spec = {
     -- import your plugins

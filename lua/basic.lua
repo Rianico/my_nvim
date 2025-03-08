@@ -211,5 +211,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     require("lsp_signature").on_attach({}, bufnr)
   end,
 })
-
-_G.LazyVim = require("util")

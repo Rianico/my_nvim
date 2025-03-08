@@ -12,9 +12,9 @@ return {
           diagnostics = "nvim_lsp",
           always_show_bufferline = false,
           diagnostics_indicator = function(_, _, diag)
-            local icons = LazyVim.ui.icons.diagnostics
+            local icons = LazyVim.ui.diagnostics
             local ret = (diag.error and icons.Error .. diag.error .. " " or "")
-              .. (diag.warning and icons.Warning .. diag.warning or "")
+              .. (diag.warning and icons.Warn .. diag.warning or "")
             return vim.trim(ret)
           end,
           offsets = {
@@ -26,7 +26,7 @@ return {
           show_buffer_close_icons = false,
           show_buffer_icons = false, -- disable filetype icons for buffers
           ---@param opts bufferline.IconFetcherOpts
-          get_element_icon = function(opts) return LazyVim.ui.icons.ft[opts.filetype] end,
+          get_element_icon = function(opts) return LazyVim.ui.ft[opts.filetype] end,
         },
       })
       -- Fix bufferline when restoring a session
