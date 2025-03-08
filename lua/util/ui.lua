@@ -16,9 +16,13 @@ M.icons = {
   },
   diagnostics = {
     Error = " ",
-    Warn = " ",
+    Warning = " ",
     Hint = " ",
     Info = " ",
+    Error_alt = "",
+    Warning_alt = "",
+    Hint_alt = "",
+    Info_alt = "",
   },
   git = {
     added = " ",

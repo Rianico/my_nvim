@@ -1,16 +1,11 @@
-local icons = {
-  diagnostics = require("ui.icons").get("diagnostics", true),
-  ui = require("ui.icons").get("ui", true),
-}
-
 local keybindings = require("keybindings")
 
 -- Set icons for sidebar.
 local diagnostic_icons = {
-  Error = icons.diagnostics.Error_alt,
-  Warn = icons.diagnostics.Warning_alt,
-  Info = icons.diagnostics.Information_alt,
-  Hint = icons.diagnostics.Hint_alt,
+  Error = LazyVim.ui.icons.diagnostics.Error,
+  Warn = LazyVim.ui.icons.diagnostics.Warning,
+  Info = LazyVim.ui.icons.diagnostics.Info,
+  Hint = LazyVim.ui.icons.diagnostics.Hint_alt,
 }
 for type, icon in pairs(diagnostic_icons) do
   local hl = "DiagnosticSign" .. type
@@ -35,7 +30,7 @@ require("lspsaga").setup({
     expand = "",
     collapse = "",
     code_action = "",
-    -- diagnostic = "🐞",
+    diagnostic = "🐞",
     actionfix = "🦀️",
   },
   -- show outline
