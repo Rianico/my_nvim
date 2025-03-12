@@ -169,6 +169,7 @@ wk.add({
   { "<leader>th", function() Snacks.picker.help() end, desc = "Tool: Help Pages" },
   { "<leader>tu", function() Snacks.picker.undo() end, desc = "Tool: Undo History" },
   { "<leader>tt", ":lua require('nvchad.themes').open()<cr>", desc = "Tool: Theme" },
+  { "<leader>tl", "<Cmd>Lazy<CR>", desc = "Tool: Lazy" },
 
   -- Git from Snacks
   { "<c-g>", group = "Git" },
