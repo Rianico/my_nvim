@@ -1,41 +1,78 @@
 vim.opt.laststatus = 3
-local provider = "gemini"
+
+local default_provider = "gemini"
+
+local custom_vendors = {
+  ["volcano"] = {
+    __inherited_from = "openai",
+    api_key_name = "ARK_API_KEY",
+    endpoint = "https://ark.cn-beijing.volces.com/api/v3",
+    model = "ep-20250211182829-2mgqv",
+    timeout = 30000, -- Timeout in milliseconds
+    temperature = 0,
+    max_tokens = 12288,
+    disable_tools = true, -- disable tools!
+  },
+  hw = {
+    __inherited_from = "openai",
+    api_key_name = "HW_API_KEY",
+    endpoint = "https://infer-modelarts-cn-southwest-2.modelarts-infer.com/v1/infers/861b6827-e5ef-4fa6-90d2-5fd1b2975882",
+    model = "DeepSeek-R1",
+    timeout = 30000, -- Timeout in milliseconds
+    temperature = 0,
+    max_tokens = 8 * 4096,
+    disable_tools = true, -- disable tools!
+  },
+}
+
+local mappings = {
+  --- @class AvanteConflictMappings
+  diff = {
+    ours = "co",
+    theirs = "ct",
+    all_theirs = "ca",
+    both = "cb",
+    cursor = "cc",
+    next = "]x",
+    prev = "[x",
+  },
+  suggestion = {
+    accept = "<M-l>",
+    next = "<M-]>",
+    prev = "<M-[>",
+    dismiss = "<C-]>",
+  },
+  jump = {
+    next = "]]",
+    prev = "[[",
+  },
+  submit = {
+    normal = "<CR>",
+    insert = "<C-s>",
+  },
+  sidebar = {
+    apply_all = "A",
+    apply_cursor = "a",
+    switch_windows = "<Tab>",
+    reverse_switch_windows = "<S-Tab>",
+  },
+}
+
 -- Avante.nvim with build process
 return {
   "yetone/avante.nvim",
   event = "VeryLazy",
   lazy = true,
-  -- version = "*", -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
-  commit = "8f325129498ead873d7da7abfd5e0eef72d5ef2f",
+  version = "*", -- Set this to "*" to always pull the latest release version, or set it to false to update to the latest code changes.
+  -- commit = "8f325129498ead873d7da7abfd5e0eef72d5ef2f",
   opts = {
-    vendors = {
-      ["volcano"] = {
-        __inherited_from = "openai",
-        api_key_name = "ARK_API_KEY",
-        endpoint = "https://ark.cn-beijing.volces.com/api/v3",
-        model = "ep-20250211182829-2mgqv",
-        timeout = 30000, -- Timeout in milliseconds
-        temperature = 0,
-        max_tokens = 12288,
-        disable_tools = true, -- disable tools!
-      },
-      hw = {
-        __inherited_from = "openai",
-        api_key_name = "HW_API_KEY",
-        endpoint = "https://infer-modelarts-cn-southwest-2.modelarts-infer.com/v1/infers/861b6827-e5ef-4fa6-90d2-5fd1b2975882",
-        model = "DeepSeek-R1",
-        timeout = 30000, -- Timeout in milliseconds
-        temperature = 0,
-        max_tokens = 8 * 4096,
-        disable_tools = true, -- disable tools!
-      },
-    },
+    vendors = custom_vendors,
     ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
-    provider = provider, -- Recommend using Claude
+    provider = default_provider, -- Recommend using Claude
     -- WARNING: Since auto-suggestions are a high-frequency operation and therefore expensive,
     -- currently designating it as `copilot` provider is dangerous because: https://github.com/yetone/avante.nvim/issues/1048
     -- Of course, you can reduce the request frequency by increasing `suggestion.debounce`.
-    auto_suggestions_provider = provider,
+    auto_suggestions_provider = default_provider,
     web_search_engine = {
       provider = "google", -- tavily, serpapi, searchapi, google or kagi
     },
@@ -64,38 +101,7 @@ return {
       minimize_diff = true, -- Whether to remove unchanged lines when applying a code block
       enable_token_counting = true, -- Whether to enable token counting. Default to true.
     },
-    mappings = {
-      --- @class AvanteConflictMappings
-      diff = {
-        ours = "co",
-        theirs = "ct",
-        all_theirs = "ca",
-        both = "cb",
-        cursor = "cc",
-        next = "]x",
-        prev = "[x",
-      },
-      suggestion = {
-        accept = "<M-l>",
-        next = "<M-]>",
-        prev = "<M-[>",
-        dismiss = "<C-]>",
-      },
-      jump = {
-        next = "]]",
-        prev = "[[",
-      },
-      submit = {
-        normal = "<CR>",
-        insert = "<C-s>",
-      },
-      sidebar = {
-        apply_all = "A",
-        apply_cursor = "a",
-        switch_windows = "<Tab>",
-        reverse_switch_windows = "<S-Tab>",
-      },
-    },
+    mappings = mappings,
     hints = { enabled = true },
     windows = {
       ---@type "right" | "left" | "top" | "bottom"
@@ -117,7 +123,7 @@ return {
       },
       ask = {
         floating = false, -- Open the 'AvanteAsk' prompt in a floating window
-        start_insert = true, -- Start insert mode when opening the ask window
+        start_insert = false, -- Start insert mode when opening the ask window
         border = "rounded",
         ---@type "ours" | "theirs"
         focus_on_apply = "ours", -- which diff to focus after applying
