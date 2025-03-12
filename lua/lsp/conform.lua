@@ -9,7 +9,6 @@ conform.setup({
     -- Conform will run multiple formatters sequentially
     python = { "isort", "black" },
     rust = { "rustfmt", lsp_format = "fallback" },
-    slint = { "slint_lsp" },
     toml = { "taplo" },
   },
   default_format_opts = {
@@ -63,12 +62,6 @@ conform.formatters.rustfmt = {
       "max_width=161",
     }, ","),
   },
-}
-
-conform.formatters.slintfmt = {
-  command = "slint-lsp",
-  stdin = false,
-  args = { "format", "$FILENAME" },
 }
 
 conform.formatters.taplo = {
