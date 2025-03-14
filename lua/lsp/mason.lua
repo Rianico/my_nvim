@@ -136,3 +136,6 @@ lspconfig.slint_lsp.setup({
 })
 
 lspconfig.taplo.setup({})
+lspconfig.bashls.setup({
+  filetypes = { "sh", "bash", "zsh" },
+})
