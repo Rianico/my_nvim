@@ -1,3 +1,4 @@
+---@diagnostic disable: unused-local
 return {
   -- Lazy can manage itself
   { "folke/lazy.nvim" },
@@ -64,7 +65,7 @@ return {
     "nvim-treesitter/nvim-treesitter",
     build = ":TSUpdate",
     event = { "VeryLazy" },
-    lazy = vim.fn.argc(-1) == 0, -- load treesitter early when opening a file from the cmdline
+    lazy = vim.fn.argc(-1) == 0, -- Load treesitter early when opening a file from the cmdline
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
   },
   { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
@@ -84,8 +85,6 @@ return {
   { "folke/which-key.nvim", lazy = true },
   -- marks
   { "chentoast/marks.nvim", lazy = true },
-  -- git
-  { "lewis6991/gitsigns.nvim", tag = "release", lazy = true },
   -- telescope
   {
     "nvim-telescope/telescope.nvim",

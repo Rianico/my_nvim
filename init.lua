@@ -16,8 +16,6 @@ require("config.dap")
 require("lsp.conform")
 
 -- require("lsp.trouble")
-
-require("config.gitsigns")
 require("config.harpoon2")
 require("config.comment")
 require("config.mini")
