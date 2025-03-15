@@ -192,20 +192,22 @@ wk.add({
   -- hunks
   { "<c-g>h", "<Cmd>Gitsigns stage_hunk<CR>", desc = "Hunk: Stage" },
   { "<c-g>H", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Hunk: Unstage" },
-  { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Hunk: Reset" },
-  { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>", desc = "Hunk: Preview Inline" },
-  { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>", desc = "Hunk: Preview" },
   { "<c-g>S", "<Cmd>Gitsigns select_hunk<CR>", desc = "Hunk: Select" },
   -- buffer
   { "<c-g>B", "<Cmd>Gitsigns reset_buffer_index<CR>", desc = "Buffer: Unstage" },
   { "<c-g>b", "<Cmd>Gitsigns stage_buffer<CR>", desc = "Buffer: Stage" },
-  { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Buffer: Reset" },
-  { "<c-g>d", "<Cmd>Gitsigns diffthis ~<CR>", desc = "Buffer: Diff This" },
+  -- diff
+  { "<c-g>d", "<Cmd>Gitsigns diffthis ~<CR>", desc = "Diff: Buffer" },
+  { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>", desc = "Diff: Hunk" },
+  { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>", desc = "Diff: Hunk Inline" },
+  -- reset
+  { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Reset: Hunk" },
+  { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Reset: Buffer" },
   {
-    "]g",
+    "]c",
     function()
       if vim.wo.diff then
-        return "]g"
+        return "]c"
       end
       vim.schedule(function() require("gitsigns").next_hunk() end)
       return "<Ignore>"
@@ -214,10 +216,10 @@ wk.add({
     desc = "Git: Next gitsigns hunk",
   },
   {
-    "[g",
+    "[c",
     function()
       if vim.wo.diff then
-        return "[g"
+        return "[c"
       end
       vim.schedule(function() require("gitsigns").prev_hunk() end)
       return "<Ignore>"
