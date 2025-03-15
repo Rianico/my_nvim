@@ -143,8 +143,12 @@ lspconfig.bashls.setup({
 })
 
 lspconfig.harper_ls.setup({
-  linters = {
-    SentenceCapitalization = false,
-    SpellCheck = false,
+  settings = {
+    ["harper-ls"] = {
+      linters = {
+        SentenceCapitalization = false,
+        SpellCheck = false,
+      },
+    },
   },
 })
