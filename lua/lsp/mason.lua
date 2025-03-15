@@ -11,7 +11,7 @@ default_opts.capabilities.textDocument.foldingRange = {
   lineFoldingOnly = true,
 }
 
--- the servers that should be automatically installed
+-- The servers that should be automatically installed
 local lsp_servers = {
   -- lua
   "lua_ls",
@@ -21,6 +21,7 @@ local lsp_servers = {
   "dockerls",
   -- go
   "gopls",
+  "harper_ls",
   "jdtls",
   "slint_lsp",
   -- toml
@@ -136,6 +137,14 @@ lspconfig.slint_lsp.setup({
 })
 
 lspconfig.taplo.setup({})
+
 lspconfig.bashls.setup({
   filetypes = { "sh", "bash", "zsh" },
+})
+
+lspconfig.harper_ls.setup({
+  linters = {
+    SentenceCapitalization = false,
+    SpellCheck = false,
+  },
 })
