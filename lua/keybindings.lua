@@ -46,12 +46,12 @@ wk.setup({
 
 wk.add({
   -- Top Pickers & Explorer
-  { "<leader><space>", function() Snacks.picker.smart() end, desc = "General: Smart Find Files" },
-  { '<leader>"', function() Snacks.picker.registers() end, desc = "General: Registers", hidden = true },
-  { "<leader>'", function() Snacks.picker.marks() end, desc = "General: Marks", hidden = true },
-  { "<leader>n", function() Snacks.picker.notifications() end, desc = "General: Notification History" },
-  { "<leader>e", function() Snacks.explorer() end, desc = "General: File Explorer" },
-  { "<c-/>", function() Snacks.picker.grep() end, desc = "General: Grep" },
+  { "<leader><space>", function() Snacks.picker.smart() end, desc = "Picker: Smart Find Files" },
+  { '<leader>"', function() Snacks.picker.registers() end, desc = "Picker: Registers", hidden = true },
+  { "<leader>'", function() Snacks.picker.marks() end, desc = "Picker: Marks", hidden = true },
+  { "<leader>n", function() Snacks.picker.notifications() end, desc = "Picker: Notification History" },
+  { "<leader>E", function() Snacks.explorer() end, desc = "Picker: File Explorer", hidden = true },
+  { "<c-/>", function() Snacks.picker.grep() end, desc = "Picker: Grep" },
   {
     "<c-\\>",
     function()
@@ -83,7 +83,9 @@ wk.add({
   { "<leader>s", group = "search" },
   { "<leader>sb", function() Snacks.picker.lines() end, desc = "Grep: Lines" },
   { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep: Buffers Line" },
-  { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep: Global" },
+  { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep: Global", hidden = true },
+  { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Tool: Search History" },
+  { "<leader>/", function() Snacks.picker.lines() end, desc = "Grep: Lines" },
   {
     "<leader>sw",
     function() Snacks.picker.grep_word() end,
@@ -156,11 +158,10 @@ wk.add({
   },
 
   -- quick list
-  { "<leader>sl", function() Snacks.picker.loclist() end, desc = "Location List" },
-  { "<leader>sq", function() Snacks.picker.qflist() end, desc = "Quickfix List" },
+  { "<leader>sl", function() Snacks.picker.loclist() end, desc = "List: Local List" },
+  { "<leader>sq", function() Snacks.picker.qflist() end, desc = "List: Quickfix List" },
 
-  { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Tool: Search History" },
-  { "<leader>:", function() Snacks.picker.command_history() end, desc = "Tool: Command History" },
+  { "<leader>:", function() Snacks.picker.command_history() end, desc = "Picker: Command History" },
 
   -- Tools
   { "<leader>t", group = "Tools" },
@@ -197,7 +198,7 @@ wk.add({
   { "<c-g>B", "<Cmd>Gitsigns reset_buffer_index<CR>", desc = "Buffer: Unstage" },
   { "<c-g>b", "<Cmd>Gitsigns stage_buffer<CR>", desc = "Buffer: Stage" },
   -- diff
-  { "<c-g>d", "<Cmd>Gitsigns diffthis ~<CR>", desc = "Diff: Buffer" },
+  { "<c-g>d", "<Cmd>DiffviewOpen<CR>", desc = "Diff View" },
   { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>", desc = "Diff: Hunk" },
   { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>", desc = "Diff: Hunk Inline" },
   -- reset
