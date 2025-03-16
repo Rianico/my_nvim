@@ -68,7 +68,7 @@ conform.formatters.taplo = {
   append_args = { "--option", "reorder_keys=true" },
 }
 
-vim.keymap.set("", "<localleader>f", function()
+vim.keymap.set("", "=G", function()
   require("conform").format({ async = true }, function(err)
     if not err then
       local mode = vim.api.nvim_get_mode().mode
