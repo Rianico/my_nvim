@@ -77,8 +77,6 @@ return {
   { "echasnovski/mini.cursorword" },
   { "echasnovski/mini.pairs" },
   { "echasnovski/mini.ai", branch = "stable" },
-  { "echasnovski/mini.icons", branch = "stable" },
-  { "echasnovski/mini.files", branch = "stable" },
   -- repeat
   { "tpope/vim-repeat", event = "VeryLazy" },
   -- which key, hint the next shortcut key
