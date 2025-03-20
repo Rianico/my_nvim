@@ -10,8 +10,8 @@ map("i", "<C-e>", "<C-o><S-a>", opt)
 -- delete character afterward
 map("i", "<C-d>", "<C-o>s", opt)
 -- save and quit
-map("n", "<C-s>", ":w<CR>", opt)
-map("i", "<C-s>", "<Esc>:w<CR>", opt)
+-- map("n", "<C-s>", ":w<CR>", opt)
+-- map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 
 local wk = require("which-key")
@@ -44,14 +44,14 @@ wk.setup({
   },
 })
 
+-- stylua: ignore start
 wk.add({
-  -- Top Pickers & Explorer
-  { "<leader><space>", function() Snacks.picker.smart() end, desc = "Picker: Smart Find Files" },
-  { '<leader>"', function() Snacks.picker.registers() end, desc = "Picker: Registers", hidden = true },
-  { "<leader>'", function() Snacks.picker.marks() end, desc = "Picker: Marks", hidden = true },
-  { "<leader>n", function() Snacks.picker.notifications() end, desc = "Picker: Notification History" },
-  { "<leader>E", function() Snacks.explorer() end, desc = "Picker: File Explorer", hidden = true },
-  { "<c-/>", function() Snacks.picker.grep() end, desc = "Picker: Grep" },
+  { "<leader><space>", function() Snacks.picker.smart() end,              desc = "Picker: Smart Find Files" },
+  { '<leader>"',       function() Snacks.picker.registers() end,          desc = "Picker: Registers", hidden = true },
+  { "<leader>'",       function() Snacks.picker.marks() end,              desc = "Picker: Marks", hidden = true },
+  { "<leader>n",       function() Snacks.picker.notifications() end,      desc = "Picker: Notification History" },
+  { "<leader>E",       function() Snacks.explorer() end,                  desc = "Picker: File Explorer", hidden = true },
+  { "<leader>z",       function() Snacks.zen() end,                       desc = "Zen mode", hidden = true },
   {
     "<c-\\>",
     function()
@@ -61,11 +61,8 @@ wk.add({
     desc = "Toggle Terminal",
     mode = { "n", "t" },
   },
-  { "<c-_>", function() Snacks.picker.grep() end, desc = "General: Grep" },
-  { "<leader>z", function() Snacks.zen() end, desc = "Zen mode", hidden = true },
 
   -- motions
-  -- stylua: ignore
   {
     { "s",     function() require("flash").jump() end,              mode = { "n", "x", "o" }, desc = "Flash" },
     { "S",     function() require("flash").treesitter() end,        mode = { "n" },           desc = "Flash Treesitter" },
@@ -74,49 +71,46 @@ wk.add({
   },
 
   -- find
-  { "<leader>fc", function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config File" },
-  { "<C-p>", function() Snacks.picker.files() end, desc = "Find Files" },
-  { "<leader>fp", function() Snacks.picker.projects() end, desc = "Projects" },
-  { "<leader>fr", function() Snacks.picker.recent() end, desc = "Recent" },
+  { "<leader>f",  group = "Find"},
+  { "<C-p>",       function() Snacks.picker.files() end,                                   desc = "Find Files" },
+  { "<leader>ff",  function() Snacks.picker.files() end,                                   desc = "Find Files" },
+  { "<leader>fc",  function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end, desc = "Find Config Files" },
+  { "<leader>fp",  function() Snacks.picker.projects() end,                                desc = "Projects" },
+  { "<leader>fr",  function() Snacks.picker.recent() end,                                  desc = "Recent Files" },
 
   -- grep
-  { "<leader>s", group = "search" },
-  { "<leader>sb", function() Snacks.picker.lines() end, desc = "Grep: Lines" },
-  { "<leader>sB", function() Snacks.picker.grep_buffers() end, desc = "Grep: Buffers Line" },
-  { "<leader>sg", function() Snacks.picker.grep() end, desc = "Grep: Global", hidden = true },
-  { "<leader>s/", function() Snacks.picker.search_history() end, desc = "Tool: Search History" },
-  { "<leader>/", function() Snacks.picker.lines() end, desc = "Grep: Lines" },
-  {
-    "<leader>sw",
-    function() Snacks.picker.grep_word() end,
-    desc = "Grep: Selection or Word",
-    mode = { "n", "x" },
-  },
-
+  { "<C-s>", group = "Search" },
+  { "<C-s>b", function() Snacks.picker.grep_buffers() end,                desc = "Grep: Current Line" },
+  { "<C-s>g", function() Snacks.picker.grep() end,                        desc = "Grep: Global Line" },
+  { "<C-s>l",  function() Snacks.picker.lines() end,                      desc = "Grep: Lines" },
+  { "<C-s>w", function() Snacks.picker.grep_word() end,                   desc = "Grep: Selection or Word", mode = { "n", "x" }, },
+  { "<c-/>",           function() Snacks.picker.grep() end,               desc = "Grep: Global" },
+  { "<c-_>",           function() Snacks.picker.grep() end,               desc = "Grep: Global" },
   -- diagnostics
-  { "<leader>sd", function() Snacks.picker.diagnostics_buffer() end, desc = "LSP: Buffer Diagnostics" },
-  { "<leader>sD", function() Snacks.picker.diagnostics() end, desc = "LSP: Diagnostics" },
+  { "<C-s>d", function() Snacks.picker.diagnostics_buffer() end,          desc = "LSP: Current Diagnostics" },
+  { "<C-s>D", function() Snacks.picker.diagnostics() end,                 desc = "LSP: Global Diagnostics" },
+
 
   -- lsp
   {
     mode = "n",
-    { "gd", function() Snacks.picker.lsp_definitions() end, desc = "LSP: Definition" },
-    { "gD", "<Cmd>Lspsaga peek_definition<CR>", desc = "LSP: Peek Definition" },
+    { "gd", function() Snacks.picker.lsp_definitions() end,               desc = "LSP: Definition" },
+    { "gD", "<Cmd>Lspsaga peek_definition<CR>",                           desc = "LSP: Peek Definition" },
+    { "gt", function() Snacks.picker.lsp_type_definitions() end,          desc = "LSP: Goto Type Definition" },
+    { "gT", "<Cmd>Lspsaga peek_type_definition<CR>",                      desc = "LSP: Peek Type Definition" },
+    { "gs", function() Snacks.picker.lsp_symbols() end,                   desc = "LSP: Symbols" },
+    { "gS", function() Snacks.picker.lsp_workspace_symbols() end,         desc = "LSP: Workspace Symbols" },
     { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP: References" },
-    { "gI", function() Snacks.picker.lsp_implementations() end, desc = "LSP: Goto Implementation" },
-    { "gt", function() Snacks.picker.lsp_type_definitions() end, desc = "LSP: Goto Type Definition" },
-    { "gT", "<Cmd>Lspsaga peek_type_definition<CR>", desc = "LSP: Goto Type Definition" },
-    { "gs", function() Snacks.picker.lsp_symbols() end, desc = "LSP: LSP Symbols" },
-    { "gS", function() Snacks.picker.lsp_workspace_symbols() end, desc = "LSP: Workspace Symbols" },
-    { "gf", "<Cmd>Lspsaga finder<CR>", desc = "LSP: Find ref" },
-    { "gR", "<Cmd>Lspsaga rename ++project<CR>", desc = "LSP: Rename" },
+    { "gi", function() Snacks.picker.lsp_implementations() end,           desc = "LSP: Goto Implementation" },
+    { "gf", "<Cmd>Lspsaga finder<CR>",                                    desc = "LSP: Find ref" },
 
     { "<Space>l", group = "Lsp" },
-    { "<Space>ll", "<cmd>Lspsaga code_action<CR>", desc = "LSP: Code Actions" },
-    { "<Space>ls", "<cmd>Lspsaga outline<CR>", desc = "LSP: Symbols" },
-    { "<Space>li", "<cmd>Telescope lsp_incoming_calls<CR>", desc = "LSP: Incoming Calls" },
-    { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>", desc = "LSP: Outgoing Calls" },
-    { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>", desc = "LSP: Hover Docs" },
+    { "<Space>ll", "<cmd>Lspsaga code_action<CR>",                        desc = "LSP: Code Actions" },
+    { "<Space<lr", "<Cmd>Lspsaga rename ++project<CR>",                   desc = "LSP: Rename" },
+    { "<Space>ls", "<cmd>Lspsaga outline<CR>",                            desc = "LSP: Symbols" },
+    { "<Space>li", "<cmd>Telescope lsp_incoming_calls<CR>",               desc = "LSP: Incoming Calls" },
+    { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>",               desc = "LSP: Outgoing Calls" },
+    { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>",                   desc = "LSP: Hover Docs" },
     {
       "[d",
       function() require("lspsaga.diagnostic"):goto_prev() end,
@@ -140,10 +134,10 @@ wk.add({
   },
 
   { "z", group = "UFO" },
-  { "zR", "<cmd>lua require('ufo').openAllFolds()<CR>", desc = "UFO: Open All Folds" },
-  { "zM", "<cmd>lua require('ufo').closeAllFolds()<CR>", desc = "UFO: Close All Folds" },
+  { "zR", "<cmd>lua require('ufo').openAllFolds()<CR>",         desc = "UFO: Open All Folds" },
+  { "zM", "<cmd>lua require('ufo').closeAllFolds()<CR>",        desc = "UFO: Close All Folds" },
   { "zr", "<cmd>lua require('ufo').openFoldsExceptKinds()<CR>", desc = "UFO: Open Folds Except Kinds" },
-  { "zm", "<cmd>lua require('ufo').closeFoldsWith()<CR>", desc = "UFO: Close Folds With" },
+  { "zm", "<cmd>lua require('ufo').closeFoldsWith()<CR>",       desc = "UFO: Close Folds With" },
   {
     "zk",
     function()
@@ -157,53 +151,63 @@ wk.add({
     desc = "UFO: Peek Folded Lines or Hover",
   },
 
+  { "<leader>s", group = "Search Lists" },
   -- quick list
-  { "<leader>sl", function() Snacks.picker.loclist() end, desc = "List: Local List" },
-  { "<leader>sq", function() Snacks.picker.qflist() end, desc = "List: Quickfix List" },
+  { "<leader>sl", function() Snacks.picker.loclist() end,       desc = "Location Lists" },
+  { "<leader>sq", function() Snacks.picker.qflist() end,        desc = "Quickfix Lists" },
+  -- todo
+  { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo Lists" },
+  {
+    "<leader>sT",
+    function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end,
+    desc = "Todo/Fix/Fixme Lists",
+  },
 
-  { "<leader>:", function() Snacks.picker.command_history() end, desc = "Picker: Command History" },
+
 
   -- Tools
-  { "<leader>t", group = "Tools" },
-  { "<leader>tc", function() Snacks.picker.commands() end, desc = "Tool: Commands" },
-  { "<leader>tk", function() Snacks.picker.keymaps() end, desc = "Tool: Keymaps" },
-  { "<leader>th", function() Snacks.picker.help() end, desc = "Tool: Help Pages" },
-  { "<leader>tu", function() Snacks.picker.undo() end, desc = "Tool: Undo History" },
-  { "<leader>tt", ":lua require('nvchad.themes').open()<cr>", desc = "Tool: Theme" },
-  { "<leader>tl", "<Cmd>Lazy<CR>", desc = "Tool: Lazy" },
+  { "<C-t>", group = "Tools" },
+  { "<C-t>c", function() Snacks.picker.commands() end,         desc = "Tool: Commands" },
+  { "<C-t>k", function() Snacks.picker.keymaps() end,          desc = "Tool: Keymaps" },
+  { "<C-t>h", function() Snacks.picker.help() end,             desc = "Tool: Help Pages" },
+  { "<C-t>u", function() Snacks.picker.undo() end,             desc = "Tool: Undo History" },
+  { "<C-t>/", function() Snacks.picker.search_history() end,   desc = "Tool: Search History" },
+  { "<C-t>t", ":lua require('nvchad.themes').open()<cr>",      desc = "Tool: Theme" },
+  { "<C-t>:", function() Snacks.picker.command_history() end,  desc = "Picker: Command History" },
+  { "<C-t>l", "<Cmd>Lazy<CR>",                                 desc = "Tool: Lazy" },
 
   -- Git from Snacks
   { "<c-g>", group = "Git" },
   -- Search
   { "<c-g>s", group = "Git Search" },
-  { "<c-g>sl", function() Snacks.picker.git_log() end, desc = "Git Log" },
-  { "<c-g>sL", function() Snacks.picker.git_log_line() end, desc = "Git Log Line" },
-  { "<c-g>sf", function() Snacks.picker.git_log_file() end, desc = "Git Log File" },
-  { "<c-g>sd", function() Snacks.picker.git_diff() end, desc = "All Diff Hunks" },
-  { "<c-g>ss", function() Snacks.picker.git_status() end, desc = "Git Status" },
-  { "<c-g>sb", function() Snacks.picker.git_branches() end, desc = "Branches" },
+  { "<c-g>sl", function() Snacks.picker.git_log() end,         desc = "Git Log" },
+  { "<c-g>sL", function() Snacks.picker.git_log_line() end,    desc = "Git Log Line" },
+  { "<c-g>sf", function() Snacks.picker.git_log_file() end,    desc = "Git Log File" },
+  { "<c-g>sd", function() Snacks.picker.git_diff() end,        desc = "All Diff Hunks" },
+  { "<c-g>ss", function() Snacks.picker.git_status() end,      desc = "Git Status" },
+  { "<c-g>sb", function() Snacks.picker.git_branches() end,    desc = "Branches" },
 
   { "<c-g>t", group = "Toggle" },
-  { "<c-g>td", "<Cmd>Gitsigns toggle_deleted<CR>", desc = "Toggle Deleted" },
-  { "<c-g>tb", "<Cmd>Gitsigns toggle_current_line_blame<CR>", desc = "Toggle Blame" },
-  { "<c-g>tw", "<Cmd>Gitsigns toggle_word_diff<CR>", desc = "Toggle Word diff" },
-  { "<c-g>tl", "<Cmd>Gitsigns toggle_linehl<CR>", desc = "Toggle Line Highlight" },
-  { "<c-g>tn", "<Cmd>Gitsigns toggle_numhl<CR>", desc = "Toggle Line Num Highlight" },
-
+  { "<c-g>td", "<Cmd>Gitsigns toggle_deleted<CR>",             desc = "Toggle Deleted" },
+  { "<c-g>tb", "<Cmd>Gitsigns toggle_current_line_blame<CR>",  desc = "Toggle Blame" },
+  { "<c-g>tw", "<Cmd>Gitsigns toggle_word_diff<CR>",           desc = "Toggle Word diff" },
+  { "<c-g>tl", "<Cmd>Gitsigns toggle_linehl<CR>",              desc = "Toggle Line Highlight" },
+  { "<c-g>tn", "<Cmd>Gitsigns toggle_numhl<CR>",               desc = "Toggle Line Num Highlight" },
   -- hunks
-  { "<c-g>h", "<Cmd>Gitsigns stage_hunk<CR>", desc = "Hunk: Stage" },
-  { "<c-g>H", "<Cmd>Gitsigns undo_stage_hunk<CR>", desc = "Hunk: Unstage" },
-  { "<c-g>S", "<Cmd>Gitsigns select_hunk<CR>", desc = "Hunk: Select" },
+  { "<c-g>h", "<Cmd>Gitsigns stage_hunk<CR>",                  desc = "Hunk: Stage" },
+  { "<c-g>H", "<Cmd>Gitsigns undo_stage_hunk<CR>",             desc = "Hunk: Unstage" },
+  { "<c-g>S", "<Cmd>Gitsigns select_hunk<CR>",                 desc = "Hunk: Select" },
   -- buffer
-  { "<c-g>B", "<Cmd>Gitsigns reset_buffer_index<CR>", desc = "Buffer: Unstage" },
-  { "<c-g>b", "<Cmd>Gitsigns stage_buffer<CR>", desc = "Buffer: Stage" },
-  -- diff
-  { "<c-g>d", "<Cmd>DiffviewOpen<CR>", desc = "Diff View" },
-  { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>", desc = "Diff: Hunk" },
-  { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>", desc = "Diff: Hunk Inline" },
+  { "<c-g>b", "<Cmd>Gitsigns stage_buffer<CR>",                desc = "Buffer: Stage" },
+  { "<c-g>B", "<Cmd>Gitsigns reset_buffer_index<CR>",          desc = "Buffer: Unstage" },
+  -- diff preview
+  { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>",                desc = "Diff: Hunk" },
+  { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>",         desc = "Diff: Hunk Inline" },
+  -- diffview
+  { "<c-g>d", "<Cmd>DiffviewOpen<CR>",                         desc = "Diff View" },
   -- reset
-  { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>", desc = "Reset: Hunk" },
-  { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>", desc = "Reset: Buffer" },
+  { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>",                  desc = "Reset: Hunk" },
+  { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>",                desc = "Reset: Buffer" },
   {
     "]c",
     function()
@@ -228,18 +232,8 @@ wk.add({
     desc = "Git: Previous gitsigns hunk",
   },
 
-  -- mini.surrounding
-  { "gz", "", desc = "+surround" },
   -- avante
   { "<leader>a", group = "avante" },
-
-  -- todo
-  { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo" },
-  {
-    "<leader>sT",
-    function() Snacks.picker.todo_comments({ keywords = { "TODO", "FIX", "FIXME" } }) end,
-    desc = "Todo/Fix/Fixme",
-  },
 
   -- makrs
   { "<Leader>m", group = "Marks" },
@@ -472,5 +466,6 @@ pluginKeys.trouble_mapping = function()
     },
   })
 end
+-- stylua: ignore end
 
 return pluginKeys
