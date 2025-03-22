@@ -131,6 +131,8 @@ lspconfig.ruff.setup({
   end,
 })
 
+-- enable slint files recognization
+vim.cmd([[ autocmd BufEnter *.slint :setlocal filetype=slint ]])
 lspconfig.slint_lsp.setup({
   command = { "slint-lsp" },
   highlightingModeRegex = "slint",

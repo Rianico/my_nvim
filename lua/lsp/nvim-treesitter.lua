@@ -63,5 +63,3 @@ vim.wo.foldexpr = "nvim_treesitter#foldexpr()"
 vim.wo.foldlevel = 99
 -- change rainbow
 vim.cmd([[ autocmd FileType * highlight rainbowcol4 guifg=#FF7B72 gui=bold ]])
--- enable .slint files recognization
-vim.cmd([[ autocmd BufEnter *.slint :setlocal filetype=slint ]])
