@@ -8,20 +8,6 @@ return {
     { "williamboman/mason-lspconfig.nvim", version = "v1.32.x" },
     "neovim/nvim-lspconfig",
   },
-  -- dap
-  {
-    "mfussenegger/nvim-dap",
-    dependencies = {
-      "leoluz/nvim-dap-go",
-      "rcarriga/nvim-dap-ui",
-      "nvim-neotest/nvim-nio",
-      "theHamsta/nvim-dap-virtual-text",
-      "williamboman/mason.nvim",
-    },
-    event = { "VeryLazy" },
-    lazy = true,
-    config = function() dofile(vim.g.base46_cache .. "trouble") end,
-  },
   -- lsp enhanced
   {
     "glepnir/lspsaga.nvim",

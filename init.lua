@@ -9,9 +9,6 @@ require("lsp.metals")
 require("lsp.nvim-treesitter")
 require("lsp.lspsaga")
 
--- dap
-require("config.dap")
-
 -- formatting
 require("lsp.conform")
 

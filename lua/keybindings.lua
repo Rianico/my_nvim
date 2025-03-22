@@ -315,24 +315,25 @@ pluginKeys.rustaceanvim = function(_, _)
   })
 end
 
-pluginKeys.dap_mapping = function(dap, dapui)
+pluginKeys.dap_mapping = function(dap, dap_ui_widgets, get_args)
   wk.add({
-    mode = "n",
-    { "<space>d", group = "Dap" },
-    { "<space>db", dap.toggle_breakpoint, desc = "Dap Toggle Breakpoint" },
-    { "<space>dl", dap.list_breakpoints, desc = "Dap List Breakpoints" },
-    { "<space>dC", dap.run_to_cursor, desc = "Dap Run To Cursor" },
-    { "<space>dc", dap.continue, desc = "Dap Continue" },
-    { "<f7>", dap.step_into, desc = "Dap Step Into" },
-    { "<f8>", dap.step_over, desc = "Dap Step Over" },
-    { "<f20>", dap.step_out, desc = "Dap Step Out" },
-    { "<space>dr", dap.restart, desc = "Dap Restart" },
-    { "<space>dx", dap.terminate, desc = "Dap Terminated" },
-    {
-      "<space>de",
-      function() dapui.eval(nil, { enter = true }) end,
-      desc = "Dap Eval Value",
-    },
+    { "<leader>dB", function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+    { "<leader>db", function() dap.toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+    { "<leader>dc", function() dap.continue() end, desc = "Run/Continue" },
+    { "<leader>da", function() dap.continue({ before = get_args }) end, desc = "Run with Args" },
+    { "<leader>dC", function() dap.run_to_cursor() end, desc = "Run to Cursor" },
+    { "<leader>dg", function() dap.goto_() end, desc = "Go to Line (No Execute)" },
+    { "<leader>di", function() dap.step_into() end, desc = "Step Into" },
+    { "<leader>dj", function() dap.down() end, desc = "Down" },
+    { "<leader>dk", function() dap.up() end, desc = "Up" },
+    { "<leader>dl", function() dap.run_last() end, desc = "Run Last" },
+    { "<leader>do", function() dap.step_out() end, desc = "Step Out" },
+    { "<leader>dO", function() dap.step_over() end, desc = "Step Over" },
+    { "<leader>dP", function() dap.pause() end, desc = "Pause" },
+    { "<leader>dr", function() dap.repl.toggle() end, desc = "Toggle REPL" },
+    { "<leader>ds", function() dap.session() end, desc = "Session" },
+    { "<leader>dt", function() dap.terminate() end, desc = "Terminate" },
+    { "<leader>dw", function() dap_ui_widgets.hover() end, desc = "Widgets" },
   })
 end
 
