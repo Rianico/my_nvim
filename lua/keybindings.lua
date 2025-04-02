@@ -76,34 +76,33 @@ wk.add({
 
   -- grep
   { "<C-s>", group = "Search" },
-  { "<C-s>b", function() Snacks.picker.grep_buffers() end,                desc = "Grep: Buffer Line" },
-  { "<C-s>g", function() Snacks.picker.grep() end,                        desc = "Grep: Global Line" },
+  { "<C-s>b", function() Snacks.picker.grep_buffers() end,                desc = "Grep: Buffer Lines" },
+  { "<C-s>g", function() Snacks.picker.grep() end,                        desc = "Grep: Global Lines" },
   { "<C-s>/",  function() Snacks.picker.lines() end,                      desc = "Grep: Lines" },
-  { "<C-s>w", function() Snacks.picker.grep_word() end,                   desc = "Grep: Selection or Word", mode = { "n", "x" }, },
-  { "<c-/>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Line" },
-  { "<c-_>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Line" },
+  { "<C-s>w", function() Snacks.picker.grep_word() end,                   desc = "Grep: Word Under Cursor", mode = { "n", "x" }, },
+  { "<c-/>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Lines" },
+  { "<c-_>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Lines" },
   -- diagnostics
-  { "<C-s>d", function() Snacks.picker.diagnostics_buffer() end,          desc = "LSP: Current Diagnostics" },
+  { "<C-s>d", function() Snacks.picker.diagnostics_buffer() end,          desc = "LSP: Diagnostics" },
   { "<C-s>D", function() Snacks.picker.diagnostics() end,                 desc = "LSP: Global Diagnostics" },
-
+  { "<C-s>s", function() Snacks.picker.lsp_symbols() end,                 desc = "LSP: Symbols" },
+  { "<C-s>S", function() Snacks.picker.lsp_workspace_symbols() end,       desc = "LSP: Global Symbols" },
 
   -- lsp
   {
     mode = "n",
     { "gd", function() Snacks.picker.lsp_definitions() end,               desc = "LSP: Definition" },
     { "gD", "<Cmd>Lspsaga peek_definition<CR>",                           desc = "LSP: Peek Definition" },
-    { "gt", function() Snacks.picker.lsp_type_definitions() end,          desc = "LSP: Goto Type Definition" },
+    { "gt", function() Snacks.picker.lsp_type_definitions() end,          desc = "LSP: Type Definition" },
     { "gT", "<Cmd>Lspsaga peek_type_definition<CR>",                      desc = "LSP: Peek Type Definition" },
-    { "gs", function() Snacks.picker.lsp_symbols() end,                   desc = "LSP: Symbols" },
-    { "gS", function() Snacks.picker.lsp_workspace_symbols() end,         desc = "LSP: Workspace Symbols" },
     { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP: References" },
     { "gi", function() Snacks.picker.lsp_implementations() end,           desc = "LSP: Goto Implementation" },
-    { "gf", "<Cmd>Lspsaga finder<CR>",                                    desc = "LSP: Find ref" },
+    { "gf", "<Cmd>Lspsaga finder<CR>",                                    desc = "LSP: Finder" },
 
     { "<Space>l", group = "Lsp" },
     { "<Space>ll", "<cmd>Lspsaga code_action<CR>",                        desc = "LSP: Code Actions" },
     { "<Space<lr", "<Cmd>Lspsaga rename ++project<CR>",                   desc = "LSP: Rename" },
-    { "<Space>ls", "<cmd>Lspsaga outline<CR>",                            desc = "LSP: Symbols" },
+    { "<Space>ls", "<cmd>Lspsaga outline<CR>",                            desc = "LSP: Symbols Slides" },
     { "<Space>li", "<cmd>Telescope lsp_incoming_calls<CR>",               desc = "LSP: Incoming Calls" },
     { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>",               desc = "LSP: Outgoing Calls" },
     { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>",                   desc = "LSP: Hover Docs" },
