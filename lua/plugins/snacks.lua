@@ -69,7 +69,7 @@ return {
           "TelescopePrompt",
           "undotree",
           "flutterToolsOutline",
-          "", -- for all buffers without a file type
+          "", -- for all buffers without a filetype
         }
         return vim.g.snacks_indent ~= false
           and vim.b[buf].snacks_indent ~= false

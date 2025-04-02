@@ -1,5 +1,3 @@
-local vim = vim
-
 -- clipboard
 local global = {}
 function global:load_variables()

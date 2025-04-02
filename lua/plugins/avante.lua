@@ -1,6 +1,6 @@
 vim.opt.laststatus = 3
 
-local default_provider = "openrouter"
+local default_provider = "gemini"
 
 local custom_vendors = {
   ["volcano"] = {
@@ -46,7 +46,7 @@ local mappings = {
     prev = "[x",
   },
   suggestion = {
-    accept = "<M-l>",
+    accept = "<C-[>",
     next = "<M-]>",
     prev = "<M-[>",
     dismiss = "<C-]>",

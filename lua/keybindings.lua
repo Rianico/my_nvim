@@ -9,9 +9,6 @@ map("i", "<C-a>", "<C-o><S-i>", opt)
 map("i", "<C-e>", "<C-o><S-a>", opt)
 -- delete character afterward
 map("i", "<C-d>", "<C-o>s", opt)
--- save and quit
--- map("n", "<C-s>", ":w<CR>", opt)
--- map("i", "<C-s>", "<Esc>:w<CR>", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 
 local wk = require("which-key")
@@ -23,7 +20,7 @@ wk.setup({
     -- position = "bottom", -- bottom, top
     height = { min = 4, max = 25 },
   },
-  sort = { "local", "order", "group", "mod", "alphanum", "desc" },
+  sort = { "desc", "local", "order", "group", "mod", "alphanum" },
   plugins = {
     marks = true, -- shows a list of your marks on ' and `
     registers = true, -- shows your registers on " in NORMAL or <C-r> in INSERT mode
@@ -46,10 +43,9 @@ wk.setup({
 
 -- stylua: ignore start
 wk.add({
-  { "<leader><space>", function() Snacks.picker.smart() end,              desc = "Picker: Smart Find Files" },
   { '<leader>"',       function() Snacks.picker.registers() end,          desc = "Picker: Registers", hidden = true },
   { "<leader>'",       function() Snacks.picker.marks() end,              desc = "Picker: Marks", hidden = true },
-  { "<leader>n",       function() Snacks.picker.notifications() end,      desc = "Picker: Notification History" },
+  { "<leader>n",       function() Snacks.picker.notifications() end,      desc = "Picker: Notification History", hidden = true },
   { "<leader>E",       function() Snacks.explorer() end,                  desc = "Picker: File Explorer", hidden = true },
   { "<leader>z",       function() Snacks.zen() end,                       desc = "Zen mode", hidden = true },
   {
@@ -80,12 +76,12 @@ wk.add({
 
   -- grep
   { "<C-s>", group = "Search" },
-  { "<C-s>b", function() Snacks.picker.grep_buffers() end,                desc = "Grep: Current Line" },
+  { "<C-s>b", function() Snacks.picker.grep_buffers() end,                desc = "Grep: Buffer Line" },
   { "<C-s>g", function() Snacks.picker.grep() end,                        desc = "Grep: Global Line" },
-  { "<C-s>l",  function() Snacks.picker.lines() end,                      desc = "Grep: Lines" },
+  { "<C-s>/",  function() Snacks.picker.lines() end,                      desc = "Grep: Lines" },
   { "<C-s>w", function() Snacks.picker.grep_word() end,                   desc = "Grep: Selection or Word", mode = { "n", "x" }, },
-  { "<c-/>",           function() Snacks.picker.grep() end,               desc = "Grep: Global" },
-  { "<c-_>",           function() Snacks.picker.grep() end,               desc = "Grep: Global" },
+  { "<c-/>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Line" },
+  { "<c-_>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Line" },
   -- diagnostics
   { "<C-s>d", function() Snacks.picker.diagnostics_buffer() end,          desc = "LSP: Current Diagnostics" },
   { "<C-s>D", function() Snacks.picker.diagnostics() end,                 desc = "LSP: Global Diagnostics" },
@@ -155,7 +151,7 @@ wk.add({
   -- quick list
   { "<leader>sl", function() Snacks.picker.loclist() end,       desc = "Location Lists" },
   { "<leader>sq", function() Snacks.picker.qflist() end,        desc = "Quickfix Lists" },
-  -- todo
+  -- to-do
   { "<leader>st", function() Snacks.picker.todo_comments() end, desc = "Todo Lists" },
   {
     "<leader>sT",
@@ -249,11 +245,11 @@ wk.add({
 
 -- bufferline
 wk.add({
-  { ";", group = "BufferLine" },
-  { ";;", function() Snacks.picker.buffers() end, desc = "Buffers" },
-  { ";p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-  { ";bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
-  { ";bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
+  { ",", group = "BufferLine" },
+  { ",,", function() Snacks.picker.buffers() end, desc = "Buffers" },
+  { ",p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
+  { ",bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
+  { ",bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
 
   { "[b", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer", hidden = true },
   { "]b", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", hidden = true },
@@ -268,7 +264,7 @@ wk.add({
 })
 for i = 1, 9 do
   wk.add({
-    ";" .. i,
+    "," .. i,
     "<Cmd>BufferLineGoToBuffer " .. i .. "<CR>",
     desc = "Go to BufferLine " .. i .. " ",
     hidden = true,
@@ -299,41 +295,44 @@ end
 pluginKeys.rustaceanvim = function(_, _)
   wk.add({
     mode = "n",
-    { "<Space>r", group = "Rust" },
-    { "<Space>rh", ":RustLsp hover actions<CR>", desc = "Hover Action" },
+    { "<space>r", group = "Rust" },
+    { "<space>rh", ":RustLsp hover actions<CR>", desc = "Hover Action" },
     { "K", ":RustLsp hover actions<CR>", desc = "Hover Action" },
-    { "<Space>rE", ":RustLsp expandMacro<CR>", desc = "Expand Macro" },
-    { "<Space>re", ":RustLsp explainError<CR>", desc = "Explain Error" },
-    { "<Space>rp", ":RustLsp parentModule<CR>", desc = "Parent Module" },
-    { "<Space>rd", ":RustLsp renderDiagnostic<CR>", desc = "Render Diagnostics" },
-    { "<Space>ro", ":RustLsp openDocs<CR>", desc = "Open docs.rs" },
-    { "<Space>rj", ":RustLsp joinLines<CR>", desc = "Join lines" },
-    { "<Space>rm", ":RustLsp view mir<CR>", desc = "MIR" },
-    { "<Space>rM", ":RustLsp view hir<CR>", desc = "HIR" },
-    { "<Space>rc", ":RustLsp openCargo<CR>", desc = "Cargo.toml" },
-    { "<Space>rr", ":RustLsp runnables ", desc = "Run With Args" },
+    { "<space>rE", ":RustLsp expandMacro<CR>", desc = "Expand Macro" },
+    { "<space>re", ":RustLsp explainError<CR>", desc = "Explain Error" },
+    { "<space>rp", ":RustLsp parentModule<CR>", desc = "Parent Module" },
+    { "<space>rd", ":RustLsp renderDiagnostic<CR>", desc = "Render Diagnostics" },
+    { "<space>ro", ":RustLsp openDocs<CR>", desc = "Open docs.rs" },
+    { "<space>rj", ":RustLsp joinLines<CR>", desc = "Join lines" },
+    { "<space>rm", ":RustLsp view mir<CR>", desc = "MIR" },
+    { "<space>rM", ":RustLsp view hir<CR>", desc = "HIR" },
+    { "<space>rc", ":RustLsp openCargo<CR>", desc = "Cargo.toml" },
+    { "<space>rr", ":RustLsp runnables ", desc = "Run With Args" },
   })
 end
 
+wk.add({
+    { "<space>d", group = "Dap" },
+})
 pluginKeys.dap_mapping = function(dap, dap_ui_widgets, get_args)
   wk.add({
-    { "<leader>dB", function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
-    { "<leader>db", function() dap.toggle_breakpoint() end, desc = "Toggle Breakpoint" },
-    { "<leader>dc", function() dap.continue() end, desc = "Run/Continue" },
-    { "<leader>da", function() dap.continue({ before = get_args }) end, desc = "Run with Args" },
-    { "<leader>dC", function() dap.run_to_cursor() end, desc = "Run to Cursor" },
-    { "<leader>dg", function() dap.goto_() end, desc = "Go to Line (No Execute)" },
-    { "<leader>di", function() dap.step_into() end, desc = "Step Into" },
-    { "<leader>dj", function() dap.down() end, desc = "Down" },
-    { "<leader>dk", function() dap.up() end, desc = "Up" },
-    { "<leader>dl", function() dap.run_last() end, desc = "Run Last" },
-    { "<leader>do", function() dap.step_out() end, desc = "Step Out" },
-    { "<leader>dO", function() dap.step_over() end, desc = "Step Over" },
-    { "<leader>dP", function() dap.pause() end, desc = "Pause" },
-    { "<leader>dr", function() dap.repl.toggle() end, desc = "Toggle REPL" },
-    { "<leader>ds", function() dap.session() end, desc = "Session" },
-    { "<leader>dt", function() dap.terminate() end, desc = "Terminate" },
-    { "<leader>dw", function() dap_ui_widgets.hover() end, desc = "Widgets" },
+    { "<space>dB", function() dap.set_breakpoint(vim.fn.input('Breakpoint condition: ')) end, desc = "Breakpoint Condition" },
+    { "<space>db", function() dap.toggle_breakpoint() end, desc = "Toggle Breakpoint" },
+    { "<space>dc", function() dap.continue() end, desc = "Run/Continue" },
+    { "<space>da", function() dap.continue({ before = get_args }) end, desc = "Run with Args" },
+    { "<space>dC", function() dap.run_to_cursor() end, desc = "Run to Cursor" },
+    { "<space>dg", function() dap.goto_() end, desc = "Go to Line (No Execute)" },
+    { "<space>di", function() dap.step_into() end, desc = "Step Into" },
+    { "<space>dj", function() dap.down() end, desc = "Down" },
+    { "<space>dk", function() dap.up() end, desc = "Up" },
+    { "<space>dl", function() dap.run_last() end, desc = "Run Last" },
+    { "<space>do", function() dap.step_out() end, desc = "Step Out" },
+    { "<space>dO", function() dap.step_over() end, desc = "Step Over" },
+    { "<space>dP", function() dap.pause() end, desc = "Pause" },
+    { "<space>dr", function() dap.repl.toggle() end, desc = "Toggle REPL" },
+    { "<space>ds", function() dap.session() end, desc = "Session" },
+    { "<space>dt", function() dap.terminate() end, desc = "Terminate" },
+    { "<space>dw", function() dap_ui_widgets.hover() end, desc = "Widgets" },
   })
 end
 
