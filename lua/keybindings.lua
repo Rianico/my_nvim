@@ -296,7 +296,6 @@ pluginKeys.rustaceanvim = function(_, _)
     mode = "n",
     { "<space>r", group = "Rust" },
     { "<space>rh", ":RustLsp hover actions<CR>", desc = "Hover Action" },
-    { "K", ":RustLsp hover actions<CR>", desc = "Hover Action" },
     { "<space>rE", ":RustLsp expandMacro<CR>", desc = "Expand Macro" },
     { "<space>re", ":RustLsp explainError<CR>", desc = "Explain Error" },
     { "<space>rp", ":RustLsp parentModule<CR>", desc = "Parent Module" },
