@@ -154,3 +154,5 @@ lspconfig.harper_ls.setup({
     },
   },
 })
+
+lspconfig.asm_lsp.setup({})
