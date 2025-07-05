@@ -7,7 +7,15 @@ conform.setup({
     go = { "goimports", "gofumpt" },
     javascript = { "prettierd", "prettier", stop_after_first = true },
     -- Conform will run multiple formatters sequentially
-    python = { "isort", "black" },
+    python = {
+      -- refer to https://docs.astral.sh/ruff/
+      -- To fix auto-fixable lint errors.
+      "ruff_fix",
+      -- To run the Ruff formatter.
+      "ruff_format",
+      -- To organize the imports.
+      "ruff_organize_imports",
+    },
     rust = { "rustfmt", lsp_format = "fallback" },
     toml = { "taplo" },
   },

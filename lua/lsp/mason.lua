@@ -49,6 +49,7 @@ mason_lspconfig.setup({
   },
   ensure_installed = lsp_servers,
   automatic_installation = true,
+  automatic_enable = true,
   handles = {
     function(server_name) -- default handler (optional)
       require("lspconfig")[server_name].setup({ vim.tbl_deep_extend("force", default_opts, {}) })
@@ -130,6 +131,7 @@ lspconfig.ruff.setup({
     client.server_capabilities.hoverProvider = false
   end,
 })
+lspconfig.pylsp.setup({})
 
 -- enable slint files recognization
 vim.cmd([[ autocmd BufEnter *.slint :setlocal filetype=slint ]])
