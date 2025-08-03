@@ -57,8 +57,6 @@ return {
   { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
   -- comment
   { "numToStr/Comment.nvim", event = { "VeryLazy" }, lazy = true },
-  -- code formatting
-  -- { "nvimtools/none-ls.nvim", dependencies = "nvim-lua/plenary.nvim" },
   -- mini.nvim
   { "echasnovski/mini.cursorword" },
   { "echasnovski/mini.pairs" },
