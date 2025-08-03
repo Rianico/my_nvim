@@ -53,14 +53,14 @@ return {
     -- for example
     ---@alias Provider "claude" | "openai" | "azure" | "gemini" | "cohere" | "copilot" | string
     ---@type Provider
-    provider = "claude", -- The provider used in Aider mode or in the planning phase of Cursor Planning Mode
+    provider = "gemini", -- The provider used in Aider mode or in the planning phase of Cursor Planning Mode
     ---@alias Mode "agentic" | "legacy"
     ---@type Mode
     mode = "agentic", -- The default mode for interaction. "agentic" uses tools to automatically generate code, "legacy" uses the old planning method to generate code.
     -- WARNING: Since auto-suggestions are a high-frequency operation and therefore expensive,
     -- currently designating it as `copilot` provider is dangerous because: https://github.com/yetone/avante.nvim/issues/1048
     -- Of course, you can reduce the request frequency by increasing `suggestion.debounce`.
-    auto_suggestions_provider = "openrouter",
+    auto_suggestions_provider = "gemini",
     providers = custom_vendors,
     ---Specify the special dual_boost mode
     ---1. enabled: Whether to enable dual_boost mode. Default to false.
@@ -116,7 +116,7 @@ return {
         prev = "[x",
       },
       suggestion = {
-        accept = "<M-l>",
+        accept = "<C-[>",
         next = "<M-]>",
         prev = "<M-[>",
         dismiss = "<C-]>",
