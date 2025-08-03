@@ -1,8 +1,6 @@
 -- https://www.lazyvim.org/extras/lang/scala
 local mason = require("mason")
 local mason_lspconfig = require("mason-lspconfig")
-local lspconfig = require("lspconfig")
-local util = require("lspconfig/util")
 local default_opts = {
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
 }
@@ -50,14 +48,9 @@ mason_lspconfig.setup({
   ensure_installed = lsp_servers,
   automatic_installation = true,
   automatic_enable = true,
-  handles = {
-    function(server_name) -- default handler (optional)
-      require("lspconfig")[server_name].setup({ vim.tbl_deep_extend("force", default_opts, {}) })
-    end,
-  },
 })
 
-lspconfig.gopls.setup({
+vim.lsp.config.gopls = {
   on_attach = function(client, _)
     if client.name == "gopls" and not client.server_capabilities.semanticTokensProvider then
       local semantic = client.config.capabilities.textDocument.semanticTokens
@@ -68,7 +61,8 @@ lspconfig.gopls.setup({
       }
     end
   end,
-  root_dir = util.root_pattern("go.work", "go.mod", ".git"),
+  filetypes = { "go", "gomod", "gowork", "gotmpl", "gosum" },
+  root_markers = { "go.mod", "go.work", ".git" },
   settings = {
     gopls = {
       gofumpt = true,
@@ -104,9 +98,9 @@ lspconfig.gopls.setup({
       semanticTokens = true,
     },
   },
-})
+}
 
-lspconfig.lua_ls.setup({
+vim.lsp.config.lua_ls = {
   settings = {
     Lua = {
       runtime = {
@@ -117,9 +111,9 @@ lspconfig.lua_ls.setup({
       },
     },
   },
-})
+}
 
-lspconfig.ruff.setup({
+vim.lsp.config.ruff = {
   cmd_env = { RUFF_TRACE = "messages" },
   init_options = {
     settings = {
@@ -130,23 +124,20 @@ lspconfig.ruff.setup({
     -- Disable hover in favor of Pyright
     client.server_capabilities.hoverProvider = false
   end,
-})
-lspconfig.pylsp.setup({})
+}
 
 -- enable slint files recognization
 vim.cmd([[ autocmd BufEnter *.slint :setlocal filetype=slint ]])
-lspconfig.slint_lsp.setup({
+vim.lsp.config.slint_lsp = {
   command = { "slint-lsp" },
   highlightingModeRegex = "slint",
-})
+}
 
-lspconfig.taplo.setup({})
-
-lspconfig.bashls.setup({
+vim.lsp.config.bashls = {
   filetypes = { "sh", "bash", "zsh" },
-})
+}
 
-lspconfig.harper_ls.setup({
+vim.lsp.config("harper-ls", {
   settings = {
     ["harper-ls"] = {
       linters = {
@@ -157,4 +148,13 @@ lspconfig.harper_ls.setup({
   },
 })
 
-lspconfig.asm_lsp.setup({})
+vim.lsp.enable({
+  "pylsp",
+  "taplo",
+  "asm_lsp",
+  "bashls",
+  "harper-ls",
+  "slint_lsp",
+  "lua_ls",
+  "gopls",
+})

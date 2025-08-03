@@ -6,7 +6,6 @@ return {
   {
     { "williamboman/mason.nvim", version = "v1.11.x" },
     { "williamboman/mason-lspconfig.nvim", version = "v1.32.x" },
-    "neovim/nvim-lspconfig",
   },
   -- lsp enhanced
   {
