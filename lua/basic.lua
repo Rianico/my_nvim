@@ -17,33 +17,7 @@ end
 
 global:load_variables()
 
-local clipboard_config = function()
-  if global.is_mac then
-    vim.g.clipboard = {
-      name = "macOS-clipboard",
-      copy = { ["+"] = "pbcopy", ["*"] = "pbcopy" },
-      paste = { ["+"] = "pbpaste", ["*"] = "pbpaste" },
-      cache_enabled = 0,
-    }
-  elseif global.is_wsl then
-    vim.g.clipboard = {
-      name = "win32yank-wsl",
-      copy = {
-        ["+"] = "win32yank.exe -i --crlf",
-        ["*"] = "win32yank.exe -i --crlf",
-      },
-      paste = {
-        ["+"] = "win32yank.exe -o --lf",
-        ["*"] = "win32yank.exe -o --lf",
-      },
-      cache_enabled = 0,
-    }
-  end
-end
-clipboard_config()
-
 vim.loader.enable()
-
 -- vim.cmd.colorscheme("catppuccin")
 -- utf8
 vim.g.encoding = "UTF-8"
@@ -55,15 +29,17 @@ vim.wo.number = true
 vim.wo.relativenumber = true
 -- highlight the current line
 vim.wo.cursorline = true
--- 缩进2个空格等于一个Tab
--- vim.o.tabstop = 4
--- vim.bo.tabstop = 4
--- vim.o.softtabstop = 4
--- vim.o.shiftround = true
--- >> << 时移动长度
-vim.o.shiftwidth = 4
-vim.bo.shiftwidth = 4
--- 新行对齐当前行，空格替代tab
+vim.o.winborder = "rounded"
+vim.diagnostic.config({
+  virtual_text = { current_line = true },
+  underline = true,
+  update_in_insert = false,
+  severity_sort = true,
+  float = {
+    border = "rounded",
+    ource = true,
+  },
+})
 vim.o.expandtab = true
 vim.bo.expandtab = true
 vim.o.autoindent = true
