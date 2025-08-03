@@ -11,7 +11,42 @@ map("i", "<C-e>", "<C-o><S-a>", opt)
 map("i", "<C-d>", "<C-o>s", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
 
+-- [q, ]q, [Q, ]Q, [CTRL-Q, ]CTRL-Q navigate through the quickfix list
+-- [l, ]l, [L, ]L, [CTRL-L, ]CTRL-L navigate through the location list
+-- [t, ]t, [T, ]T, [CTRL-T, ]CTRL-T navigate through the tag matchlist
+-- [a, ]a, [A, ]A navigate through the argument list
+-- [b, ]b, [B, ]B navigate through the buffer list
+-- [<Space>, ]<Space> add an empty line above and below the cursor
+-- [d and ]d move between diagnostics in the current buffer ([D jumps to the first diagnostic, ]D jumps to the last)
 local wk = require("which-key")
+
+wk.add({
+  {
+    "[e",
+    ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.E})<CR>",
+    desc = "Diagnostics: Last Error",
+    hidden = true,
+  },
+  {
+    "]e",
+    ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.E})<CR>",
+    desc = "Diagnostics: Next Error",
+    hidden = true,
+  },
+  {
+    "[d",
+    ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.W})<CR>",
+    desc = "Diagnostics: Last Warnning",
+    hidden = true,
+  },
+  {
+    "]d",
+    ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.W})<CR>",
+    desc = "Diagnostics: Next Warnning",
+    hidden = true,
+  },
+})
+
 wk.setup({
   preset = "classic", -- "classic" | "modern" | "helix"
   win = {
@@ -48,6 +83,7 @@ wk.add({
   { "<leader>n",       function() Snacks.picker.notifications() end,      desc = "Picker: Notification History", hidden = true },
   { "<leader>E",       function() Snacks.explorer() end,                  desc = "Picker: File Explorer", hidden = true },
   { "<leader>z",       function() Snacks.zen() end,                       desc = "Zen mode", hidden = true },
+  { "<leader>w",       ":update<CR> :source<CR>",                         desc = "Update & Source", hidden = true },
   {
     "<c-\\>",
     function()
@@ -76,11 +112,12 @@ wk.add({
 
   -- grep
   { "<C-s>", group = "Search" },
-  { "<C-s>b", function() Snacks.picker.grep_buffers() end,                desc = "Grep: Buffer Lines" },
-  { "<C-s>g", function() Snacks.picker.grep() end,                        desc = "Grep: Global Lines" },
-  { "<C-s>/",  function() Snacks.picker.lines() end,                      desc = "Grep: Lines" },
-  { "<C-s>w", function() Snacks.picker.grep_word() end,                   desc = "Grep: Word Under Cursor", mode = { "n", "x" }, },
+  { "<C-s>b",          function() Snacks.picker.grep_buffers() end,       desc = "Grep: Buffer Lines" },
+  { "<C-s>g",          function() Snacks.picker.grep() end,               desc = "Grep: Global Lines" },
+  { "<C-s>/",          function() Snacks.picker.lines() end,              desc = "Grep: Lines" },
+  { "<C-s>w",          function() Snacks.picker.grep_word() end,          desc = "Grep: Word Under Cursor", mode = { "n", "x" }, },
   { "<c-/>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Lines" },
+  { "<leader>/",       function() Snacks.picker.grep() end,               desc = "Grep: Global Lines" },
   { "<c-_>",           function() Snacks.picker.grep() end,               desc = "Grep: Global Lines" },
   -- diagnostics
   { "<C-s>d", function() Snacks.picker.diagnostics_buffer() end,          desc = "LSP: Diagnostics" },
@@ -89,44 +126,17 @@ wk.add({
   { "<C-s>S", function() Snacks.picker.lsp_workspace_symbols() end,       desc = "LSP: Global Symbols" },
 
   -- lsp
-  {
-    mode = "n",
-    { "gd", function() Snacks.picker.lsp_definitions() end,               desc = "LSP: Definition" },
-    { "gD", "<Cmd>Lspsaga peek_definition<CR>",                           desc = "LSP: Peek Definition" },
-    { "gt", function() Snacks.picker.lsp_type_definitions() end,          desc = "LSP: Type Definition" },
-    { "gT", "<Cmd>Lspsaga peek_type_definition<CR>",                      desc = "LSP: Peek Type Definition" },
-    { "gr", function() Snacks.picker.lsp_references() end, nowait = true, desc = "LSP: References" },
-    { "gi", function() Snacks.picker.lsp_implementations() end,           desc = "LSP: Goto Implementation" },
-    { "gf", "<Cmd>Lspsaga finder<CR>",                                    desc = "LSP: Finder" },
-
-    { "<Space>l", group = "Lsp" },
-    { "<Space>ll", "<cmd>Lspsaga code_action<CR>",                        desc = "LSP: Code Actions" },
-    { "<Space<lr", "<Cmd>Lspsaga rename ++project<CR>",                   desc = "LSP: Rename" },
-    { "<Space>ls", "<cmd>Lspsaga outline<CR>",                            desc = "LSP: Symbols Slides" },
-    { "<Space>li", "<cmd>Telescope lsp_incoming_calls<CR>",               desc = "LSP: Incoming Calls" },
-    { "<Space>lo", "<cmd>Telescope lsp_outgoing_calls<CR>",               desc = "LSP: Outgoing Calls" },
-    { "<Space>lk", "<cmd>Lspsaga hover_doc ++keep<CR>",                   desc = "LSP: Hover Docs" },
-    {
-      "[d",
-      function() require("lspsaga.diagnostic"):goto_prev() end,
-      desc = "jump to prev error",
-    },
-    {
-      "]d",
-      function() require("lspsaga.diagnostic"):goto_next() end,
-      desc = "jump to next error",
-    },
-    {
-      "[e",
-      function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.ERROR }) end,
-      desc = "jump to prev error",
-    },
-    {
-      "]e",
-      function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.ERROR }) end,
-      desc = "jump to next error",
-    },
-  },
+  { "gr", group = "LSP"},
+  { "grd", function() Snacks.picker.lsp_definitions() end,                desc = "Definition" },
+  { "grD", "<Cmd>Lspsaga peek_definition<CR>",                            desc = "Definition Peeker" },
+  { "grt", function() Snacks.picker.lsp_type_definitions() end,           desc = "Type Definition" },
+  { "grT", "<Cmd>Lspsaga peek_type_definition<CR>",                       desc = "Type Definition Peeker" },
+  { "grr", function() Snacks.picker.lsp_references() end, nowait = true,  desc = "References" },
+  { "gri", function() Snacks.picker.lsp_implementations() end,            desc = "Goto Implementation" },
+  { "gri", "<cmd>Telescope lsp_incoming_calls<CR>",                       desc = "Calls Incoming" },
+  { "gro", "<cmd>Telescope lsp_outgoing_calls<CR>",                       desc = "Calls Outgoing" },
+  { "grf", "<Cmd>Lspsaga finder<CR>",                                     desc = "Finder" },
+  { "grk", "<cmd>Lspsaga hover_doc ++keep<CR>",                           desc = "Hover Docs+" },
 
   { "z", group = "UFO" },
   { "zR", "<cmd>lua require('ufo').openAllFolds()<CR>",         desc = "UFO: Open All Folds" },
@@ -250,10 +260,7 @@ wk.add({
   { ",bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
   { ",bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
 
-  { "[b", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer", hidden = true },
-  { "]b", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer", hidden = true },
-  { "[B", "<Cmd>BufferLineMovePrev<cr>", desc = "Move buffer prev", hidden = true },
-  { "]B", "<Cmd>BufferLineMoveNext<cr>", desc = "Move buffer next", hidden = true },
+  -- Native support since Neovim 0.11
   { "<S-h>", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
   { "<S-l>", "<Cmd>BufferLineCycleNext<cr>", desc = "Next Buffer" },
 
