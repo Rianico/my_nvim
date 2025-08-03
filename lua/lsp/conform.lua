@@ -5,7 +5,7 @@ conform.setup({
   formatters_by_ft = {
     lua = { "stylua", lsp_format = "fallback" },
     go = { "goimports", "gofumpt" },
-    javascript = { "prettierd", "prettier", stop_after_first = true },
+    javascript = { "prettier", stop_after_first = true },
     -- Conform will run multiple formatters sequentially
     python = {
       -- refer to https://docs.astral.sh/ruff/
@@ -18,6 +18,7 @@ conform.setup({
     },
     rust = { "rustfmt", lsp_format = "fallback" },
     toml = { "taplo" },
+    json = { "prettier" },
   },
   default_format_opts = {
     lsp_format = "fallback",
