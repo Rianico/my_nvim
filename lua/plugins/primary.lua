@@ -13,7 +13,6 @@ return {
     branch = "main",
     dependencies = {
       { "nvim-tree/nvim-web-devicons" },
-      { "nvim-treesitter/nvim-treesitter" },
     },
   },
   {
@@ -49,6 +48,7 @@ return {
   -- grammar highlight
   {
     "nvim-treesitter/nvim-treesitter",
+    branch = "main",
     build = ":TSUpdate",
     event = { "VeryLazy" },
     lazy = vim.fn.argc(-1) == 0, -- Load treesitter early when opening a file from the cmdline
