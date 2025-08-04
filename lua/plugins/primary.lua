@@ -54,8 +54,6 @@ return {
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
   },
   { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
-  -- comment
-  { "numToStr/Comment.nvim", event = { "VeryLazy" }, lazy = true },
   -- mini.nvim
   { "echasnovski/mini.cursorword" },
   { "echasnovski/mini.pairs" },
