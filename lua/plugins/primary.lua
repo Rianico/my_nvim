@@ -24,6 +24,7 @@ return {
   },
   {
     "ray-x/lsp_signature.nvim",
+    branch = "master",
     event = "InsertEnter",
     opts = {
       bind = true,
