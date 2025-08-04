@@ -95,6 +95,8 @@ return {
     -- quickfile = { enabled = true },
     -- words = { enabled = true },
     -- use noice
+    git = {},
+    gitbrowse = {},
     notifier = { enabled = true },
     input = { enabled = true },
     terminal = {
