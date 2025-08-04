@@ -5,7 +5,13 @@ return {
   -- lsp
   {
     { "williamboman/mason.nvim", version = "v1.11.x" },
-    { "williamboman/mason-lspconfig.nvim", version = "v1.32.x" },
+    {
+      "williamboman/mason-lspconfig.nvim",
+      version = "v1.32.x",
+      dependencies = { "L3MON4D3/LuaSnip" },
+    },
+    { "WhoIsSethDaniel/mason-tool-installer" },
+    { "neovim/nvim-lspconfig" },
   },
   -- lsp enhanced
   {

@@ -1,6 +1,13 @@
 -- https://www.lazyvim.org/extras/lang/scala
-local mason = require("mason")
-local mason_lspconfig = require("mason-lspconfig")
+
+-- vim.pack.add({
+--   { src = "https://github.com/neovim/nvim-lspconfig" },
+--   { src = "https://github.com/mason-org/mason.nvim" },
+--   { src = "https://github.com/mason-org/mason-lspconfig.nvim" },
+--   { src = "https://github.com/WhoIsSethDaniel/mason-tool-installer.nvim" },
+--   { src = "https://github.com/L3MoN4D3/LuaSnip" },
+-- })
+
 local default_opts = {
   capabilities = require("cmp_nvim_lsp").default_capabilities(),
 }
@@ -13,6 +20,7 @@ default_opts.capabilities.textDocument.foldingRange = {
 local lsp_servers = {
   -- lua
   "lua_ls",
+  "stylua",
   "clangd",
   "bashls",
   "cmake",
@@ -29,11 +37,13 @@ local lsp_servers = {
   -- xml
   "lemminx",
   -- python
+  "pylsp",
   "ruff",
+  "pyflakes",
 }
 
-mason.setup()
-mason_lspconfig.setup({
+require("mason").setup()
+require("mason-lspconfig").setup({
   ui = {
     icons = {
       package_installed = "✓",
@@ -45,10 +55,13 @@ mason_lspconfig.setup({
     -- Whether to upgrade pip to the latest version in the virtual environment before installing packages.
     upgrade_pip = true,
   },
-  ensure_installed = lsp_servers,
   automatic_installation = true,
   automatic_enable = true,
 })
+require("mason-tool-installer").setup({
+  ensure_installed = lsp_servers
+})
+
 
 vim.lsp.config.gopls = {
   on_attach = function(client, _)
@@ -107,8 +120,12 @@ vim.lsp.config.lua_ls = {
         version = "LuaJIT",
       },
       diagnostics = {
-        globals = { "vim" },
+        globals = { "vim", "require" },
       },
+      workspace = {
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      telemetry = { enable = false },
     },
   },
 }
@@ -158,3 +175,5 @@ vim.lsp.enable({
   "lua_ls",
   "gopls",
 })
+
+require("luasnip.loaders.from_vscode").lazy_load()
