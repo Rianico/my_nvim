@@ -254,11 +254,11 @@ wk.add({
 
 -- bufferline
 wk.add({
-  { ",", group = "BufferLine" },
-  { ",,", function() Snacks.picker.buffers() end, desc = "Buffers" },
-  { ",p", "<Cmd>BufferLineTogglePin<CR>", desc = "Toggle Pin" },
-  { ",bl", "<Cmd>BufferLineCloseRight<CR>", desc = "Delete Buffers in the Right" },
-  { ",bh", "<Cmd>BufferLineCloseLeft<CR>", desc = "Delete Buffers in the Left" },
+  { "<leader>b", group = "BufferLine" },
+  { "<leader>bb", function() Snacks.picker.buffers() end, desc = "Buffers" },
+  { "<leader>bp", "<Cmd>BufferLineTogglePin<CR>",          desc = "Toggle Pin" },
+  { "<leader>bl", "<Cmd>BufferLineCloseRight<CR>",         desc = "Delete Buffers on the Right" },
+  { "<leader>bh", "<Cmd>BufferLineCloseLeft<CR>",          desc = "Delete Buffers on the Left" },
 
   -- Native support since Neovim 0.11
   { "<S-h>", "<Cmd>BufferLineCyclePrev<cr>", desc = "Prev Buffer" },
@@ -270,7 +270,7 @@ wk.add({
 })
 for i = 1, 9 do
   wk.add({
-    "," .. i,
+    "<leader>" .. i,
     "<Cmd>BufferLineGoToBuffer " .. i .. "<CR>",
     desc = "Go to BufferLine " .. i .. " ",
     hidden = true,
