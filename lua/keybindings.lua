@@ -209,7 +209,7 @@ wk.add({
   { "<c-g>p", "<Cmd>Gitsigns preview_hunk<CR>",                desc = "Diff: Hunk" },
   { "<c-g>P", "<Cmd>Gitsigns preview_hunk_inline<CR>",         desc = "Diff: Hunk Inline" },
   -- diffview
-  { "<c-g>d", "<Cmd>DiffviewOpen<CR>",                         desc = "Diff View" },
+  { "<c-g>d", "<Cmd>Gdiffsplit!<CR>",                          desc = "Diff: Split" },
   -- reset
   { "<c-g>r", "<Cmd>Gitsigns reset_hunk<CR>",                  desc = "Reset: Hunk" },
   { "<c-g>R", "<Cmd>Gitsigns reset_buffer<CR>",                desc = "Reset: Buffer" },
