@@ -18,17 +18,37 @@ end
 global:load_variables()
 
 vim.loader.enable()
--- vim.cmd.colorscheme("catppuccin")
--- utf8
 vim.g.encoding = "UTF-8"
--- jk移动时光标下上方保留8行
 vim.o.scrolloff = 999
 vim.o.sidescrolloff = 999
--- line number
+vim.o.tabstop = 2
+vim.o.softtabstop = 2
+vim.o.shiftwidth = 2
+vim.o.smartindent = true
 vim.wo.number = true
 vim.wo.relativenumber = true
--- highlight the current line
 vim.wo.cursorline = true
+vim.o.expandtab = true
+vim.bo.expandtab = true
+vim.o.autoindent = true
+vim.bo.autoindent = true
+vim.o.smartindent = true
+-- 使用增强状态栏后不再需要 vim 的模式提
+vim.o.showmode = true
+vim.o.autoread = true
+vim.bo.autoread = true
+-- smaller updatetime
+vim.o.updatetime = 600
+
+vim.o.timeout = true
+vim.o.timeoutlen = 320
+
+-- nvim-ufo
+vim.o.foldcolumn = "0" -- '0' is not bad
+vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
+vim.o.foldlevelstart = 99
+vim.o.foldenable = true
+
 vim.o.winborder = "rounded"
 vim.diagnostic.config({
   virtual_text = { current_line = true },
@@ -40,30 +60,6 @@ vim.diagnostic.config({
     ource = true,
   },
 })
-vim.o.expandtab = true
-vim.bo.expandtab = true
-vim.o.autoindent = true
-vim.bo.autoindent = true
-vim.o.smartindent = true
--- 使用增强状态栏后不再需要 vim 的模式提
-vim.o.showmode = false
--- 当文件被外部程序修改时，自动加载
-vim.o.autoread = true
-vim.bo.autoread = true
--- smaller updatetime
-vim.o.updatetime = 600
-
--- 设置 timeoutlen 为等待键盘快捷键连击时间200 毫秒，可根据需要设置
--- 遇到问题详见：https://github.com/nshen/learn-neovim-lua/issues/1
-vim.o.timeout = true
-vim.o.timeoutlen = 320
-
--- nvim-ufo
-vim.o.foldcolumn = "0" -- '0' is not bad
-vim.o.foldlevel = 99 -- Using ufo provider need a large value, feel free to decrease the value
-vim.o.foldlevelstart = 99
-vim.o.foldenable = true
-
 -- for ripgrep
 if vim.fn.executable("rg") == 1 then
   vim.o.grepprg = "rg --vimgrep"
@@ -176,12 +172,16 @@ vim.api.nvim_create_autocmd("FileType", {
 })
 
 vim.api.nvim_create_autocmd("LspAttach", {
+  callback = function(args) require("lsp_signature").on_attach({}, args.buf) end,
+})
+
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("my.lsp", {}),
   callback = function(args)
-    local bufnr = args.buf
-    local client = vim.lsp.get_client_by_id(args.data.client_id)
-    if vim.tbl_contains({ "null-ls" }, client.name) then -- blacklist lsp
-      return
+    local client = assert(vim.lsp.get_client_by_id(args.data.client_id))
+    if client:supports_method("textDocument/completion") then
+      vim.lsp.completion.enable(true, client.id, args.buf, { autotrigger = true })
     end
-    require("lsp_signature").on_attach({}, bufnr)
   end,
 })
+vim.cmd("set completeopt+=noselect")
