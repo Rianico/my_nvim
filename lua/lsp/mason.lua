@@ -8,13 +8,11 @@
 --   { src = "https://github.com/L3MoN4D3/LuaSnip" },
 -- })
 
-local default_opts = {
-  capabilities = require("cmp_nvim_lsp").default_capabilities(),
-}
-default_opts.capabilities.textDocument.foldingRange = {
-  dynamicRegistration = false,
-  lineFoldingOnly = true,
-}
+-- local default_opts = {}
+-- default_opts.capabilities.textDocument.foldingRange = {
+--   dynamicRegistration = false,
+--   lineFoldingOnly = true,
+-- }
 
 -- The servers that should be automatically installed
 local lsp_servers = {
@@ -27,6 +25,9 @@ local lsp_servers = {
   "dockerls",
   -- go
   "gopls",
+  "gofumpt",
+  "goimports",
+  "gomodifytags",
   "harper_ls",
   "jdtls",
   "slint_lsp",
@@ -40,6 +41,8 @@ local lsp_servers = {
   "pylsp",
   "ruff",
   "pyflakes",
+  "isort",
+  "yapf",
 }
 
 require("mason").setup()
@@ -59,9 +62,8 @@ require("mason-lspconfig").setup({
   automatic_enable = true,
 })
 require("mason-tool-installer").setup({
-  ensure_installed = lsp_servers
+  ensure_installed = lsp_servers,
 })
-
 
 vim.lsp.config.gopls = {
   on_attach = function(client, _)
@@ -175,5 +177,3 @@ vim.lsp.enable({
   "lua_ls",
   "gopls",
 })
-
-require("luasnip.loaders.from_vscode").lazy_load()

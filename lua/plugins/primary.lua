@@ -8,7 +8,6 @@ return {
     {
       "williamboman/mason-lspconfig.nvim",
       version = "v1.32.x",
-      dependencies = { "L3MON4D3/LuaSnip" },
     },
     { "WhoIsSethDaniel/mason-tool-installer" },
     { "neovim/nvim-lspconfig" },
@@ -54,10 +53,9 @@ return {
   -- grammar highlight
   {
     "nvim-treesitter/nvim-treesitter",
-    branch = "main",
+    branch = "master",
     build = ":TSUpdate",
-    event = { "VeryLazy" },
-    lazy = vim.fn.argc(-1) == 0, -- Load treesitter early when opening a file from the cmdline
+    lazy = false,
     cmd = { "TSUpdateSync", "TSUpdate", "TSInstall" },
   },
   { "p00f/nvim-ts-rainbow", after = "nvim-treesitter" },
@@ -92,7 +90,7 @@ return {
       modes = {
         char = {
           jump_labels = true,
-          multi_line = false,
+          multi_line = true,
         },
       },
     },

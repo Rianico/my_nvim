@@ -23,25 +23,29 @@ local wk = require("which-key")
 wk.add({
   {
     "[e",
-    ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.E})<CR>",
+    -- ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.E})<CR>",
+    function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.E }) end,
     desc = "Diagnostics: Last Error",
     hidden = true,
   },
   {
     "]e",
-    ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.E})<CR>",
+    -- ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.E})<CR>",
+    function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.E }) end,
     desc = "Diagnostics: Next Error",
     hidden = true,
   },
   {
     "[d",
-    ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.W})<CR>",
+    -- ":lua vim.diagnostic.goto_prev({severity = vim.diagnostic.severity.W})<CR>",
+    function() require("lspsaga.diagnostic"):goto_prev({ severity = vim.diagnostic.severity.W }) end,
     desc = "Diagnostics: Last Warnning",
     hidden = true,
   },
   {
     "]d",
-    ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.W})<CR>",
+    -- ":lua vim.diagnostic.goto_next({severity = vim.diagnostic.severity.W})<CR>",
+    function() require("lspsaga.diagnostic"):goto_next({ severity = vim.diagnostic.severity.W }) end,
     desc = "Diagnostics: Next Warnning",
     hidden = true,
   },
@@ -122,21 +126,24 @@ wk.add({
   -- diagnostics
   { "<C-s>d", function() Snacks.picker.diagnostics_buffer() end,          desc = "LSP: Diagnostics" },
   { "<C-s>D", function() Snacks.picker.diagnostics() end,                 desc = "LSP: Global Diagnostics" },
-  { "<C-s>s", function() Snacks.picker.lsp_symbols() end,                 desc = "LSP: Symbols" },
-  { "<C-s>S", function() Snacks.picker.lsp_workspace_symbols() end,       desc = "LSP: Global Symbols" },
+  { "<C-s>o", function() Snacks.picker.lsp_symbols() end,                 desc = "LSP: Symbols" },
+  { "<C-s>O", function() Snacks.picker.lsp_workspace_symbols() end,       desc = "LSP: Global Symbols" },
 
   -- lsp
   { "gr", group = "LSP"},
-  { "grd", function() Snacks.picker.lsp_definitions() end,                desc = "Definition" },
-  { "grD", "<Cmd>Lspsaga peek_definition<CR>",                            desc = "Definition Peeker" },
-  { "grt", function() Snacks.picker.lsp_type_definitions() end,           desc = "Type Definition" },
-  { "grT", "<Cmd>Lspsaga peek_type_definition<CR>",                       desc = "Type Definition Peeker" },
-  { "grr", function() Snacks.picker.lsp_references() end, nowait = true,  desc = "References" },
-  { "gri", function() Snacks.picker.lsp_implementations() end,            desc = "Goto Implementation" },
-  { "gri", "<cmd>Telescope lsp_incoming_calls<CR>",                       desc = "Calls Incoming" },
-  { "gro", "<cmd>Telescope lsp_outgoing_calls<CR>",                       desc = "Calls Outgoing" },
-  { "grf", "<Cmd>Lspsaga finder<CR>",                                     desc = "Finder" },
-  { "grk", "<cmd>Lspsaga hover_doc ++keep<CR>",                           desc = "Hover Docs+" },
+  { "grd",             function() Snacks.picker.lsp_definitions() end,                desc = "Definition: Jump" },
+  { "grD",             "<Cmd>Lspsaga peek_definition<CR>",                            desc = "Definition: Peeker" },
+  { "grt",             function() Snacks.picker.lsp_type_definitions() end,           desc = "Type: Definition" },
+  { "grT",             "<Cmd>Lspsaga peek_type_definition<CR>",                       desc = "Type: Definition Peeker" },
+  { "grr",             function() Snacks.picker.lsp_references() end, nowait = true,  desc = "References" },
+  { "gri",             function() Snacks.picker.lsp_implementations() end,            desc = "Goto Implementation" },
+  { "grci",             "<cmd>Telescope lsp_incoming_calls<CR>",                      desc = "Calls: Incoming" },
+  { "grco",             "<cmd>Telescope lsp_outgoing_calls<CR>",                      desc = "Calls: Outgoing" },
+  { "grf",             "<Cmd>Lspsaga finder<CR>",                                     desc = "Finder" },
+  { "grk",             "<cmd>Lspsaga hover_doc ++keep<CR>",                           desc = "Hover Docs+" },
+  { "go",              "<cmd>Lspsaga outline<CR>",                                        desc = "Symbols: Buffer" },
+  { "gO",              function() Snacks.picker.lsp_workspace_symbols() end,          desc = "Symbols: Global" },
+  { "<C-s>h",          "<cmd>lua vim.lsp.buf.signature_help()<CR>",                   desc = "LSP: Signature Help", mode = { "x" }, },
 
   { "z", group = "UFO" },
   { "zR", "<cmd>lua require('ufo').openAllFolds()<CR>",         desc = "UFO: Open All Folds" },
@@ -219,7 +226,7 @@ wk.add({
       if vim.wo.diff then
         return "]c"
       end
-      vim.schedule(function() require("gitsigns").next_hunk() end)
+      vim.schedule(function() require("gitsigns").nav_hunk('next') end)
       return "<Ignore>"
     end,
 
@@ -231,7 +238,7 @@ wk.add({
       if vim.wo.diff then
         return "[c"
       end
-      vim.schedule(function() require("gitsigns").prev_hunk() end)
+      vim.schedule(function() require("gitsigns").nav_hunk('last') end)
       return "<Ignore>"
     end,
     desc = "Git: Previous gitsigns hunk",

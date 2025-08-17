@@ -38,7 +38,7 @@ require("lspsaga").setup({
     win_position = "right",
     win_width = 50,
     detail = true,
-    auto_preview = false,
+    auto_preview = true,
     auto_close = true,
     close_after_jump = false,
     keys = {
