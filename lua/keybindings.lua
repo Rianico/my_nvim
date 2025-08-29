@@ -10,6 +10,11 @@ map("i", "<C-e>", "<C-o><S-a>", opt)
 -- delete character afterward
 map("i", "<C-d>", "<C-o>s", opt)
 map("n", "<C-q>", ":confirm q<CR>", opt)
+-- win movement
+map("n", "<A-h>", ":wincmd h<CR>", opt)
+map("n", "<A-j>", ":wincmd j<CR>", opt)
+map("n", "<A-l>", ":wincmd l<CR>", opt)
+map("n", "<A-k>", ":wincmd k<CR>", opt)
 
 -- [q, ]q, [Q, ]Q, [CTRL-Q, ]CTRL-Q navigate through the quickfix list
 -- [l, ]l, [L, ]L, [CTRL-L, ]CTRL-L navigate through the location list
@@ -87,7 +92,7 @@ wk.add({
   { "<leader>n",       function() Snacks.picker.notifications() end,      desc = "Picker: Notification History", hidden = true },
   { "<leader>E",       function() Snacks.explorer() end,                  desc = "Picker: File Explorer", hidden = true },
   { "<leader>z",       function() Snacks.zen() end,                       desc = "Zen mode", hidden = true },
-  { "<leader>w",       ":update<CR> :source<CR>",                         desc = "Update & Source", hidden = true },
+  { "<leader>w",       ":update<CR>",                                     desc = "Update & Source", hidden = true },
   {
     "<c-\\>",
     function()
